@@ -25,6 +25,7 @@ namespace LessThanOk
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            
         }
 
         /// <summary>
@@ -38,6 +39,9 @@ namespace LessThanOk
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            graphics.PreferredBackBufferWidth = 500;
+            graphics.PreferredBackBufferHeight = 500;
+
         }
 
         /// <summary>
@@ -73,6 +77,7 @@ namespace LessThanOk
                 this.Exit();
 
             // TODO: Add your update logic here
+
 
             base.Update(gameTime);
         }
