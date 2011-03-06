@@ -1,13 +1,16 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using LessThanOk.Network.Commands;
 
-namespace GameData
+namespace LessThanOk.GameData
 {
 	public class MasterGameWorld
 	{
 		private List<Change> changeList;
-	
-		public void update(TimeSpan elps){}
+
+        public void update(GameTime elps, Queue<Command> commands) { }
 		public List<Change> getChanges(){return changeList;}
+
 	}
 }

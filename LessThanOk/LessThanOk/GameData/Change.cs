@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
 
-namespace GameData
+namespace LessThanOk.GameData
 {
 	public class Change
 	{
-		public Change(){};
+		public Change(){}
 	}
 }
