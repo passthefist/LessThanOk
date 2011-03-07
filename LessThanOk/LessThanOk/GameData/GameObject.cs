@@ -43,6 +43,14 @@ using Microsoft.Xna.Framework;
 public abstract class GameObject : AgnosticObject
 {
 	
+	private UInt16 id;
+	
+	public UInt16 ID
+	{
+		get{return id;}
+		set{id = value;}
+	}
+	
 	static GameObject()
 	{
 		initFieldMaps();
@@ -61,7 +69,14 @@ public abstract class GameObject : AgnosticObject
         }
 	}
 	
-	public GameObject()
+	protected GameObject()
 	{
+		id = 0;
+	}
+	
+	~GameObject()
+	{
+		Console.WriteLine("Removing Object: {0} with {1}", this.GetType(), this.id);
+		GameObjectFactory.The.freeID(id);
 	}
 }

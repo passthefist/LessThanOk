@@ -43,6 +43,14 @@ public abstract class GameObjectType: AgnosticObject
 {
 	protected GameObject protoType;
 	
+	private UInt16 id;
+	
+	public UInt16 ID
+	{
+		get{return id;}
+		set{id = value;}
+	}
+	
 	private string name;
 	
 	/// <summary>

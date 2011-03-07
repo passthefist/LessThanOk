@@ -32,7 +32,7 @@
  * GameObject that has a member which is a GameObject of the modified type.  *
  *                                                                           *
  * This class is a singleton, and the factory is accessed with               *
- *      GameObjectFactory.the;                                               *
+ *      GameObjectFactory.The;                                               *
  *                                                                           *
  * All types must be built bottom up.                                        *
  *                                                                           *
@@ -49,18 +49,58 @@ using Microsoft.Xna.Framework;
 /// a name or type ID.
 /// </summary>
 
-public class GameObjectFactory
+public sealed class GameObjectFactory
 {
-	private UInt32 numTypes;
+	static readonly GameObjectFactory the = new GameObjectFactory();
+
+    // Explicit static constructor to tell C# compiler
+    // not to mark type as beforefieldinit
+    static GameObjectFactory()
+    {
+    }
+
+    public static GameObjectFactory The
+    {
+        get
+        {
+            return the;
+        }
+    }
+	private UInt16 numTypes;
+	private UInt16 nextID;
+	private Dictionary<UInt16,GameObject> createdObjects;
 	
-	private Dictionary<UInt32,GameObjectType>	idToTypeMap;
-	private Dictionary<string,UInt32>			stringToIdMap;
+	private Dictionary<UInt16,GameObjectType>	idToTypeMap;
+	private Dictionary<string,UInt16>			stringToIdMap;
 	
-	public GameObjectFactory()
+	private GameObjectFactory()
 	{
 		numTypes = 0;
-		idToTypeMap = new Dictionary<UInt32,GameObjectType>();
-		stringToIdMap = new Dictionary<string, uint>();
+		nextID = 1;
+		createdObjects = new Dictionary<ushort, GameObject>();
+		
+		idToTypeMap = new Dictionary<UInt16,GameObjectType>();
+		stringToIdMap = new Dictionary<string, UInt16>();
+	}
+	
+	public void freeID(UInt16 id)
+	{
+		createdObjects.Remove(id);
+		nextID = id;
+	}
+	
+	private void findNextID()
+	{
+		nextID++;
+		if(nextID == 0)
+		{
+			throw new Exception();
+		}
+		
+		while(createdObjects.ContainsKey(nextID))
+		{
+			nextID++;
+		}
 	}
 	
 	/// <summary>
@@ -77,7 +117,7 @@ public class GameObjectFactory
 	/// </returns>
 	public bool addType(string typeName, GameObjectType type)
 	{
-		if(numTypes == UInt32.MaxValue)
+		if(numTypes == UInt16.MaxValue)
 		{
 			Console.WriteLine("FACTORY CANNOT HAVE MORE TYPES");
 			return false;
@@ -87,6 +127,7 @@ public class GameObjectFactory
 			idToTypeMap[numTypes] = type;
 			stringToIdMap[typeName] = numTypes;
 			type.Name = typeName;
+			type.ID = numTypes;
 			
 			numTypes++;
 		}
@@ -102,9 +143,13 @@ public class GameObjectFactory
 	/// <returns>
 	/// A <see cref="GameObject"/>
 	/// </returns>
-	public GameObject createGameObject(UInt32 id)
+	public GameObject createGameObject(UInt16 id)
 	{
-		return idToTypeMap[id].create();
+		GameObject retVal = idToTypeMap[id].create();
+		createdObjects[id] = retVal;
+		retVal.ID = nextID;
+		findNextID();
+		return retVal;
 	}
 	
 	/// <summary>
@@ -130,7 +175,7 @@ public class GameObjectFactory
 	/// <returns>
 	/// A <see cref="GameObjectType"/>
 	/// </returns>
-	public GameObjectType getType(UInt32 id)
+	public GameObjectType getType(UInt16 id)
 	{
 		return idToTypeMap[id];
 	}
@@ -162,9 +207,10 @@ public class GameObjectFactory
 	/// <param name="newType">
 	/// A <see cref="GameObjectType"/>
 	/// </param>
-	public void replaceType(UInt32 id, GameObjectType newType)
+	public void replaceType(UInt16 id, GameObjectType newType)
 	{
 		newType.Name = idToTypeMap[id].Name;
+		newType.ID = idToTypeMap[id].ID;
 		idToTypeMap[id] = newType;
 	}
 	
@@ -184,5 +230,10 @@ public class GameObjectFactory
 	public void replaceType(string typeName, GameObjectType newType)
 	{
 		replaceType(stringToIdMap[typeName],newType);
+	}
+	
+	public GameObject getGameObject(UInt16 id)
+	{
+		return createdObjects(id);
 	}
 }
