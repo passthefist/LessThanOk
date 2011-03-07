@@ -31,6 +31,8 @@ namespace LessThanOk
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         UIManager uiManager;
+        Frame f_root;
+        SpriteFont font;
        
         NetworkSessionProperties serverProperties;
         NetworkSession networkSession;
@@ -44,7 +46,7 @@ namespace LessThanOk
         T_SESSION SESSION;
         T_STATE STATE;
 
-        private enum T_SESSION
+        public enum T_SESSION
         {
             SERVER,
             CLIENT,
@@ -52,7 +54,7 @@ namespace LessThanOk
             REPLAY,
             NONE
         }
-        private enum T_STATE
+        public enum T_STATE
         {
             HOME,
             SELECT,
@@ -74,9 +76,9 @@ namespace LessThanOk
             serverProperties = new NetworkSessionProperties();
             arbiter = new Monirator();
             gameworld = new MasterGameWorld();
-            uiManager = new UIManager(Frame f_root);
-        }
+            f_root = new Frame(Vector2.Zero, 800, 600, null, true);
 
+        }
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -91,6 +93,9 @@ namespace LessThanOk
             SESSION = T_SESSION.NONE;
             STATE = T_STATE.HOME;
             DEBUG = true;
+            font = Content.Load<SpriteFont>("Kootenay");
+            uiManager = new UIManager(f_root, font);
+            uiManager.loadUI();
 
         }
 
@@ -133,11 +138,19 @@ namespace LessThanOk
             //    when the guide is visible)
             if (!Guide.IsVisible)
             {
-                uiManager.update(gameTime);
+                uiManager.update(gameTime, STATE);
             }
             
             //--------------------------------------------------------------------
-                //Main Logic
+                //Sever Logic
+                    //Precess Requests
+                    //Exicute Valid Requests
+                    //Gameworld Update
+                    //Process Buckets
+                    //Nework Send Commands
+                    //UI Update
+            uiManager.update(gameTime, STATE);
+                //Client Logic
             //--------------------------------------------------------------------
             if (DEBUG)
                 DEBUGUPDATE(gameTime);

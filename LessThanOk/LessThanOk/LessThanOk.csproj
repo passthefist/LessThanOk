@@ -71,6 +71,8 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
@@ -103,7 +105,9 @@
     <Compile Include="GameData\WarheadType.cs" />
     <Compile Include="GameData\Weapon.cs" />
     <Compile Include="GameData\WeaponType.cs" />
-    <Compile Include="UI\Element..cs" />
+    <Compile Include="Sprites\Sprite_2D.cs" />
+    <Compile Include="UI\Button.cs" />
+    <Compile Include="UI\Element.cs" />
     <Compile Include="UI\Frame.cs" />
     <Compile Include="UI\UIManager.cs" />
     <Compile Include="Network\Commands\Command_Add.cs" />
@@ -117,7 +121,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Sprites\Sprite.cs" />
     <Compile Include="Sprites\SpriteBin.cs" />
-    <Compile Include="Sprites\TextSprite.cs" />
+    <Compile Include="Sprites\Sprite_Text.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
