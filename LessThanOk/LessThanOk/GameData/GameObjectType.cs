@@ -34,6 +34,7 @@
 using System;
 using System.Reflection;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 /// <summary>
 /// Type of game object.

@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Storage;
 
 using LessThanOk.Network;
 using LessThanOk.GameData;
-using LessThanOk.Menus;
+using LessThanOk.UI;
 using LessThanOk.Sprites;
 
 namespace LessThanOk
@@ -30,16 +30,8 @@ namespace LessThanOk
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        MenuManager menuManager;
-        SpriteFont font;
-        Menu M_Home;
-        Menu M_LoadReplay;
-        Menu M_HostLobby;
-        Menu M_CreateGame;
-        Menu M_JoinGame;
-        Menu M_Game;
-        Menu M_PostGame;
-        
+        UIManager uiManager;
+       
         NetworkSessionProperties serverProperties;
         NetworkSession networkSession;
         PacketWriter packetWriter;
@@ -82,7 +74,7 @@ namespace LessThanOk
             serverProperties = new NetworkSessionProperties();
             arbiter = new Monirator();
             gameworld = new MasterGameWorld();
-            menuManager = new MenuManager();
+  
         }
 
         /// <summary>
@@ -112,18 +104,6 @@ namespace LessThanOk
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-     
-            font = Content.Load<SpriteFont>("Kootenay");
-
-            //Setup Home Menu
-            M_Home = new Menu(font, "Home", true);
-            M_Home.AddMenuItem("Host Game", () => { M_Home.Enabled = false; createGame(); });
-            M_Home.AddMenuItem("Join Game", () => { M_Home.Enabled = false; joinGame(); });
-            M_Home.AddMenuItem("Replay Game", () => { M_Home.Enabled = false; replayGame();});
-            M_Home.AddMenuItem("Quit", Exit);
-            menuManager.AddMenu(M_Home);
-
-       
         }
 
         /// <summary>
@@ -155,7 +135,7 @@ namespace LessThanOk
             //    when the guide is visible)
             if (!Guide.IsVisible)
             {
-                menuManager.Update(gameTime);
+                uiManager.update(gameTime);
             }
             
             //--------------------------------------------------------------------
@@ -176,7 +156,7 @@ namespace LessThanOk
             GraphicsDevice.Clear(Color.CornflowerBlue);
             
             spriteBatch.Begin();
-            menuManager.Draw(spriteBatch);
+            uiManager.draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -231,27 +211,6 @@ namespace LessThanOk
         {
             networkSession.Dispose();
             networkSession = null;
-        }
-
-        private void createGame()
-        {
-            CreateSession();
-            SESSION = T_SESSION.SERVER;
-            Console.WriteLine("Create Game Selected");
-        }
-
-        private void joinGame()
-        {
-            SESSION = T_SESSION.CLIENT;
-            Console.WriteLine("Join Game Selected");
-
-        }
-
-        private void replayGame()
-        {
-            SESSION = T_SESSION.REPLAY;
-            Console.WriteLine("Replay Selected");
-
         }
     }
 }

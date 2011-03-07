@@ -103,8 +103,9 @@
     <Compile Include="GameData\WarheadType.cs" />
     <Compile Include="GameData\Weapon.cs" />
     <Compile Include="GameData\WeaponType.cs" />
-    <Compile Include="Menus\MenuHandlers.cs" />
-    <Compile Include="Menus\MenuManager.cs" />
+    <Compile Include="UI\Element..cs" />
+    <Compile Include="UI\Frame.cs" />
+    <Compile Include="UI\UIManager.cs" />
     <Compile Include="Network\Commands\Command_Add.cs" />
     <Compile Include="Network\Commands\Command.cs" />
     <Compile Include="Network\Commands\Command_Cancel.cs" />

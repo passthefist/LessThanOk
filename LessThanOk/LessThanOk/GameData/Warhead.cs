@@ -35,6 +35,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Microsoft.Xna.Framework;
 
 [assembly: InternalsVisibleTo("WarheadType")]
 
@@ -94,6 +95,6 @@ public class Warhead : GameObject
 	
 	private void init()
 	{
-		damageMod = 0;
+		//damageMod = 0;
 	}
 }

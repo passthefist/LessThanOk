@@ -42,6 +42,7 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 /// <summary>
 /// This class is a factory for arbitrarily creating GameObjects from

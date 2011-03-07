@@ -33,6 +33,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Microsoft.Xna.Framework;
 
 /// <summary>
 /// The type of a projectile.
@@ -93,7 +94,7 @@ public class ProjectileType  : GameObjectType
 	/// <summary>
 	/// The time before the projectile self detonates.
 	/// </summary>
-	public float Timeout
+	public int Timeout
 	{
 		get
 		{

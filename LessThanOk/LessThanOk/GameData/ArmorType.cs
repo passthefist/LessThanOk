@@ -33,6 +33,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Microsoft.Xna.Framework;
 
 /// <summary>
 /// Type for an Armor.
@@ -185,6 +186,7 @@ public class ArmorType : GameObjectType
 	/// </returns>
 	public byte applyDamage(byte damage)
 	{
+        return damage;
 	}
 	
 	/// <summary>

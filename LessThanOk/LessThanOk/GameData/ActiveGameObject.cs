@@ -34,6 +34,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Microsoft.Xna.Framework;
 
 ///<summary>
 ///This class is an active game object, or anything which likely be drawn
@@ -53,12 +54,12 @@ public abstract class ActiveGameObject : GameObject
 		set { position = value;}
 	}
 	
-	protected Texture2d image;
+	protected int image;
 	
 	/// <summary>
 	/// The image for this object
 	/// </summary>
-	public Texture2d _Image
+	public int _Image
 	{
 		get { return image;}
 		set { image = value;}
