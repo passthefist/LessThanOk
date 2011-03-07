@@ -74,7 +74,7 @@ namespace LessThanOk
             serverProperties = new NetworkSessionProperties();
             arbiter = new Monirator();
             gameworld = new MasterGameWorld();
-  
+            uiManager = new UIManager(Frame f_root);
         }
 
         /// <summary>
@@ -91,8 +91,6 @@ namespace LessThanOk
             SESSION = T_SESSION.NONE;
             STATE = T_STATE.HOME;
             DEBUG = true;
-
-            
 
         }
 
