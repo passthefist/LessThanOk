@@ -23,10 +23,10 @@
 /*---------------------------------------------------------------------------*\
  *                            Class Overview                                 *
  *                                                                           *
- * A unit. Units have armor, weapons, and engines that allow them to move.   *
- * Units also have a set of commands to execute, and some basic AI           *
+ * Warheads are the damaging component of a weapon. They can have different  *
+ * types, but that ultimately means nothing other than armor weaknesses.     *
  *                                                                           *
- * See GameObject, GameObjectType, GameObjectFactory, pretty much everything.*
+ * See GameObject, GameObjectType, GameObjectFactory                         *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
@@ -36,121 +36,73 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
-using LessThanOk.Network.Commands;
+using LessThanOk.GameData.GameObjects;
 
-[assembly: InternalsVisibleTo("UnitType")]
+[assembly: InternalsVisibleTo("WarheadType")]
 
-/// <summary>
-/// A unit. Units have armor, weapons, and engines that allow them to move.
-/// </summary>
-public class Unit : ActiveGameObject
+namespace LessThanOk.GameData.GameObjects.Units
 {
-	private UnitType		type;
-	
-	/// <summary>
-	/// The type of this unit
-	/// </summary>
-	public  UnitType		Type
-	{
-		get{return type;}
-		private set{type = value;}
-	}
-		
-	private Vector3  		velocity;
-	
-	/// <summary>
-	/// The velocity of this unit
-	/// </summary>
-	public  Vector3			_Velocity
-	{
-		get{return velocity;}
-		private set{velocity = value;}
-	}
-		
-	private UInt32			hp;
-	
-	/// <summary>
-	/// How much health this unti has.
-	/// </summary>
-	public  UInt32			_hp
-	{
-		get{return hp;}
-		set{hp = value;}
-	}
-	
-	
-	private List<Weapon> 	weapons;
 
-	private Armor    		armor;
-	private Engine  		engine;
-	
-	private bool     		aggressive;
-	private bool     		pursue;
-	
-	private Queue<Command> 	commands;
-	
-	static Unit()
-	{
-		initFieldMaps();
-	}
-	
-	private static void initFieldMaps()
-	{
-		PropertyInfo[] properties = typeof(Unit).GetProperties();
-		
-		ushort id = 0;
-        foreach (PropertyInfo property in properties)
+    public class Warhead : GameObject
+    {
+        private WarheadType type;
+
+        /// <summary>
+        /// The type of warhead.
+        /// </summary>
+        public WarheadType Type
         {
-            idToPropMap[id] = property;
-            fieldNameToIDMap[property.Name] = id;
-            id++;
+            get { return type; }
+            private set { type = value; }
         }
-	}
-	
-	protected Unit():base(){init();}
-	
-	internal Unit(UnitType t, List<Weapon> weps, Armor arm, Engine e):base()
-	{
-		type    = t;
-		weapons = weps;
-		armor   = arm;
-	}
 
-	/// <summary>
-	/// Copy ctor
-	/// </summary>
-	/// <param name="u">
-	/// A <see cref="Unit"/>
-	/// </param>
-	public Unit(Unit u):base()
-	{
-		
-		init();
-		
-		this.type = u.type;
-		this.weapons = u.weapons;
-		this.armor = u.armor;
-		this.engine = u.engine;
-	}
-	
-	private void init()
-	{
-		velocity   = new Vector3();
-		commands   = new Queue<Command>();
-		aggressive = false;
-		pursue     = false;
-	}
-	
-	/// <summary>
-	/// Update the unit.
-	/// </summary>
-	/// <param name="elps">
-	/// A <see cref="GameTime"/>
-	/// </param>
-	override public void  update(GameTime elps)
-	{
-		
-	}
-	
-//	public WeaponFire fireWeapon()
+        static Warhead()
+        {
+            initFieldMaps();
+        }
+
+        private static void initFieldMaps()
+        {
+            PropertyInfo[] properties = typeof(Warhead).GetProperties();
+
+            ushort id = 0;
+            foreach (PropertyInfo property in properties)
+            {
+                idToPropMap[id] = property;
+                fieldNameToIDMap[property.Name] = id;
+                id++;
+            }
+        }
+
+        protected Warhead()
+            : base()
+        {
+            init();
+        }
+
+        internal Warhead(WarheadType p)
+            : base()
+        {
+            init();
+            type = p;
+        }
+
+        /// <summary>
+        /// Copy ctor
+        /// </summary>
+        /// <param name="w">
+        /// A <see cref="Warhead"/>
+        /// </param>
+        public Warhead(Warhead w)
+            : base()
+        {
+            init();
+            this.type = w.type;
+        }
+
+        private void init()
+        {
+            //damageMod = 0;
+        }
+    }
 }

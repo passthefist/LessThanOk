@@ -86,25 +86,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameData\ActiveGameObject.cs" />
+    <Compile Include="GameData\GameObjects\ActiveGameObject.cs" />
     <Compile Include="GameData\AgnosticObject.cs" />
-    <Compile Include="GameData\Armor.cs" />
-    <Compile Include="GameData\ArmorType.cs" />
-    <Compile Include="GameData\Change.cs" />
-    <Compile Include="GameData\Engine.cs" />
-    <Compile Include="GameData\EngineType.cs" />
-    <Compile Include="GameData\GameObject.cs" />
-    <Compile Include="GameData\GameObjectFactory.cs" />
-    <Compile Include="GameData\GameObjectType.cs" />
-    <Compile Include="GameData\MasterGameWorld.cs" />
-    <Compile Include="GameData\Projectile.cs" />
-    <Compile Include="GameData\ProjectileType.cs" />
-    <Compile Include="GameData\Unit.cs" />
-    <Compile Include="GameData\UnitType.cs" />
-    <Compile Include="GameData\Warhead.cs" />
-    <Compile Include="GameData\WarheadType.cs" />
-    <Compile Include="GameData\Weapon.cs" />
-    <Compile Include="GameData\WeaponType.cs" />
+    <Compile Include="GameData\GameObjects\Tiles\Tile.cs" />
+    <Compile Include="GameData\GameObjects\Units\Armor.cs" />
+    <Compile Include="GameData\GameObjects\Units\ArmorType.cs" />
+    <Compile Include="GameData\GameObjects\Units\Engine.cs" />
+    <Compile Include="GameData\GameObjects\Units\EngineType.cs" />
+    <Compile Include="GameData\GameObjects\GameObject.cs" />
+    <Compile Include="GameData\GameObjects\GameObjectFactory.cs" />
+    <Compile Include="GameData\GameObjects\GameObjectType.cs" />
+    <Compile Include="GameData\GameWorld\GameWorld.cs" />
+    <Compile Include="GameData\GameWorld\MasterGameWorld.cs" />
+    <Compile Include="GameData\GameObjects\Units\Projectile.cs" />
+    <Compile Include="GameData\GameObjects\Units\ProjectileType.cs" />
+    <Compile Include="GameData\GameObjects\Units\Unit.cs" />
+    <Compile Include="GameData\GameObjects\Units\UnitType.cs" />
+    <Compile Include="GameData\GameObjects\Units\Warhead.cs" />
+    <Compile Include="GameData\GameObjects\Units\WarheadType.cs" />
+    <Compile Include="GameData\GameObjects\Units\Weapon.cs" />
+    <Compile Include="GameData\GameObjects\Units\WeaponType.cs" />
+    <Compile Include="GameData\GameWorld\TileMap.cs" />
     <Compile Include="Sprites\Sprite_2D.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Element.cs" />

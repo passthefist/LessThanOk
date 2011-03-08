@@ -23,12 +23,9 @@
 /*---------------------------------------------------------------------------*\
  *                            Class Overview                                 *
  *                                                                           *
- * This class provides an agnostic way of setting and getting the properties *
- * of an object. It also provides maps into the properties for quick         *
- * operations.                                                               *
- *                                                                           *
- * Subclasses must have a static initializer that calls their own version    *
- * of initFieldMaps()                                                        *
+ * This class is an active game object, or anything which likely be drawn    *
+ * and move around in the game world like a unit or missile. Subclasses      *
+ * must implement update().                                                  *
  *                                                                           *
  * See GameObject, GameObjectType, GameObjectFactory                         *
  *                                                                           *
@@ -38,76 +35,67 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.Xna.Framework;
+using LessThanOk.Sprites;
 
-///<summary>
-///Provides an agnostic interface for modifying an object. Fields can be
-///accessed by their name using the provided functions.
-///</summary>
-public class AgnosticObject
+namespace LessThanOk.GameData.GameObjects
 {
-	protected static Dictionary<ushort,PropertyInfo> idToPropMap;
-	protected static Dictionary<string,ushort> fieldNameToIDMap;
-	
-	static AgnosticObject()
-	{
-		idToPropMap = new Dictionary<ushort, PropertyInfo>();
-		fieldNameToIDMap = new Dictionary<string, ushort>();
-		initFieldMaps();
-	}
-	
-	private static void initFieldMaps()
-	{
-		PropertyInfo[] properties = typeof(AgnosticObject).GetProperties();
-		
-		ushort id = 0;
-        foreach (PropertyInfo property in properties)
+    ///<summary>
+    ///This class is an active game object, or anything which likely be drawn
+    ///and move around in the game world like a unit or missile.
+    ///</summary>
+
+    public abstract class ActiveGameObject : GameObject
+    {
+        protected Vector3 position;
+
+        /// <summary>
+        /// The position of this object
+        /// </summary>
+        public Vector3 _Position
         {
-            idToPropMap[id] = property;
-            fieldNameToIDMap[property.Name] = id;
-            id++;
+            get { return position; }
+            set { position = value; }
         }
-	}
-	
-	/// <summary>
-	/// Set a field given its name and a new value.
-	/// </summary>
-	/// <param name="fieldName">
-	/// A <see cref="System.String"/>
-	/// </param>
-	/// <param name="newValue">
-	/// A <see cref="System.Object"/>
-	/// </param>
-	public void setField(string fieldName, object newValue)
-	{
-		this.GetType().InvokeMember(
-			fieldName, BindingFlags.SetProperty, null, this, new object[] { newValue });
-	}
-	
-	/// <summary>
-	/// Set a field given its ID and a new value.
-	/// </summary>
-	/// <param name="fieldID">
-	/// A <see cref="System.UInt16"/>
-	/// </param>
-	/// <param name="newValue">
-	/// A <see cref="System.Object"/>
-	/// </param>
-	public void setField(ushort fieldID, object newValue)
-	{
-		idToPropMap[fieldID].SetValue(this,newValue,null);
-	}
-	
-	/// <summary>
-	/// Get a field's ID for its name
-	/// </summary>
-	/// <param name="fieldName">
-	/// A <see cref="System.String"/>
-	/// </param>
-	/// <returns>
-	/// A <see cref="UInt16"/>
-	/// </returns>
-	public UInt16 getFieldID(string fieldName)
-	{
-		return fieldNameToIDMap[fieldName];
-	}
+
+        protected Sprite_2D image;
+
+        /// <summary>
+        /// The image for this object
+        /// </summary>
+        public Sprite_2D Sprite
+        {
+            get { return image; }
+            set { image = value; }
+        }
+
+        //---------------------Reflexive Maps----------------------
+        static ActiveGameObject()
+        {
+            initFieldMaps();
+        }
+
+        private static void initFieldMaps()
+        {
+            PropertyInfo[] properties = typeof(ActiveGameObject).GetProperties();
+
+            ushort id = 0;
+            foreach (PropertyInfo property in properties)
+            {
+                idToPropMap[id] = property;
+                fieldNameToIDMap[property.Name] = id;
+                id++;
+            }
+        }
+
+        //-----------------Instance Functions----------------------
+
+        public ActiveGameObject()
+            : base()
+        {
+            position = new Vector3();
+        }
+
+        //Must be implemented by any subclasses
+        public abstract void update(GameTime elps);
+    }
 }

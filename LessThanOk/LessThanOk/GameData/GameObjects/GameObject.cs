@@ -23,9 +23,12 @@
 /*---------------------------------------------------------------------------*\
  *                            Class Overview                                 *
  *                                                                           *
- * The type of a Unit.                                                       *
+ * This class is the bread and butter of LessThanOk's data aspect. Units are *
+ * GameObjects, Armor is a game object, weapons, etc.                        *
  *                                                                           *
- * See GameObject, GameObjectType, GameObjectFactory                         *
+ * Game objects are created from the factory and an ascociated type.         *
+ *                                                                           *
+ * See GameObject, GameObjectType, GameObjectFactory, AgnosticObject         *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
@@ -34,78 +37,49 @@ using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.Xna.Framework;
 
-
-/// <summary>
-/// The type of unit.
-/// </summary>
-public class UnitType : GameObjectType
+namespace LessThanOk.GameData.GameObjects
 {
-	private List<WeaponType> weapons;
-	private ArmorType        armor;
-	private EngineType		 engine;
-	
-	private int maxHp;
-	
-	static UnitType()
-	{
-		initFieldMaps();
-	}
-	
-	private static void initFieldMaps()
-	{
-		PropertyInfo[] properties = typeof(UnitType).GetProperties();
-		
-		ushort id = 0;
-        foreach (PropertyInfo property in properties)
-        {
-            idToPropMap[id] = property;
-            fieldNameToIDMap[property.Name] = id;
-            id++;
-        }
-	}
-	
-	/// <summary>
-	/// Create a new unit type
-	/// </summary>
-	/// <param name="weps">
-	/// The weapons <see cref="List<WeaponType>"/>
-	/// </param>
-	/// <param name="a">
-	/// The armor <see cref="ArmorType"/>
-	/// </param>
-	/// <param name="e">
-	/// the engine <see cref="EngineType"/>
-	/// </param>
-	public UnitType (List<WeaponType> weps, ArmorType a, EngineType e)
-	{
-		weapons = weps;
-		armor = a;
-		engine = e;
+    /// <summary>
+    /// A user defined data container.
+    /// </summary>
+    public abstract class GameObject : AgnosticObject
+    {
 
-//TODO: I really hate this. Find a way to not allocate directly?
-//		even though create() allocates?
-		
-		List<Weapon> w = new List<Weapon>(1);
-		
-		foreach(WeaponType t in weapons)
-		{
-			w.Add((Weapon)t.create());
-		}
-		
-		Armor arm = (Armor)armor.create();
-		Engine eng = (Engine)engine.create();
-		
-		protoType = new Unit(this,w,arm,eng);
-	}
-	
-	/// <summary>
-	/// create a new unit.
-	/// </summary>
-	/// <returns>
-	/// A <see cref="GameObject"/>
-	/// </returns>
-	override public GameObject create()
-	{
-		return new Unit((Unit)protoType);
-	}
-}
+        private UInt16 id;
+
+        public UInt16 ID
+        {
+            get { return id; }
+            set { id = value; }
+        }
+
+        static GameObject()
+        {
+            initFieldMaps();
+        }
+
+        private static void initFieldMaps()
+        {
+            PropertyInfo[] properties = typeof(GameObject).GetProperties();
+
+            ushort id = 0;
+            foreach (PropertyInfo property in properties)
+            {
+                idToPropMap[id] = property;
+                fieldNameToIDMap[property.Name] = id;
+                id++;
+            }
+        }
+
+        protected GameObject()
+        {
+            id = 0;
+        }
+
+        ~GameObject()
+        {
+            Console.WriteLine("Removing Object: {0} with {1}", this.GetType(), this.id);
+            GameObjectFactory.The.freeID(id);
+        }
+    }
+} 

@@ -23,78 +23,70 @@
 /*---------------------------------------------------------------------------*\
  *                            Class Overview                                 *
  *                                                                           *
- * Warheads are the damaging component of a weapon. They can have different  *
- * types, but that ultimately means nothing other than armor weaknesses.     *
+ * This class defines how an object moves in the game world.                 *
  *                                                                           *
- * See GameObject, GameObjectType, GameObjectFactory                         *
+ * See GameObject, GameObjectType, GameObjectFactory, EngineType, Unit       *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
+using LessThanOk.GameData.GameObjects;
 
-[assembly: InternalsVisibleTo("WarheadType")]
+[assembly: InternalsVisibleTo("EngineType")]
 
-public class Warhead : GameObject
-{	
-	private WarheadType type;
-	
-	/// <summary>
-	/// The type of warhead.
-	/// </summary>
-	public WarheadType Type
-	{
-		get {return type;}
-		private set {type = value;}
-	}
-	
-	static Warhead()
-	{
-		initFieldMaps();
-	}
-	
-	private static void initFieldMaps()
-	{
-		PropertyInfo[] properties = typeof(Warhead).GetProperties();
-		
-		ushort id = 0;
-        foreach (PropertyInfo property in properties)
+namespace LessThanOk.GameData.GameObjects.Units
+{
+    /// <summary>
+    /// This class defines how an object moves in the game world.
+    /// </summary>
+    public class Engine : GameObject
+    {
+        private EngineType type;
+
+        public EngineType Type
         {
-            idToPropMap[id] = property;
-            fieldNameToIDMap[property.Name] = id;
-            id++;
+            get { return type; }
+            private set { type = value; }
         }
-	}
-	
-	protected Warhead():base()
-	{
-		init();
-	}
-	
-	internal Warhead(WarheadType p):base()
-	{
-		init();
-		type = p;
-	}
-	
-	/// <summary>
-	/// Copy ctor
-	/// </summary>
-	/// <param name="w">
-	/// A <see cref="Warhead"/>
-	/// </param>
-	public Warhead(Warhead w):base()
-	{
-		init();
-		this.type = w.type;
-	}
-	
-	private void init()
-	{
-		//damageMod = 0;
-	}
+
+        static Engine()
+        {
+            initFieldMaps();
+        }
+
+        private static void initFieldMaps()
+        {
+            PropertyInfo[] properties = typeof(Engine).GetProperties();
+
+            ushort id = 0;
+            foreach (PropertyInfo property in properties)
+            {
+                idToPropMap[id] = property;
+                fieldNameToIDMap[property.Name] = id;
+                id++;
+            }
+        }
+
+        protected Engine() : base() { }
+
+        /// <summary>
+        /// Copy ctor
+        /// </summary>
+        /// <param name="e">
+        /// A <see cref="Engine"/>
+        /// </param>
+        public Engine(Engine e)
+        {
+            this.type = e.type;
+        }
+
+        internal Engine(EngineType t)
+        {
+            type = t;
+        }
+    }
 }

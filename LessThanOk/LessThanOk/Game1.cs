@@ -16,6 +16,8 @@ using LessThanOk.GameData;
 using LessThanOk.UI;
 using LessThanOk.Sprites;
 
+using LessThanOk.GameData.GameWorld;
+
 namespace LessThanOk
 {
     /// <summary>

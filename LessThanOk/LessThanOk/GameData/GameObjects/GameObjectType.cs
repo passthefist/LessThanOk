@@ -23,7 +23,8 @@
 /*---------------------------------------------------------------------------*\
  *                            Class Overview                                 *
  *                                                                           *
- * The type of a projectile.                                                 *
+ * The type of a game object. Types are responsible for creating objects of  *
+ * their type.                                                               *
  *                                                                           *
  * See GameObject, GameObjectType, GameObjectFactory                         *
  *                                                                           *
@@ -31,149 +32,72 @@
 
 
 using System;
-using System.Collections.Generic;
 using System.Reflection;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
-/// <summary>
-/// The type of a projectile.
-/// </summary>
-public class ProjectileType  : GameObjectType
+namespace LessThanOk.GameData.GameObjects
 {
-	private bool homing;
-	
-	/// <summary>
-	/// If this projectile is homing.
-	/// </summary>
-	public bool Homing
-	{
-		get
-		{
-			return homing;
-		}
-		set
-		{
-			homing = value;
-		}
-	}
-	
-	private float accel;
-	/// <summary>
-	/// The acceleration.
-	/// </summary>
-	public float Accel
-	{
-		get
-		{
-			return accel;
-		}
-		set
-		{
-			accel = value;
-		}
-	}
-	
-	private float startSpeed;
-	/// <summary>
-	/// firing speed.
-	/// </summary>
-	public float StartSpeed
-	{
-		get
-		{
-			return startSpeed;
-		}
-		set
-		{
-			startSpeed = value;
-		}
-	}
+    /// <summary>
+    /// Prototype for a game object.
+    /// </summary>
+    public abstract class GameObjectType : AgnosticObject
+    {
+        protected GameObject protoType;
 
-	private int timeout;
-	
-	/// <summary>
-	/// The time before the projectile self detonates.
-	/// </summary>
-	public int Timeout
-	{
-		get
-		{
-			return timeout;
-		}
-		set
-		{
-			timeout = value;
-		}
-	}
-	
-	private float arc;
-	
-	/// <summary>
-	/// The maximimum height the projectile will travel.
-	/// </summary>
-	public float Arc
-	{
-		get
-		{
-			return arc;
-		}
-		set
-		{
-			arc = value;
-		}
-	}
-	
-	static ProjectileType()
-	{
-		initFieldMaps();
-	}
-	
-	private static void initFieldMaps()
-	{
-		PropertyInfo[] properties = typeof(ProjectileType).GetProperties();
-		
-		ushort id = 0;
-        foreach (PropertyInfo property in properties)
+        private UInt16 id;
+
+        public UInt16 ID
         {
-            idToPropMap[id] = property;
-            fieldNameToIDMap[property.Name] = id;
-            id++;
+            get { return id; }
+            set { id = value; }
         }
-	}
-	
-	/// <summary>
-	/// Make a projectile type.
-	/// </summary>
-	/// <param name="h">
-	/// Homing? <see cref="System.Boolean"/>
-	/// </param>
-	/// <param name="a">
-	/// Accel <see cref="System.Single"/>
-	/// </param>
-	/// <param name="s">
-	/// Inital speed. <see cref="System.Single"/>
-	/// </param>
-	/// <param name="c">
-	/// Arc height. <see cref="System.Single"/>
-	/// </param>
-	public ProjectileType(bool h,float a,float s,float c)
-	{
-		homing = h;
-		accel = a;
-		startSpeed = s;
-		arc = c;
-		
-		protoType = new Projectile(this);
-	}
-	
-	/// <summary>
-	/// Create a projectile of this type.
-	/// </summary>
-	/// <returns>
-	/// A new projectile. <see cref="GameObject"/>
-	/// </returns>
-	override public GameObject create ()
-	{
-		return new Projectile((Projectile)protoType);
-	}
+
+        private string name;
+
+        /// <summary>
+        /// The name of this type.
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                name = value;
+            }
+        }
+
+        static GameObjectType()
+        {
+            initFieldMaps();
+        }
+
+        private static void initFieldMaps()
+        {
+            PropertyInfo[] properties = typeof(GameObjectType).GetProperties();
+
+            ushort id = 0;
+            foreach (PropertyInfo property in properties)
+            {
+                idToPropMap[id] = property;
+                fieldNameToIDMap[property.Name] = id;
+                id++;
+            }
+        }
+
+        public GameObjectType()
+        {
+        }
+
+        /// <summary>
+        /// Creates an object of this type.
+        /// </summary>
+        /// <returns>
+        /// The newly created object <see cref="GameObject"/>
+        /// </returns>
+        public abstract GameObject create();
+    }
 }

@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace LessThanOk.Sprites
 {
-    class Sprite_2D : Sprite
+    public class Sprite_2D : Sprite
     {
 
         private Texture2D texture2D { get; set; }

@@ -72,7 +72,7 @@ namespace LessThanOk.Network
         /// automaticly be granted.
         /// </summary>
         /// <param name="changes">List of changes to be processed</param>
-        public void processChanges(List<Change> changes) 
+        public void processChanges() 
         { 
         
         }

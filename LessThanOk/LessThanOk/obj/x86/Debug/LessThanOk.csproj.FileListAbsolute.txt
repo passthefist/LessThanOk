@@ -5,3 +5,10 @@ C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trun
 C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\obj\x86\Debug\LessThanOk.exe
 C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\obj\x86\Debug\LessThanOk.pdb
 C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\bin\x86\Debug\Content\Kootenay.xnb
+C:\Users\rdgoetz\Documents\LessThanOk\LessThanOk\LessThanOk\obj\x86\Debug\LessThanOk.exe
+C:\Users\rdgoetz\Documents\LessThanOk\LessThanOk\LessThanOk\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\rdgoetz\Documents\LessThanOk\LessThanOk\LessThanOk\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\rdgoetz\Documents\LessThanOk\LessThanOk\LessThanOk\bin\x86\Debug\Content\Kootenay.xnb
+C:\Users\rdgoetz\Documents\LessThanOk\LessThanOk\LessThanOk\bin\x86\Debug\LessThanOk.exe
+C:\Users\rdgoetz\Documents\LessThanOk\LessThanOk\LessThanOk\bin\x86\Debug\LessThanOk.pdb
+C:\Users\rdgoetz\Documents\LessThanOk\LessThanOk\LessThanOk\obj\x86\Debug\LessThanOk.pdb

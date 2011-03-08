@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace LessThanOk.Sprites
 {
-    abstract class Sprite
+    public abstract class Sprite
     {
         public float Scale { get; set; }
         public float Rotation { get; set; }
