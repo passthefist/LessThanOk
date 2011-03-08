@@ -1,4 +1,39 @@
-﻿using System;
+﻿
+/*---------------------------------------------------------------------------*\
+ *                         LessThanOK Engine                                 *
+ *                                                                           *
+ *          Copyright (C) 2011-2012 by Robert Goetz, Anthony Lobono          *
+ *                                                                           *
+ *   authors:  Anthony LoBono (ajlobono@gmail.com)                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the MIT Liscense.                                      *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                      *
+ *                                                                           *
+ * You should have received a copy of the MIT Liscense with this library, if *
+ * not, visit http://www.opensource.org/licenses/mit-license.php.            *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                            Class Overview                                 *
+ *                                                                           *
+ * This class is a template for all user interface elements.  Every UI       *
+ * element contains a Sprite, a Vecter2 origin(global possition), and an     *
+ * identifying String name.  Elements are responsible for drawing the Sprite *
+ * they contain.                                                             *
+ *                                                                           *
+ * See: Sprite.cs                                                            *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +47,7 @@ namespace LessThanOk.UI
     {
         public Boolean visible { set; get; }
         public Vector2 origin { set; get; }
-        public delegate void SelectedAction();
+        public String name { get; set; }
         public virtual void select(){}
         public virtual void release(){}
         public virtual void hover(){}

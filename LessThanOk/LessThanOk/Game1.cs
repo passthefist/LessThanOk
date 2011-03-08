@@ -97,7 +97,7 @@ namespace LessThanOk
             DEBUG = true;
             font = Content.Load<SpriteFont>("Kootenay");
             uiManager = new UIManager(f_root, font);
-            uiManager.loadUI();
+  
 
             f_root.visible = true;
 
@@ -135,15 +135,6 @@ namespace LessThanOk
                 // Show the Guide so the user can sign in.
                 Guide.ShowSignIn(1, false);
             }
-
-            // Don't want our menus and the guide menus to collide 
-            //   (that is, we don't want our menus and the Live Guide to both
-            //    handle the same keypress/buttonpress, so we disable our menus
-            //    when the guide is visible)
-            if (!Guide.IsVisible)
-            {
-                uiManager.update(gameTime, STATE);
-            }
             
             //--------------------------------------------------------------------
                 //Sever Logic
@@ -153,7 +144,10 @@ namespace LessThanOk
                     //Process Buckets
                     //Nework Send Commands
                     //UI Update
-            uiManager.update(gameTime, STATE);
+            if (!Guide.IsVisible)
+            {
+                uiManager.update(gameTime);
+            }
                 //Client Logic
             //--------------------------------------------------------------------
             if (DEBUG)
