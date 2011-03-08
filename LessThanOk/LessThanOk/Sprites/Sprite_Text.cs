@@ -43,7 +43,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace LessThanOk.Sprites
 {
-    class Sprite_Text : Sprite
+    public class Sprite_Text : Sprite
     {
         public SpriteFont Font { get { return mFont; } set { mFont = value; } }
         public string Text { get { return mText; } set { mText = value; } }

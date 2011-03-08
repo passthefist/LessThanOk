@@ -10,6 +10,15 @@
       <Output>C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\bin\x86\Debug\Content\Kootenay.xnb</Output>
       <Time>2011-03-06T04:45:37.6590146-06:00</Time>
     </Item>
+    <Item>
+      <Source>Bitmap1.bmp</Source>
+      <Name>Bitmap1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\bin\x86\Debug\Content\Bitmap1.xnb</Output>
+      <Time>2011-03-08T01:54:52.815903-06:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

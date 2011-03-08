@@ -37,19 +37,33 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace LessThanOk.Sprites
 {
-    class SpriteBin
+    public sealed class SpriteBin
     {
+        static readonly SpriteBin the = new SpriteBin();
+
+        // Explicit static constructor to tell C# compiler
+        // not to mark type as beforefieldinit
+        static SpriteBin()
+        {
+        }
+
+        public static SpriteBin The
+        {
+            get
+            {
+                return the;
+            }
+        }
         List<Sprite> sprites;
 
-        private SpriteFont _font;
+        public SpriteFont _font{ get; set; }
         /// <summary>
         /// Contructor for SpriteBin.
         /// </summary>
         /// <param name="font">Font to be used for all sprites.  Shouls be a list</param>
-        public SpriteBin(SpriteFont font)
+        private SpriteBin()
         {
             sprites = new List<Sprite>();
-            _font = font;
         }
 
         /// <summary>
@@ -60,6 +74,12 @@ namespace LessThanOk.Sprites
         public Sprite_Text AddTextSprite(string content)
         {
             Sprite_Text s = new Sprite_Text(content, _font);
+            sprites.Add(s);
+            return s;
+        }
+        public Sprite_2D AddSprite_2D(Texture2D texture, Color color)
+        {
+            Sprite_2D s = new Sprite_2D(texture, color);
             sprites.Add(s);
             return s;
         }

@@ -46,23 +46,23 @@ namespace LessThanOk.GameData.GameObjects
 
     public abstract class ActiveGameObject : GameObject
     {
-        protected Vector3 position;
+        protected Vector2 position;
 
         /// <summary>
         /// The position of this object
         /// </summary>
-        public Vector3 _Position
+        public Vector2 _Position
         {
             get { return position; }
             set { position = value; }
         }
 
-        protected Sprite_2D image;
+        protected Sprite image;
 
         /// <summary>
         /// The image for this object
         /// </summary>
-        public Sprite_2D Sprite
+        public Sprite Sprite
         {
             get { return image; }
             set { image = value; }
@@ -92,7 +92,7 @@ namespace LessThanOk.GameData.GameObjects
         public ActiveGameObject()
             : base()
         {
-            position = new Vector3();
+            position = new Vector2();
         }
 
         //Must be implemented by any subclasses

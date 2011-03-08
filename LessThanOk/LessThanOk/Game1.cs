@@ -12,9 +12,12 @@ using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 
 using LessThanOk.Network;
+using LessThanOk.Network.Commands;
 using LessThanOk.GameData;
 using LessThanOk.UI;
 using LessThanOk.Sprites;
+using LessThanOk.GameData.GameObjects;
+using LessThanOk.GameData.GameObjects.Units;
 
 using LessThanOk.GameData.GameWorld;
 
@@ -35,7 +38,8 @@ namespace LessThanOk
         UIManager uiManager;
         Frame f_root;
         SpriteFont font;
-       
+        Texture2D lol;
+
         NetworkSessionProperties serverProperties;
         NetworkSession networkSession;
         PacketWriter packetWriter;
@@ -95,10 +99,31 @@ namespace LessThanOk
             SESSION = T_SESSION.NONE;
             STATE = T_STATE.HOME;
             DEBUG = true;
-            font = Content.Load<SpriteFont>("Kootenay");
-            uiManager = new UIManager(f_root, font);
-  
+            if (DEBUG)
+            {
+                lol = Content.Load<Texture2D>("Bitmap1");
+                font = Content.Load<SpriteFont>("Kootenay");
 
+                uiManager = new UIManager(f_root, font);
+                SpriteBin.The._font = font;
+                Sprite_2D sprite = SpriteBin.The.AddSprite_2D(lol, Color.White);
+
+                EngineType engine = new EngineType(0, 0, 0);
+                ArmorType armor = new ArmorType(0, 0);
+                ProjectileType projectile = new ProjectileType(false, 0, 0, 0);
+                WarheadType warhead = new WarheadType(0, 0, WarheadType.Types.BIO);
+                WeaponType weapon = new WeaponType(warhead, projectile);
+                List<WeaponType> wepList = new List<WeaponType>();
+                wepList.Add(weapon);
+                UnitType unit = new UnitType(wepList, armor, engine, sprite);
+                GameObjectFactory factory = GameObjectFactory.The;
+                factory.addType("lol1", engine);
+                factory.addType("lol2", armor);
+                factory.addType("lol3", projectile);
+                factory.addType("lol4", warhead);
+                factory.addType("lol5", weapon);
+                factory.addType("lolTest", unit);
+            }
             f_root.visible = true;
 
         }

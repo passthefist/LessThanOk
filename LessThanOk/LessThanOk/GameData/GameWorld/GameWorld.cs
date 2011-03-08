@@ -29,15 +29,15 @@ namespace LessThanOk.GameData.GameWorld
 		
 		public List<Tile> getTiles(Rectangle bounds)
         {
-            return new List<Tile>();
+            return map.getTilesInRect(bounds);
         }
         public List<Unit> getUnits(Rectangle bounds)
         {
-            return new List<Unit>() ;
+            return map.getUnitsInRect(bounds);
         }
 		public GameObject getObjectAt(Vector2 point)
         {
-            return null;
+            return map.getObjectAtPoint(point);
         }
 		public List<Unit> getAllUnits()
         {

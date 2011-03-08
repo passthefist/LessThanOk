@@ -59,12 +59,12 @@ namespace LessThanOk.GameData.GameObjects.Units
             private set { type = value; }
         }
 
-        private Vector3 direc;
+        private Vector2 direc;
 
         /// <summary>
         /// The direction this projectile is traveling
         /// </summary>
-        public Vector3 _Direction
+        public Vector2 _Direction
         {
             get { return direc; }
             private set { direc = value; }
@@ -123,7 +123,7 @@ namespace LessThanOk.GameData.GameObjects.Units
         private void init()
         {
             speed = 0;
-            direc = new Vector3();
+            direc = new Vector2();
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace LessThanOk.GameData.GameObjects.Units
         /// <param name="p">
         /// A <see cref="Vector3"/>
         /// </param>
-        public void fire(Vector3 d, Vector3 p)
+        public void fire(Vector2 d, Vector2 p)
         {
             direc = d;
             position = p;

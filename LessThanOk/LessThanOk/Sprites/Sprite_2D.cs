@@ -35,22 +35,31 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+[assembly: InternalsVisibleTo("SpriteBin")] 
 
 namespace LessThanOk.Sprites
 {
     public class Sprite_2D : Sprite
     {
 
-        private Texture2D texture2D { get; set; }
-        private Color color { get; set; }
-        private Vector2 origin { get; set; }
+        public Texture2D Texture { get; set; }
+        public Color Color { get; set; }
+        public Vector2 Origin { get; set; }
+
+        internal Sprite_2D(Texture2D n_texture, Color n_color)
+        {
+            Texture = n_texture;
+            Color = n_color;
+        }
 
         public override Microsoft.Xna.Framework.Vector2 Size()
         {
-            throw new NotImplementedException();
+            return new Vector2(Texture.Width, Texture.Height);
         }
     }
 }

@@ -38,7 +38,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 using LessThanOk.Network.Commands;
 using LessThanOk.GameData.GameObjects;
-
+using LessThanOk.Sprites;
 [assembly: InternalsVisibleTo("UnitType")]
 
 namespace LessThanOk.GameData.GameObjects.Units
@@ -112,12 +112,13 @@ namespace LessThanOk.GameData.GameObjects.Units
 
         protected Unit() : base() { init(); }
 
-        internal Unit(UnitType t, List<Weapon> weps, Armor arm, Engine e)
+        internal Unit(UnitType t, List<Weapon> weps, Armor arm, Engine e, Sprite s)
             : base()
         {
             type = t;
             weapons = weps;
             armor = arm;
+            image = s;
         }
 
         /// <summary>

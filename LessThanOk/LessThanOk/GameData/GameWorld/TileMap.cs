@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using LessThanOk.GameData.GameObjects;
 using LessThanOk.GameData.GameObjects.Tiles;
 using LessThanOk.GameData.GameObjects.Units;
 
@@ -28,6 +29,26 @@ namespace LessThanOk.GameData.GameWorld
             tileSize = 20;
         }
 
+        public GameObject getObjectAtPoint(Vector2 point)
+        {
+            uint x;
+            uint y;
+            y = (uint)point.Y;
+            x = (uint)point.X;
+            y = y / height;
+            x = x % width;
+
+            Tile tile = tileMap[x, y];
+            if (tile.HasUnits)
+            {
+                return tile.InternalUnits[0];
+            }
+            else
+            {
+                return tile;
+            }
+        }
+
         public TileMap(uint width, uint height, byte tileSize)
         {
             if (width * height > 16384)
@@ -43,7 +64,7 @@ namespace LessThanOk.GameData.GameWorld
 
             for(int i = 0; i < height * width; i++)
             {
-                tileMap[i%width,i/height]._Position = new Vector3(i%width,i/height,0);
+                tileMap[i%width,i/height]._Position = new Vector2(i%width,i/height);
             }
         }
 

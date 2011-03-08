@@ -33,8 +33,10 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.Xna.Framework;
+using LessThanOk.Sprites;
+using LessThanOk.GameData.GameObjects;
 
-using LessThanOk.GameData.GameObjects;namespace LessThanOk.GameData.GameObjects.Units
+namespace LessThanOk.GameData.GameObjects.Units
 {
     /// <summary>
     /// The type of unit.
@@ -44,7 +46,7 @@ using LessThanOk.GameData.GameObjects;namespace LessThanOk.GameData.GameObjects.
         private List<WeaponType> weapons;
         private ArmorType armor;
         private EngineType engine;
-
+        private Sprite image;
         private int maxHp;
 
         static UnitType()
@@ -77,11 +79,12 @@ using LessThanOk.GameData.GameObjects;namespace LessThanOk.GameData.GameObjects.
         /// <param name="e">
         /// the engine <see cref="EngineType"/>
         /// </param>
-        public UnitType(List<WeaponType> weps, ArmorType a, EngineType e)
+        public UnitType(List<WeaponType> weps, ArmorType a, EngineType e, Sprite s)
         {
             weapons = weps;
             armor = a;
             engine = e;
+            image = s;
 
             //TODO: I really hate this. Find a way to not allocate directly?
             //		even though create() allocates?
@@ -96,7 +99,7 @@ using LessThanOk.GameData.GameObjects;namespace LessThanOk.GameData.GameObjects.
             Armor arm = (Armor)armor.create();
             Engine eng = (Engine)engine.create();
 
-            protoType = new Unit(this, w, arm, eng);
+            protoType = new Unit(this, w, arm, eng, image);
         }
 
         /// <summary>
