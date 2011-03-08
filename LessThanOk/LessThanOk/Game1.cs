@@ -23,7 +23,7 @@ namespace LessThanOk
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        const int SCREEN_WIDTH = 800;
+        const int SCREEN_WIDTH = 1000;
         const int SCREEN_HEIGHT = 600;
 
         const int MAX_GAMERS = 2;
@@ -76,7 +76,7 @@ namespace LessThanOk
             serverProperties = new NetworkSessionProperties();
             arbiter = new Monirator();
             gameworld = new MasterGameWorld();
-            f_root = new Frame(Vector2.Zero, 800, 600, null, true);
+            f_root = new Frame(Vector2.Zero, new Vector2(1000, 600), null);
 
         }
         /// <summary>
@@ -96,6 +96,8 @@ namespace LessThanOk
             font = Content.Load<SpriteFont>("Kootenay");
             uiManager = new UIManager(f_root, font);
             uiManager.loadUI();
+
+            f_root.visible = true;
 
         }
 

@@ -34,13 +34,5 @@ namespace LessThanOk.Sprites
             sprites.Clear();
         }
 
-        public void Draw(SpriteBatch sb)
-        {
-            foreach (Sprite sprite in sprites)
-            {
-                sprite.Draw(sb);
-            }
-        }
-
     }
 }

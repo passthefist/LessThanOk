@@ -13,21 +13,33 @@ namespace LessThanOk.UI
     class UIManager
     {
 
-        private Frame root;
+        private Frame f_root;
+        private Frame f_home;
+        private Frame f_lobby;
+        private Frame f_game;
+        private Frame f_postGame;
         private KeyboardState prevKeyState;
         private MouseState prevMouseState;
         private SpriteBin spriteMaker;
 
+        public enum UI_STATE
+        {
+            HOME,
+            LOBBY,
+            GAME,
+            POSTGAME
+        }
+
         public UIManager(Frame n_root, SpriteFont font)
         {
-            root = n_root;
+            f_root = n_root;
             spriteMaker = new SpriteBin(font);
         }
 
         public void loadUI()
         {
-            //loadHomeMenu();
-            //loadLobyMenu();
+            loadHomeMenu();
+            loadLobyMenu();
             loadGameMenu();
             //loadPostGameMenu();
 
@@ -40,14 +52,7 @@ namespace LessThanOk.UI
 
         private void loadGameMenu()
         {
-            Frame worldFrame = new Frame(Vector2.Zero, 800, 500, null, true);
-            root.addFrame(worldFrame);
-            Sprite_Text hello = spriteMaker.AddTextSprite("Hellow World");
-            hello.Centered = true;
-            Button helloButton = new Button(hello);
-            helloButton.visible = true;
-            worldFrame.addElement(Vector2.Zero, helloButton);
-            hello.Position = helloButton.origin;
+          
         }
 
         private void loadLobyMenu()
@@ -57,7 +62,11 @@ namespace LessThanOk.UI
 
         private void loadHomeMenu()
         {
-            throw new NotImplementedException();
+            f_home = new Frame(Vector2.Zero, new Vector2(800, 600), null);
+            Button b_createGame = new Button(spriteMaker.AddTextSprite("Create Game"), true);
+            Button b_joinGame = new Button(spriteMaker.AddTextSprite("Join Game"), true);
+            f_home.addElement(Vector2.Zero, b_createGame);
+            f_home.addElement(b_createGame.Size, b_joinGame);
         }
 
         public void update(GameTime gameTime, Game1.T_STATE state)
@@ -73,7 +82,7 @@ namespace LessThanOk.UI
 
             //Unhover logic;
 
-            curElement = root.findElement(prevMouseState);
+            curElement = f_root.findElement(prevMouseState);
 
             if(curElement != null)
                 if ((gameTime.TotalGameTime.Milliseconds % 1000) == 0)
@@ -95,7 +104,11 @@ namespace LessThanOk.UI
 
         public void draw(SpriteBatch spriteBatch)
         {
-            root.draw(spriteBatch);
+            f_root.draw(spriteBatch);
+        }
+        public void switchState(Game1.T_SESSION State)
+        {
+
         }
     }
 

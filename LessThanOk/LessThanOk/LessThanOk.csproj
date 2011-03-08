@@ -109,6 +109,7 @@
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Element.cs" />
     <Compile Include="UI\Frame.cs" />
+    <Compile Include="UI\Frame_Game.cs" />
     <Compile Include="UI\UIManager.cs" />
     <Compile Include="Network\Commands\Command_Add.cs" />
     <Compile Include="Network\Commands\Command.cs" />

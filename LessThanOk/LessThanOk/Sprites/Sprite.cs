@@ -8,7 +8,6 @@ namespace LessThanOk.Sprites
 {
     abstract class Sprite
     {
-        public Vector2 Position { get; set; }
         public float Scale { get; set; }
         public float Rotation { get; set; }
         public Color Color { get; set; }
@@ -16,6 +15,5 @@ namespace LessThanOk.Sprites
         public bool Centered { get; set; }
 
         public abstract Vector2 Size();
-        public abstract void Draw(SpriteBatch sb);
     }
 }

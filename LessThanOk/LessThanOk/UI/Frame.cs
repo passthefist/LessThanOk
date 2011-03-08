@@ -15,23 +15,20 @@ namespace LessThanOk.UI
         public Boolean visible { get; set; }
         public Frame parent { get; set; }
 
-        private int width;
-        private int height;
-        private Vector2 origin;
-        private List<Frame> frames;
-        private List<Element> elements;
-        private Sprite_2D background;
+        protected Vector2 size;
+        protected Vector2 origin { get; set; }
+        protected List<Frame> frames;
+        protected List<Element> elements;
+        protected Sprite_2D background;
 
-        public Frame(Vector2 n_origin, int n_width, int n_height,
-                        Sprite_2D n_background, Boolean n_visible)
+        protected Frame() { }
+        public Frame(Vector2 n_origin, Vector2 n_size, Sprite_2D n_background)
         {
             frames = new List<Frame>();
             elements = new List<Element>();
             origin = n_origin;
-            width = n_width;
-            height = n_height;
+            size = n_size;
             background = n_background;
-            visible = n_visible;
         }
 
         public List<Element> getElements() { return elements;  }
@@ -68,9 +65,10 @@ namespace LessThanOk.UI
             }
         }
 
-        public void addFrame(Frame n_frame)
+        public void addFrame(Frame n_frame, Vector2 n_origin)
         {
             n_frame.parent = this;
+            n_frame.origin = this.origin + n_origin;
             frames.Add(n_frame);
         }
 
@@ -82,8 +80,8 @@ namespace LessThanOk.UI
 
         public Boolean isInFrame(int x, int y)
         {
-            if (x > origin.X && x < (origin.X + width))
-                if (y > origin.Y && y < (origin.Y + height))
+            if (x > origin.X && x < (origin.X + size.X))
+                if (y > origin.Y && y < (origin.Y + size.Y))
                     return true;
             return false;
         }
