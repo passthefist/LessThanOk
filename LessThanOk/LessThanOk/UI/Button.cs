@@ -12,9 +12,11 @@ namespace LessThanOk.UI
     {
         private Sprite_Text textSprite;
         public Vector2 Size{get{return textSprite.Size();}}
-        public Button(Sprite_Text sprite, Boolean n_visible)
+        public Element.SelectedAction Action { get; set; }
+        public Button(Sprite_Text sprite, Boolean n_visible, Element.SelectedAction n_action)
         {
             textSprite = sprite;
+            this.Action = n_action;
             this.visible = n_visible;
         }
         public void setPosition(Vector2 pos)
@@ -24,7 +26,7 @@ namespace LessThanOk.UI
 
         public override void select()
         {
-            Console.WriteLine("Button Selected");
+            Action();
         }
         public override void release()
         {

@@ -12,6 +12,7 @@ namespace LessThanOk.UI
     {
         public Boolean visible { set; get; }
         public Vector2 origin { set; get; }
+        public delegate void SelectedAction();
         public virtual void select(){}
         public virtual void release(){}
         public virtual void hover(){}

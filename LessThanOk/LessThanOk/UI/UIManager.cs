@@ -18,6 +18,7 @@ namespace LessThanOk.UI
         private Frame f_lobby;
         private Frame f_game;
         private Frame f_postGame;
+        private UI_STATE state;
         private KeyboardState prevKeyState;
         private MouseState prevMouseState;
         private SpriteBin spriteMaker;
@@ -34,6 +35,7 @@ namespace LessThanOk.UI
         {
             f_root = n_root;
             spriteMaker = new SpriteBin(font);
+            state = UI_STATE.HOME;
         }
 
         public void loadUI()
@@ -63,8 +65,8 @@ namespace LessThanOk.UI
         private void loadHomeMenu()
         {
             f_home = new Frame(Vector2.Zero, new Vector2(800, 600), null);
-            Button b_createGame = new Button(spriteMaker.AddTextSprite("Create Game"), true);
-            Button b_joinGame = new Button(spriteMaker.AddTextSprite("Join Game"), true);
+            Button b_createGame = new Button(spriteMaker.AddTextSprite("Create Game"), true, () => {});
+            Button b_joinGame = new Button(spriteMaker.AddTextSprite("Join Game"), true, () => { });
             f_home.addElement(Vector2.Zero, b_createGame);
             f_home.addElement(b_createGame.Size, b_joinGame);
         }
