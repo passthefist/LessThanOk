@@ -16,6 +16,13 @@ namespace LessThanOk.GameData.GameWorld
 //		protected List<Command>cmdBuffer;
 		protected TimeSpan     gameTime;
 		private TileMap      map;
+
+        public GameWorld()
+        {
+            units = new List<Unit>(12);
+            gameTime = new TimeSpan();
+            map = new TileMap();
+        }
 		
 		public void setGameTime(TimeSpan time){}
 		public abstract void update(TimeSpan elps, List<Command> commands);

@@ -19,7 +19,7 @@ namespace LessThanOk.GameData.GameWorld
 		public  List<KeyValuePair<byte, UInt32>> ValuesSet {get;private set;} 
 //		private List<object> notifications;
 //		private List<Path> paths;
-		
+
 		private void clearChanges()
 		{
 			unitsAdded.Clear();
@@ -46,8 +46,9 @@ namespace LessThanOk.GameData.GameWorld
 		}
 //		private void findPath();
 //		private void useAbility();
-		
-		public MasterGameWorld()
+
+        public MasterGameWorld()
+            : base()
 		{
 			unitsAdded = new List<Unit>(5);
 			unitsRemoved = new List<Unit>(5);

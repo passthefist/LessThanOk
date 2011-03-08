@@ -96,6 +96,7 @@
     <Compile Include="GameData\GameObjects\GameObject.cs" />
     <Compile Include="GameData\GameObjects\GameObjectFactory.cs" />
     <Compile Include="GameData\GameObjects\GameObjectType.cs" />
+    <Compile Include="GameData\GameWorld\ClientGameWorld.cs" />
     <Compile Include="GameData\GameWorld\GameWorld.cs" />
     <Compile Include="GameData\GameWorld\MasterGameWorld.cs" />
     <Compile Include="GameData\GameObjects\Units\Projectile.cs" />

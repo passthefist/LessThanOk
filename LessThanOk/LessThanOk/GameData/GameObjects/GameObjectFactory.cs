@@ -170,6 +170,22 @@ namespace LessThanOk.GameData.GameObjects
         }
 
         /// <summary>
+        /// Resurrects a Game Object that was sent over the network.
+        /// </summary>
+        /// <param name="id"> The ID of the sent object.</param>
+        /// <param name="typeId"> The type ID of the sent object.</param>
+        /// <returns></returns>
+        public GameObject resurrectGameObject(UInt16 id, UInt16 typeId)
+        {
+            GameObject retVal = idToTypeMap[typeId].create();
+            createdObjects[id] = retVal;
+            retVal.ID = id;
+            nextID = id;
+            findNextID();
+            return retVal;
+        }
+
+        /// <summary>
         /// get a type given the id
         /// </summary>
         /// <param name="id">
