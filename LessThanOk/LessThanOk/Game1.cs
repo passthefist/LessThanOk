@@ -160,15 +160,27 @@ namespace LessThanOk
                 // Show the Guide so the user can sign in.
                 Guide.ShowSignIn(1, false);
             }
-            
-            //--------------------------------------------------------------------
+            //______________________________________________________________________
                 //Sever Logic
-                    //Precess Requests
-                    //Exicute Valid Requests
-                    //Gameworld Update
-                    //Process Buckets
-                    //Nework Send Commands
-                    //UI Update
+                    //Network. 
+                        //Read packets.
+                        //Fill Request List
+                    //Monirator
+                        //Read Request List
+                        //Check valididty
+                        //Fill Grant List
+                    //Game World
+                        //Read Grant List
+                        //Update World
+                        //Fill Change List
+                    //Monirator
+                        //Read Change list
+                        //Construct Commands
+                        //Fill Command List
+                    //Network
+                        //Construct Packets
+                        //Send Packets
+            //_____________________________________________________________________
             if (!Guide.IsVisible)
             {
                 uiManager.update(gameTime);

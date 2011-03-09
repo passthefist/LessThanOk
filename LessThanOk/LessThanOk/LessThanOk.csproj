@@ -14,6 +14,7 @@
     <XnaCrossPlatformGroupID>5a182ec0-b14b-443b-b520-c5605d4dd35c</XnaCrossPlatformGroupID>
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,7 +27,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -86,6 +86,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BufferedCommunication\ChangeList.cs" />
+    <Compile Include="BufferedCommunication\CommandList.cs" />
     <Compile Include="GameData\GameObjects\ActiveGameObject.cs" />
     <Compile Include="GameData\AgnosticObject.cs" />
     <Compile Include="GameData\GameObjects\Tiles\Tile.cs" />
@@ -96,6 +98,7 @@
     <Compile Include="GameData\GameObjects\GameObject.cs" />
     <Compile Include="GameData\GameObjects\GameObjectFactory.cs" />
     <Compile Include="GameData\GameObjects\GameObjectType.cs" />
+    <Compile Include="GameData\GameWorld\Change.cs" />
     <Compile Include="GameData\GameWorld\ClientGameWorld.cs" />
     <Compile Include="GameData\GameWorld\GameWorld.cs" />
     <Compile Include="GameData\GameWorld\MasterGameWorld.cs" />
