@@ -56,6 +56,7 @@ namespace LessThanOk.UI
         private KeyboardState curKeyState;
         private MouseState curMouseState;
         private ButtonState leftClick;
+        private List<Element> elementList;
         public delegate void selectedAction(Element caller);
         
         /// <summary>
@@ -69,31 +70,31 @@ namespace LessThanOk.UI
             f_root = n_root;
 
             f_lobby = new Frame(Vector2.Zero, new Vector2(800, 600), null);
-            Button b_ready = new Button(SpriteBin.The.AddTextSprite("Ready"), true,
+            Button b_ready = new Button(SpriteBin.The.AddTextSprite("Ready", "sprite1"), true,
                 (Element sender) => { }, "ready");
-            Button b_start = new Button(SpriteBin.The.AddTextSprite("Start Game"), true,
+            Button b_start = new Button(SpriteBin.The.AddTextSprite("Start Game", "sprite2"), true,
                 loadGameMenu, "start");
             f_lobby.addElement(Vector2.Zero, b_ready);
             f_lobby.addElement(b_start.Size, b_start);
             f_lobby.visible = true;
 
             f_home = new Frame(Vector2.Zero, new Vector2(800, 600), null);
-            Button b_createGame = new Button(SpriteBin.The.AddTextSprite("Create Game"), true,
+            Button b_createGame = new Button(SpriteBin.The.AddTextSprite("Create Game","Create Game"), true,
                 loadLobbyMenu, "Create Game");
-            Button b_joinGame = new Button(SpriteBin.The.AddTextSprite("Join Game"), true,
+            Button b_joinGame = new Button(SpriteBin.The.AddTextSprite("Join Game", "Create Game"), true,
                 loadLobbyMenu, "Join Game");
             f_home.addElement(Vector2.Zero, b_createGame);
             f_home.addElement(b_createGame.Size, b_joinGame);
             f_home.visible = true;
 
             f_game = new Frame(Vector2.Zero, new Vector2(800, 600), null);
-            Button b_end = new Button(SpriteBin.The.AddTextSprite("End Game"), true,
+            Button b_end = new Button(SpriteBin.The.AddTextSprite("End Game", "End Game"), true,
                 loadPostGameMenu, "end");
             f_game.addElement(Vector2.Zero, b_end);
             f_game.visible = true;
 
             f_postGame = new Frame(Vector2.Zero, new Vector2(800, 600), null);
-            Button b_home = new Button(SpriteBin.The.AddTextSprite("Go Home"), true,
+            Button b_home = new Button(SpriteBin.The.AddTextSprite("Go Home", "Go Home"), true,
                 loadHomeMenu, "Home");
             f_postGame.addElement(Vector2.Zero, b_home);
             f_postGame.visible = true;

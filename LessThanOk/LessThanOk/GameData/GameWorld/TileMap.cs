@@ -9,7 +9,7 @@ using LessThanOk.GameData.GameObjects.Units;
 
 namespace LessThanOk.GameData.GameWorld
 {
-    class TileMap
+    public class TileMap
     {
         Tile[,] tileMap;
 //        QuadNode [][] quadMap;

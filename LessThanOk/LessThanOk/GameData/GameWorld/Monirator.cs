@@ -1,5 +1,4 @@
-﻿
-/*---------------------------------------------------------------------------*\
+﻿/*---------------------------------------------------------------------------*\
  *                         LessThanOK Engine                                 *
  *                                                                           *
  *          Copyright (C) 2011-2012 by Robert Goetz, Anthony Lobono          *
@@ -24,39 +23,55 @@
 /*---------------------------------------------------------------------------*\
  *                            Class Overview                                 *
  *                                                                           *
- * This class is a template for all user interface elements.  Every UI       *
- * element contains a Sprite, a Vecter2 origin(global possition), and an     *
- * identifying String name.  Elements are responsible for drawing the Sprite *
- * they contain.                                                             *
- *                                                                           *
- * See: Sprite.cs                                                            *
+ * Monirator is responsible for processing and validating player requests.   *
+ * It is also responsible for processing world changes and constructing      *
+ * command to be sent out to all clients notifying them of the changes. This *
+ * is how we are able to sync the host game to all the client games.         *
+ *                                                                           *   
+ * See: Commands.cs Command_Add.cs Command_Cancel.cs Command_Note.cs         *
+ *      Command_Set.cs                                                       *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using LessThanOk.Sprites;
+using LessThanOk.Network.Commands;
+using LessThanOk.GameData;
+using LessThanOk.GameData.GameWorld;
 
-namespace LessThanOk.UI
+namespace LessThanOk.GameData.GameWorld
 {
-    public class Element
+    public sealed class Monirator
     {
-        public Boolean visible { set; get; }
-        public Vector2 origin { set; get; }
-        public String name { set; get; }
-        public virtual void select(){}
-        public virtual void release(){}
-        public virtual void hover(){}
-        public virtual void unHover(){}
-        public virtual void decrease(){}
-        public virtual void increase() {}
-        public virtual Boolean isOver(int x, int y) { return false; }
-        public virtual void draw(SpriteBatch spriteBatch) { }
-        public virtual void update(GameTime gameTime){}
+        static readonly Monirator the = new Monirator();
+      
+        // Explicit static constructor to tell C# compiler
+        // not to mark type as beforefieldinit
+        static Monirator(){}
 
+        public static Monirator The { get { return the; } }
+
+        private Queue<Command> grants;
+        private Queue<Command> requests;
+        /// <summary>
+        /// Default constructor that sets the queue lengths to 100
+        /// </summary>
+        public Monirator()
+        {
+            grants = new Queue<Command>(100);
+            requests = new Queue<Command>(100);
+        }
+        /// <summary>
+        /// Tests if a command is valid.
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="board"></param>
+        /// <returns></returns>
+        public Boolean validate(Command req, TileMap board)
+        {
+            // TODO: Validation Logic
+            return true;
+        }
     }
 }

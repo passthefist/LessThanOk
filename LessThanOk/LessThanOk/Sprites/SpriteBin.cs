@@ -40,7 +40,7 @@ namespace LessThanOk.Sprites
     public sealed class SpriteBin
     {
         static readonly SpriteBin the = new SpriteBin();
-
+      
         // Explicit static constructor to tell C# compiler
         // not to mark type as beforefieldinit
         static SpriteBin()
@@ -54,7 +54,7 @@ namespace LessThanOk.Sprites
                 return the;
             }
         }
-        List<Sprite> sprites;
+        private Dictionary<String, Sprite> spriteDictionary;
 
         public SpriteFont _font{ get; set; }
         /// <summary>
@@ -63,7 +63,8 @@ namespace LessThanOk.Sprites
         /// <param name="font">Font to be used for all sprites.  Shouls be a list</param>
         private SpriteBin()
         {
-            sprites = new List<Sprite>();
+            spriteDictionary = new Dictionary<String, Sprite>();
+
         }
 
         /// <summary>
@@ -71,33 +72,34 @@ namespace LessThanOk.Sprites
         /// </summary>
         /// <param name="content">Text for the Sprite</param>
         /// <returns>New instance of a Sprite_Text</returns>
-        public Sprite_Text AddTextSprite(string content)
+        public Sprite_Text AddTextSprite(String content, String key)
         {
             Sprite_Text s = new Sprite_Text(content, _font);
-            sprites.Add(s);
+            spriteDictionary.Add(key, s);
             return s;
         }
-        public Sprite_2D AddSprite_2D(Texture2D texture, Color color)
+        public Sprite_2D AddSprite_2D(Texture2D texture, Color color, String key)
         {
             Sprite_2D s = new Sprite_2D(texture, color);
-            sprites.Add(s);
+            spriteDictionary.Add(key, s);
             return s;
         }
         /// <summary>
         /// Add a Sprite to the sprite list
         /// </summary>
         /// <param name="s">Sprite to be added to list.</param>
-        public void Add(Sprite s)
+        public void Add(Sprite s, String key)
         {
-            sprites.Add(s);
+            spriteDictionary.Add(key, s);
         }
         /// <summary>
         /// Clear the sprite list.
         /// </summary>
         public void Clear()
         {
-            sprites.Clear();
+            spriteDictionary.Clear();
         }
+        public Sprite getSprite(String key){ return spriteDictionary[key]; }
 
     }
 }

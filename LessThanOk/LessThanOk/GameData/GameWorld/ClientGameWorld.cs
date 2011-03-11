@@ -9,14 +9,15 @@ namespace LessThanOk.GameData.GameWorld
 {
     public class ClientGameWorld : GameWorld
     {
+        public List<Command> Commands;
 
         public ClientGameWorld() : base ()
         {
         }
 
-        override public void update(TimeSpan gameTime, List<Command> commands)
+        override public void update(GameTime gameTime)
         {
-            foreach (Command cmd in commands)
+            foreach (Command cmd in Commands)
             {
                 switch (cmd.getCommandType())
                 {

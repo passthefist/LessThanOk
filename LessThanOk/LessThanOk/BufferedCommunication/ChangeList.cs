@@ -31,13 +31,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LessThanOk.GameData.GameWorld;
+using LessThanOk.Network.Commands;
 
 namespace LessThanOk.BufferedCommunication
 {
     public class ChangeList
     {
-        private static List<Change> _ChangeList;
-        public static List<Change> getList() { return _ChangeList; }
-        public static void addToList(Change change) { _ChangeList.Add(change); }
+        private List<Command> Changes;
+
+        public void addChanges(List<Command> changes)
+        {
+            Changes = changes;
+        }
+
+        public List<Command> getChanges()
+        {
+            //Adventually will be a distructive read.
+            return Changes;
+        }
     }
 }

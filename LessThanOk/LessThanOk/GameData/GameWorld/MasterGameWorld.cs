@@ -13,8 +13,11 @@ namespace LessThanOk.GameData.GameWorld
 		public  List<Unit> UnitsAdded {get;private set;}
 		
 		private List<Unit> unitsRemoved;
-		public  List<Unit> UnitsRemoved {get;private set;}
-		
+        public List<Unit> UnitsRemoved { get; private set; }
+
+        public List<Command> Requests { get; set; }
+        public List<Command> Changes { get; set; }
+
 		private List<KeyValuePair<byte, UInt32>> valuesSet;
 		public  List<KeyValuePair<byte, UInt32>> ValuesSet {get;private set;} 
 //		private List<object> notifications;
@@ -55,24 +58,32 @@ namespace LessThanOk.GameData.GameWorld
 			valuesSet = new List<KeyValuePair<byte, UInt32>>(15);
 		}
 		
-		override public void update(TimeSpan gameTime, List<Command> commands)
-		{	
-			foreach(Command cmd in commands)
+		override public void update(GameTime gameTime)
+		{
+            Boolean valid = false;
+
+			foreach(Command cmd in Requests)
 			{
+                valid = Monirator.The.validate(cmd, map);
 				switch (cmd.getCommandType()) {
 					case Command.T_COMMAND.ADD:
-						
-						Command_Add cAdd = (Command_Add)cmd;
-						Unit newUnit = (Unit) fact.createGameObject(cAdd.getBuilt());
-						GameObject builder = fact.getGameObject(cAdd.getBuilder());
-						
-						if(builder.GetType() == typeof(Unit))
-						{
-							newUnit._Position = ((Unit) builder)._Position;
-						}
-						
-						addUnit(newUnit);
-				
+                        if (valid)
+                        {
+                            Command_Add cAdd = (Command_Add)cmd;
+                            Unit newUnit = (Unit)fact.createGameObject(cAdd.getBuilt());
+                            GameObject builder = fact.getGameObject(cAdd.getBuilder());
+
+                            if (builder.GetType() == typeof(Unit))
+                            {
+                                newUnit._Position = ((Unit)builder)._Position;
+                            }
+
+                            addUnit(newUnit);
+                        }
+                        else
+                        {
+                            //construct notify cmd
+                        }
 						break;
 					case Command.T_COMMAND.CANCEL:
 						break;
@@ -85,6 +96,7 @@ namespace LessThanOk.GameData.GameWorld
 					default:
 					break;
 				}
+                // Publish Change List
 			}
 			
 			foreach(Unit unit in units)
