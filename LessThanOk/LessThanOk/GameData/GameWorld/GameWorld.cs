@@ -14,8 +14,8 @@ namespace LessThanOk.GameData.GameWorld
 		
 		protected List<Unit>   units;
 //		protected List<Command>cmdBuffer;
-		protected TimeSpan  gameTime;
-		public TileMap  map;
+		protected TimeSpan     gameTime;
+		protected TileMap      map;
 
         public GameWorld()
         {
@@ -25,24 +25,16 @@ namespace LessThanOk.GameData.GameWorld
         }
 		
 		public void setGameTime(TimeSpan time){}
-		public abstract void update(GameTime elps);
-		
-		public List<Tile> getTiles(Rectangle bounds)
+		public abstract void update(TimeSpan elps, List<Command> commands);
+
+        public TileMap getTileMap()
         {
-            return map.getTilesInRect(bounds);
+            return map;
         }
-        public List<Unit> getUnits(Rectangle bounds)
-        {
-            return map.getUnitsInRect(bounds);
-        }
-		public GameObject getObjectAt(Vector2 point)
-        {
-            return map.getObjectAtPoint(point);
-        }
+
 		public List<Unit> getAllUnits()
         {
             return units;
         }
 	}
 }
-

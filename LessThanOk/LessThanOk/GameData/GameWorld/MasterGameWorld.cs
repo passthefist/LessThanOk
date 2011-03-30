@@ -4,48 +4,34 @@ using LessThanOk.Network.Commands;
 using Microsoft.Xna.Framework;
 using LessThanOk.GameData.GameObjects.Units;
 using LessThanOk.GameData.GameObjects;
+using LessThanOk.BufferedCommunication;
 
 namespace LessThanOk.GameData.GameWorld
 {
 	public class MasterGameWorld : GameWorld
-	{	
-		private List<Unit> unitsAdded;
-		public  List<Unit> UnitsAdded {get;private set;}
-		
-		private List<Unit> unitsRemoved;
-        public List<Unit> UnitsRemoved { get; private set; }
-
-        public List<Command> Requests { get; set; }
-        public List<Command> Changes { get; set; }
-
-		private List<KeyValuePair<byte, UInt32>> valuesSet;
-		public  List<KeyValuePair<byte, UInt32>> ValuesSet {get;private set;} 
+	{	 
 //		private List<object> notifications;
 //		private List<Path> paths;
-
-		private void clearChanges()
-		{
-			unitsAdded.Clear();
-			unitsRemoved.Clear();
-			valuesSet.Clear();
-		}
 		
-		private void addUnit(Unit newUnit)
+		private void addUnit(Unit newUnit, GameObject builder)
 		{
-			unitsAdded.Add(newUnit);
+            AdditionChange add = new AdditionChange(gameTime, newUnit, builder);
+            ChangeList.pushAdd(ref add);
 			units.Add(newUnit);
 		}
 		
 		private void removeUnit(Unit deadUnit)
 		{
-			unitsRemoved.Add(deadUnit);
+            RemovalChange rem = new RemovalChange(gameTime, deadUnit);
+            ChangeList.pushRem(ref rem);
 			units.Remove(deadUnit);
 		}
 		
-		private void setValue(GameObject targetObject, byte key, UInt32 newValue)
+		private void setValue(GameObject targetObject, UInt16 key, UInt32 newValue)
 		{
-			targetObject.setField(key,newValue);
-			valuesSet.Add(new KeyValuePair<byte,UInt32>(key,newValue));
+            SetValueChange set = new SetValueChange(gameTime, targetObject, new KeyValuePair<UInt16, UInt32>(key, newValue));
+            ChangeList.pushSet(ref set);
+            targetObject.setField(key, newValue);
 		}
 //		private void findPath();
 //		private void useAbility();
@@ -53,56 +39,44 @@ namespace LessThanOk.GameData.GameWorld
         public MasterGameWorld()
             : base()
 		{
-			unitsAdded = new List<Unit>(5);
-			unitsRemoved = new List<Unit>(5);
-			valuesSet = new List<KeyValuePair<byte, UInt32>>(15);
 		}
-		
-		override public void update(GameTime gameTime)
-		{
-            Boolean valid = false;
 
-			foreach(Command cmd in Requests)
-			{
-                valid = Monirator.The.validate(cmd, map);
-				switch (cmd.getCommandType()) {
-					case Command.T_COMMAND.ADD:
-                        if (valid)
-                        {
-                            Command_Add cAdd = (Command_Add)cmd;
-                            Unit newUnit = (Unit)fact.createGameObject(cAdd.getBuilt());
-                            GameObject builder = fact.getGameObject(cAdd.getBuilder());
+        override public void update(TimeSpan gameTime, List<Command> commands)
+        {
+            foreach (Command cmd in commands)
+            {
+                switch (cmd.getCommandType())
+                {
+                    case Command.T_COMMAND.ADD:
 
-                            if (builder.GetType() == typeof(Unit))
-                            {
-                                newUnit._Position = ((Unit)builder)._Position;
-                            }
+                        Command_Add cAdd = (Command_Add)cmd;
+                        Unit newUnit = (Unit)fact.createGameObject(cAdd.getBuilt());
+                        ActiveGameObject builder = (ActiveGameObject)fact.getGameObject(cAdd.getBuilder());
 
-                            addUnit(newUnit);
-                        }
-                        else
-                        {
-                            //construct notify cmd
-                        }
-						break;
-					case Command.T_COMMAND.CANCEL:
-						break;
-					case Command.T_COMMAND.REMOVE:
-						break;
-					case Command.T_COMMAND.SET:
-						break;
-					case Command.T_COMMAND.ERROR:
-						break;
-					default:
-					break;
-				}
-                // Publish Change List
-			}
-			
-			foreach(Unit unit in units)
-			{
+                        newUnit._Position = builder._Position;
+                        addUnit(newUnit, builder);
+
+                        break;
+                    case Command.T_COMMAND.CANCEL:
+                        break;
+                    case Command.T_COMMAND.REMOVE:
+                        break;
+                    case Command.T_COMMAND.SET:
+                        break;
+                    case Command.T_COMMAND.ERROR:
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            map.clear();
+
+            foreach (Unit unit in units)
+            {
+                map.placeUnit(unit);
 //				unit.addCommand();
-			}
-		}
+            }
+        }
 	}
 }

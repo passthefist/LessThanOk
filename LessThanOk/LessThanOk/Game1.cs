@@ -18,7 +18,7 @@ using LessThanOk.UI;
 using LessThanOk.Sprites;
 using LessThanOk.GameData.GameObjects;
 using LessThanOk.GameData.GameObjects.Units;
-using LessThanOk.BufferedCommunication;
+
 using LessThanOk.GameData.GameWorld;
 
 namespace LessThanOk
@@ -41,12 +41,10 @@ namespace LessThanOk
         Texture2D lol;
 
         NetworkSessionProperties serverProperties;
-        NetworkSession clientSession;
-        NetworkSession hostSession;
+        NetworkSession networkSession;
         PacketWriter packetWriter;
         PacketReader packetReader;
-        RequestList requestList;
-        ChangeList changeList;
+        Monirator arbiter;
 
         MasterGameWorld gameworld;
         
@@ -75,16 +73,15 @@ namespace LessThanOk
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = SCREEN_WIDTH;
+            graphics.PreferredBackBufferHeight = SCREEN_HEIGHT;
 
             Content.RootDirectory = "Content";
             base.Components.Add(new GamerServicesComponent(this));
 
-            requestList = new RequestList();
-            changeList = new ChangeList();
             serverProperties = new NetworkSessionProperties();
+            arbiter = new Monirator();
             gameworld = new MasterGameWorld();
-            packetReader = new PacketReader();
-            packetWriter = new PacketWriter();
             f_root = new Frame(Vector2.Zero, new Vector2(1000, 600), null);
 
         }
@@ -96,21 +93,26 @@ namespace LessThanOk
         /// </summary>
         protected override void Initialize()
         {
-            graphics.PreferredBackBufferWidth = SCREEN_WIDTH;
-            graphics.PreferredBackBufferHeight = SCREEN_HEIGHT;
-            
+            base.Initialize();
             this.IsMouseVisible = true;
 
             SESSION = T_SESSION.NONE;
             STATE = T_STATE.HOME;
-
             DEBUG = true;
             if (DEBUG)
-                DEBUGINIT();
+            {
+                lol = Content.Load<Texture2D>("Bitmap1");
+                font = Content.Load<SpriteFont>("Kootenay");
 
+                SpriteBin.The._font = font;
+
+                uiManager = new UIManager(f_root, font);
+                
+                
+
+            }
             f_root.visible = true;
 
-            base.Initialize();
         }
 
         /// <summary>
@@ -121,6 +123,7 @@ namespace LessThanOk
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            font = Content.Load<SpriteFont>("Kootenay");
         }
 
         /// <summary>
@@ -145,57 +148,37 @@ namespace LessThanOk
                 // Show the Guide so the user can sign in.
                 Guide.ShowSignIn(1, false);
             }
-
-            if (hostSession != null)
-            {
-                UpdateServer(gameTime);
-            }
-            if (clientSession != null)
-            {
-                UpdateClient(gameTime);
-            }
-            else
-            {
-                // show home menu / post game menu
-            }
+            //______________________________________________________________________
+                //Sever Logic
+                    //Network. 
+                        //Read packets.
+                        //Fill Request List
+                    //Monirator
+                        //Read Request List
+                        //Check valididty
+                        //Fill Grant List
+                    //Game World
+                        //Read Grant List
+                        //Update World
+                        //Fill Change List
+                    //Monirator
+                        //Read Change list
+                        //Construct Commands
+                        //Fill Command List
+                    //Network
+                        //Construct Packets
+                        //Send Packets
+            //_____________________________________________________________________
             if (!Guide.IsVisible)
             {
                 uiManager.update(gameTime);
             }
-    
+                //Client Logic
+            //--------------------------------------------------------------------
             if (DEBUG)
                 DEBUGUPDATE(gameTime);
            
             base.Update(gameTime);
-        }
-
-        private void UpdateClient(GameTime gameTime)
-        {
-            //Network
-                //Read packets
-            //Monirator 
-                //Contruct packets
-            //Gameworld
-                //Update
-            //UIManager
-                //Update
-        }
-
-        private void UpdateServer(GameTime gameTime)
-        {
-            //______________________________________________________________________
-            //Network. 
-                //Read packets.
-                //Fill Request List
-            //Game World
-            gameworld.Requests = requestList.getRequests();
-            gameworld.update(gameTime);
-            changeList.addChanges(gameworld.Changes);
-            //Network
-                //Read Change List
-                //Construct Packets
-                //Send Packets
-            //_____________________________________________________________________
         }
 
         /// <summary>
@@ -212,17 +195,17 @@ namespace LessThanOk
 
             base.Draw(gameTime);
         }
+
         private void DEBUGUPDATE(GameTime gameTime)
         {
 
         }
 
-        private void CreateSession(out NetworkSession session)
+        private void CreateSession()
         {
-            session = null;
             try
             {
-                session = NetworkSession.Create(NetworkSessionType.SystemLink, 1, MAX_GAMERS);
+                networkSession = NetworkSession.Create(NetworkSessionType.SystemLink, 1, MAX_GAMERS);
                 HookSessionEvents();
             }
             catch (Exception e)
@@ -233,9 +216,9 @@ namespace LessThanOk
        
         private void HookSessionEvents()
         {
-            clientSession.GamerJoined += GamerJoinedEventHandler;
-            clientSession.SessionEnded += SessionEndedEventHandler;
-            clientSession.GameStarted += GameStartedHandler;
+            networkSession.GamerJoined += GamerJoinedEventHandler;
+            networkSession.SessionEnded += SessionEndedEventHandler;
+            networkSession.GameStarted += GameStartedHandler;
         }
 
         void GameStartedHandler(object sender, GameStartedEventArgs e)
@@ -261,42 +244,43 @@ namespace LessThanOk
         /// </summary>
         void SessionEndedEventHandler(object sender, NetworkSessionEndedEventArgs e)
         {
-            //Not all games are running a host session.  
-            //Only the server is running a host session.
-            if (hostSession != null)
-            {
-                hostSession.Dispose();
-                hostSession = null;
-            }
-            clientSession.Dispose();
-            clientSession = null;
-
+            networkSession.Dispose();
+            networkSession = null;
         }
-        private void DEBUGINIT()
+
+        private void initTestGame()
         {
-            lol = Content.Load<Texture2D>("Bitmap1");
-            font = Content.Load<SpriteFont>("Kootenay");
+            Texture2D t1 = Content.Load<Texture2D>("Bitmap1");
+            Texture2D t2 = Content.Load<Texture2D>("Bitmap2");
+            Texture2D t3 = Content.Load<Texture2D>("Bitmap3");
 
-            uiManager = new UIManager(f_root, font);
-            SpriteBin.The._font = font;
-            Sprite_2D sprite = SpriteBin.The.AddSprite_2D(lol, Color.White, "sprite");
+            Sprite_2D sprite1 = SpriteBin.The.AddSprite_2D(t1, Color.White);
+            Sprite_2D sprite2 = SpriteBin.The.AddSprite_2D(t2, Color.White);
+            Sprite_2D sprite3 = SpriteBin.The.AddSprite_2D(t3, Color.White);
 
-            EngineType engine = new EngineType(0, 0, 0);
-            ArmorType armor = new ArmorType(0, 0);
-            ProjectileType projectile = new ProjectileType(false, 0, 0, 0);
-            WarheadType warhead = new WarheadType(0, 0, WarheadType.Types.BIO);
-            WeaponType weapon = new WeaponType(warhead, projectile);
-            List<WeaponType> wepList = new List<WeaponType>();
-            wepList.Add(weapon);
-            UnitType unit = new UnitType(wepList, armor, engine, sprite);
             GameObjectFactory factory = GameObjectFactory.The;
-            factory.addType("lol1", engine);
-            factory.addType("lol2", armor);
-            factory.addType("lol3", projectile);
+            EngineType engine = new EngineType(3.0f, 0.2f, 0.5f);
+            factory.addType("BasicEngine", engine);
+
+            ArmorType armor = new ArmorType(0, 0);
+            factory.addType("BasicArmor", armor);
+
+            ProjectileType projectile = new ProjectileType(false, 0, 0, 0);
+            factory.addType("BasicProjectile", projectile);
+
+            WarheadType warhead = new WarheadType(0, 0, WarheadType.Types.NONE);
+            factory.addType("BasicWarhead", warhead);
+
+            WeaponType weapon = new WeaponType(warhead, projectile);
+            factory.addType("BasicWea", weapon);
+
+            UnitType unit1 = new UnitType(weapon, armor, engine, sprite1);
+            UnitType unit2 = new UnitType(weapon, armor, engine, sprite2);
+            UnitType unit3 = new UnitType(weapon, armor, engine, sprite3);
+            
             factory.addType("lol4", warhead);
             factory.addType("lol5", weapon);
-            factory.addType("lolTest", unit);
+            factory.addType("lolTest", unit1);
         }
-
     }
 }

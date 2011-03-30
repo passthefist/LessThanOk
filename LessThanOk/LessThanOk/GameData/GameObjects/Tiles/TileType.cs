@@ -1,4 +1,4 @@
-/*---------------------------------------------------------------------------*\
+﻿/*---------------------------------------------------------------------------*\
  *                         LessThanOK Engine                                 *
  *                                                                           *
  *          Copyright (C) 2011-2012 by Robert Goetz, Anthony Lobono          *
@@ -23,9 +23,9 @@
 /*---------------------------------------------------------------------------*\
  *                            Class Overview                                 *
  *                                                                           *
- * The type of a Unit.                                                       *
+ * The type of Tile.                                                         *
  *                                                                           *
- * See GameObject, GameObjectType, GameObjectFactory                         *
+ * See GameObject, GameObjectType, GameObjectFactory, Tile, TileMap          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
@@ -36,27 +36,24 @@ using Microsoft.Xna.Framework;
 using LessThanOk.Sprites;
 using LessThanOk.GameData.GameObjects;
 
-namespace LessThanOk.GameData.GameObjects.Units
+namespace LessThanOk.GameData.GameObjects.Tiles
 {
     /// <summary>
-    /// The type of unit.
+    /// The type of tile.
     /// </summary>
-    public class UnitType : GameObjectType
+    public class TileType : GameObjectType
     {
-        private List<WeaponType> weapons;
-        private ArmorType armor;
-        private EngineType engine;
-        private Sprite image;
-        private int maxHp;
 
-        static UnitType()
+        private Sprite image;
+
+        static TileType()
         {
             initFieldMaps();
         }
 
         private static void initFieldMaps()
         {
-            PropertyInfo[] properties = typeof(UnitType).GetProperties();
+            PropertyInfo[] properties = typeof(TileType).GetProperties();
 
             ushort id = 0;
             foreach (PropertyInfo property in properties)
@@ -67,69 +64,34 @@ namespace LessThanOk.GameData.GameObjects.Units
             }
         }
 
-        public UnitType(string wep, string a, string e, Sprite s)
-        {
-            List<WeaponType> weps = new List<WeaponType>(1);
-            weps.Add((WeaponType)GameObjectFactory.The.getType(wep));
-            init(weps, (ArmorType) GameObjectFactory.The.getType(a), (EngineType) GameObjectFactory.The.getType(e), s);
-        }
-
-        public UnitType(WeaponType wep, ArmorType a, EngineType e, Sprite s)
-        {
-            List<WeaponType> weps = new List<WeaponType>(1);
-            weps.Add(wep);
-            init(weps, a, e, s);
-        }
-
         /// <summary>
-        /// Create a new unit type
+        /// Create a tile type.
         /// </summary>
-        /// <param name="weps">
-        /// The weapons <see cref="List<WeaponType>"/>
+        /// <param name="maxspeed">
+        /// Maximum Speed <see cref="System.Single"/>
         /// </param>
-        /// <param name="a">
-        /// The armor <see cref="ArmorType"/>
+        /// <param name="acceleration">
+        /// acceleration rate <see cref="System.Single"/>
         /// </param>
-        /// <param name="e">
-        /// the engine <see cref="EngineType"/>
+        /// <param name="deceleration">
+        /// breaking rate <see cref="System.Single"/>
         /// </param>
-        public UnitType(List<WeaponType> weps, ArmorType a, EngineType e, Sprite s)
+        public TileType(Sprite tileImage)
         {
-            init(weps,a,e,s);
-        }
+            image = tileImage;
 
-        private void init(List<WeaponType> weps, ArmorType a, EngineType e, Sprite s)
-        {
-            weapons = weps;
-            armor = a;
-            engine = e;
-            image = s;
-
-            //TODO: I really hate this. Find a way to not allocate directly?
-            //		even though create() allocates?
-
-            List<Weapon> w = new List<Weapon>(1);
-
-            foreach (WeaponType t in weapons)
-            {
-                w.Add((Weapon)t.create());
-            }
-
-            Armor arm = (Armor)armor.create();
-            Engine eng = (Engine)engine.create();
-
-            protoType = new Unit(this, w, arm, eng, image);
+            protoType = new Tile(this);
         }
 
         /// <summary>
-        /// create a new unit.
+        /// Create an engine of this type.
         /// </summary>
         /// <returns>
         /// A <see cref="GameObject"/>
         /// </returns>
         override public GameObject create()
         {
-            return new Unit((Unit)protoType);
+            return new Tile((Tile)protoType);
         }
     }
 }

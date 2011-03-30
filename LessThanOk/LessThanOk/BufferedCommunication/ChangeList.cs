@@ -1,10 +1,10 @@
-﻿
-/*---------------------------------------------------------------------------*\
+﻿/*---------------------------------------------------------------------------*\
 *                         LessThanOK Engine                                 *
 *                                                                           *
 *          Copyright (C) 2011-2012 by Robert Goetz, Anthony Lobono          *
 *                                                                           *
-*   authors:  Anthony LoBono (ajlobono@gmail.com)                           *
+*   authors:  Anthony LoBono (ajlobono@gmail.com),                          *
+*             Robert Goetz   (rdgoetz@iastate.edu)                          *
 *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -31,23 +31,67 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LessThanOk.GameData.GameWorld;
-using LessThanOk.Network.Commands;
 
 namespace LessThanOk.BufferedCommunication
 {
-    public class ChangeList
+    public sealed class ChangeList
     {
-        private List<Command> Changes;
+        private static Queue<AdditionChange> addsList;
+        private static Queue<RemovalChange> remsList;
+        private static Queue<SetValueChange> setsList;
 
-        public void addChanges(List<Command> changes)
+        public static bool pushAdd(ref AdditionChange change)
         {
-            Changes = changes;
+            addsList.Enqueue(change);
+            change = null;
+            return true;
         }
 
-        public List<Command> getChanges()
+        public static bool pushRem(ref RemovalChange change)
         {
-            //Adventually will be a distructive read.
-            return Changes;
+            remsList.Enqueue(change);
+            change = null;
+            return true;
+        }
+
+        public static bool pushSet(ref SetValueChange change)
+        {
+            setsList.Enqueue(change);
+            change = null;
+            return true;
+        }
+
+        public static bool pullAdd(out AdditionChange change) {
+            if (addsList.Count == 0)
+            {
+                change = null;
+                return false;
+            }
+
+            change = addsList.Dequeue();
+            return true;
+        }
+
+        public static bool pullRem(out RemovalChange change) {
+            if (remsList.Count == 0)
+            {
+                change = null;
+                return false;
+            }
+
+            change = remsList.Dequeue();
+            return true;
+        }
+
+        public static bool pullSet(out SetValueChange change) {
+            if (setsList.Count == 0)
+            {
+                change = null;
+                return false;
+            }
+
+            change = setsList.Dequeue();
+            return true;
         }
     }
 }

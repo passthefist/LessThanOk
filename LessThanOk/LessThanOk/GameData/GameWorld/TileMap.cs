@@ -102,7 +102,7 @@ namespace LessThanOk.GameData.GameWorld
             return units;
         }
 
-        public void rebuild()
+        public void clear()
         {
             foreach (Tile t in tileMap)
             {

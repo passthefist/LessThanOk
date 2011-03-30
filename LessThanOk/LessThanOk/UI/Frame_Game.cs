@@ -68,7 +68,8 @@ namespace LessThanOk.UI
         }
         public void draw(SpriteBatch spriteBatch)
         {
-            List<Tile> tiles = gw.getTiles(new Rectangle(0,0,800,600));
+            TileMap tileMap = gw.getTileMap();
+            List<Tile> tiles = tileMap.getTilesInRect(new Rectangle(0, 0, 800, 600));
             foreach(Tile t in tiles)
             {
                 foreach(Unit u in t.InternalUnits)

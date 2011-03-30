@@ -4,6 +4,7 @@ using LessThanOk.Network.Commands;
 using Microsoft.Xna.Framework;
 using LessThanOk.GameData.GameObjects.Units;
 using LessThanOk.GameData.GameObjects;
+using LessThanOk.GameData.GameWorld;
 
 namespace LessThanOk.GameData.GameWorld
 {
@@ -48,9 +49,12 @@ namespace LessThanOk.GameData.GameWorld
                 }
             }
 
+            map.clear();
+
             foreach (Unit unit in units)
             {
-                //				unit.addCommand();
+                map.placeUnit(unit);
+//				unit.addCommand();
             }
         }
     }

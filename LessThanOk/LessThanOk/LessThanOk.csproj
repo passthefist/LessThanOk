@@ -89,9 +89,11 @@
     <Compile Include="BufferedCommunication\ChangeList.cs" />
     <Compile Include="BufferedCommunication\RequestList.cs" />
     <Compile Include="Event Hooking\Event.cs" />
+    <Compile Include="Debug\Logging.cs" />
     <Compile Include="GameData\GameObjects\ActiveGameObject.cs" />
     <Compile Include="GameData\AgnosticObject.cs" />
     <Compile Include="GameData\GameObjects\Tiles\Tile.cs" />
+    <Compile Include="GameData\GameObjects\Tiles\TileType.cs" />
     <Compile Include="GameData\GameObjects\Units\Armor.cs" />
     <Compile Include="GameData\GameObjects\Units\ArmorType.cs" />
     <Compile Include="GameData\GameObjects\Units\Engine.cs" />

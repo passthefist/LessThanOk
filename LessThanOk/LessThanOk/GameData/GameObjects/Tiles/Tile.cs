@@ -27,6 +27,14 @@ namespace LessThanOk.GameData.GameObjects.Tiles
             private set { hasUnits = value; }
         }
 
+        private TileType type;
+
+        public TileType Type
+        {
+            get { return type; }
+            private set { type = value; }
+        }
+
         static Tile()
         {
             initFieldMaps();
@@ -45,8 +53,25 @@ namespace LessThanOk.GameData.GameObjects.Tiles
             }
         }
 
-        override public void update(GameTime gameTime)        {            //update sprite animations        }
+        public Tile(TileType type)
+        {
+        }
 
-        public void clear() { internalUnits.Clear(); }        public void addUnit(Unit u)        {            internalUnits.Add(u);        }
+        internal Tile(Tile src)
+        {
+        }
+
+        override public void update(GameTime gameTime)
+        {
+            //update sprite animations
+        }
+
+        public void clear() { internalUnits.Clear(); }
+
+        public void addUnit(Unit u)
+        {
+            internalUnits.Add(u);
+        }
+
     }
 }

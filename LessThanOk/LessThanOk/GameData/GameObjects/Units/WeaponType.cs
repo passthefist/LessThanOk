@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.Xna.Framework;
+using LessThanOk.GameData.GameObjects;
 
-using LessThanOk.GameData.GameObjects;namespace LessThanOk.GameData.GameObjects.Units
+namespace LessThanOk.GameData.GameObjects.Units
 {
     public class WeaponType : GameObjectType
     {
@@ -42,6 +43,19 @@ using LessThanOk.GameData.GameObjects;namespace LessThanOk.GameData.GameObjects.
         }
 
         public WeaponType(WarheadType warhead, ProjectileType projectile)
+        {
+            init(warhead, projectile);
+        }
+
+        public WeaponType(string warhead, string projectile)
+        {
+            WarheadType wt = (WarheadType) GameObjectFactory.The.getType(warhead);
+            ProjectileType pt = (ProjectileType) GameObjectFactory.The.getType(projectile);
+
+            init(wt, pt);
+        }
+
+        private void init(WarheadType warhead, ProjectileType projectile)
         {
             Warhead war = (Warhead)warhead.create();
             Projectile proj = (Projectile)projectile.create();

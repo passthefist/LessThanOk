@@ -17,7 +17,7 @@ using LessThanOk.GameData.GameObjects;namespace LessThanOk.GameData.GameObjects.
         public enum Types
         {
             NONE,
-            BALListIC,
+            BALlISTIC,
             PLASMA,
             ENERGY,
             LASER,
@@ -39,7 +39,8 @@ using LessThanOk.GameData.GameObjects;namespace LessThanOk.GameData.GameObjects.
             CYBER,
             QUANTUM,
             SONIC,
-            PSYCHIC
+            PSYCHIC,
+            FECAL
         };
 
         private byte damage;
