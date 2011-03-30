@@ -16,7 +16,7 @@ namespace LessThanOk.GameData.GameWorld
         {
         }
 
-        override public void update(GameTime gameTime)
+        override public void update(TimeSpan elps, List<Command> commands)
         {
             foreach (Command cmd in Commands)
             {

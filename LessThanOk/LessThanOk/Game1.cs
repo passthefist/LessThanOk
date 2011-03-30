@@ -254,9 +254,9 @@ namespace LessThanOk
             Texture2D t2 = Content.Load<Texture2D>("Bitmap2");
             Texture2D t3 = Content.Load<Texture2D>("Bitmap3");
 
-            Sprite_2D sprite1 = SpriteBin.The.AddSprite_2D(t1, Color.White);
-            Sprite_2D sprite2 = SpriteBin.The.AddSprite_2D(t2, Color.White);
-            Sprite_2D sprite3 = SpriteBin.The.AddSprite_2D(t3, Color.White);
+            Sprite_2D sprite1 = SpriteBin.The.AddSprite_2D(t1, Color.White,"sprite 1");
+            Sprite_2D sprite2 = SpriteBin.The.AddSprite_2D(t2, Color.White,"sprite_2");
+            Sprite_2D sprite3 = SpriteBin.The.AddSprite_2D(t3, Color.White,"sprite_3");
 
             GameObjectFactory factory = GameObjectFactory.The;
             EngineType engine = new EngineType(3.0f, 0.2f, 0.5f);
