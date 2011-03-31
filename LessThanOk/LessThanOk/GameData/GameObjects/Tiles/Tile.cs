@@ -81,11 +81,16 @@ namespace LessThanOk.GameData.GameObjects.Tiles
             //update sprite animations
         }
 
-        public void clear() { internalUnits.Clear(); }
+        public void clear() 
+        {
+            hasUnits = false;
+            internalUnits.Clear(); 
+        }
 
         public void addUnit(Unit u)
         {
             internalUnits.Add(u);
+            hasUnits = true;
         }
 
     }

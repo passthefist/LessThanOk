@@ -49,7 +49,6 @@ namespace LessThanOk.GameData.GameWorld
                 switch (cmd.getCommandType())
                 {
                     case Command.T_COMMAND.ADD:
-
                         Command_Add cAdd = (Command_Add)cmd;
                         Unit newUnit = (Unit)fact.createGameObject(cAdd.getType());
                         ActiveGameObject builder = (ActiveGameObject)fact.getGameObject(cAdd.getBuilder());

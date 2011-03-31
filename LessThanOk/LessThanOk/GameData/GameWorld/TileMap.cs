@@ -128,7 +128,7 @@ namespace LessThanOk.GameData.GameWorld
             uint x = (uint)u._Position.X;
             uint y = (uint)u._Position.Y;
 
-            tileMap[x / width, y / height].addUnit(u);
+            tileMap[x / tileSize, y / tileSize].addUnit(u);
         }
     }
 }

@@ -76,6 +76,7 @@ namespace LessThanOk.UI
         {
             TileMap tileMap = gw.getTileMap();
             List<Tile> tiles = tileMap.getTilesInRect(new Rectangle(0, 0, 800, 500));
+            int count = 0;
             foreach (Tile t in tiles)
             {
                 drawBox.Width = (int)t.Sprite.Size().X;
@@ -91,6 +92,7 @@ namespace LessThanOk.UI
 
                 foreach(Unit u in t.InternalUnits)
                 {
+                    count++;
                     u._Position += new Vector2(0.002f, 0.002f);
                     drawBox.Width = (int)u.Type.getImage().Size().X;
                     drawBox.Height = (int)u.Type.getImage().Size().Y;
