@@ -52,13 +52,28 @@ namespace LessThanOk.GameData.GameObjects.Tiles
                 id++;
             }
         }
+        private Tile()
+        {
+            
+        }
 
         public Tile(TileType type)
         {
+            initTile(new List<Unit>(), false, type);
         }
 
         internal Tile(Tile src)
         {
+            initTile(src.internalUnits, src.hasUnits, src.type);
+        }
+
+        private void initTile(List<Unit> unit, bool has, TileType tType)
+        {
+            this.hasUnits = has;
+            this.internalUnits = unit;
+            this.type = tType;
+            this.image = tType.getImage();
+
         }
 
         override public void update(GameTime gameTime)

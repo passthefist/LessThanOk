@@ -43,6 +43,7 @@ namespace LessThanOk.GameData.GameWorld
 
         override public void update(TimeSpan gameTime, List<Command> commands)
         {
+            GameObjectFactory fact = GameObjectFactory.The;
             foreach (Command cmd in commands)
             {
                 switch (cmd.getCommandType())
@@ -50,7 +51,7 @@ namespace LessThanOk.GameData.GameWorld
                     case Command.T_COMMAND.ADD:
 
                         Command_Add cAdd = (Command_Add)cmd;
-                        Unit newUnit = (Unit)fact.createGameObject(cAdd.getBuilt());
+                        Unit newUnit = (Unit)fact.createGameObject(cAdd.getType());
                         ActiveGameObject builder = (ActiveGameObject)fact.getGameObject(cAdd.getBuilder());
 
                         newUnit._Position = builder._Position;

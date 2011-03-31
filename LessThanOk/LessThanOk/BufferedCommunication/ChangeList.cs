@@ -36,9 +36,9 @@ namespace LessThanOk.BufferedCommunication
 {
     public sealed class ChangeList
     {
-        private static Queue<AdditionChange> addsList;
-        private static Queue<RemovalChange> remsList;
-        private static Queue<SetValueChange> setsList;
+        private static Queue<AdditionChange> addsList = new Queue<AdditionChange>();
+        private static Queue<RemovalChange> remsList = new Queue<RemovalChange>();
+        private static Queue<SetValueChange> setsList = new Queue<SetValueChange>();
 
         public static bool pushAdd(ref AdditionChange change)
         {

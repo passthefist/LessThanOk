@@ -93,5 +93,6 @@ namespace LessThanOk.GameData.GameObjects.Tiles
         {
             return new Tile((Tile)protoType);
         }
+        public Sprite getImage() { return image; }
     }
 }

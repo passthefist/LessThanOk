@@ -36,6 +36,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using LessThanOk;
 using LessThanOk.Sprites;
+using LessThanOk.GameData.GameWorld;
+using LessThanOk.Network.Commands;
+using LessThanOk.GameData.GameObjects;
 
 namespace LessThanOk.UI
 {
@@ -53,6 +56,7 @@ namespace LessThanOk.UI
         private Frame f_lobby;
         private Frame f_game;
         private Frame f_postGame;
+        private Frame_Game fg_game;
         private KeyboardState curKeyState;
         private MouseState curMouseState;
         private ButtonState leftClick;
@@ -65,7 +69,7 @@ namespace LessThanOk.UI
         /// </summary>
         /// <param name="n_root">Root frame that contains all other frames.</param>
         /// <param name="font">Font used for the UI.  Should be a List.</param>
-        public UIManager(Frame n_root, SpriteFont font)
+        public UIManager(Frame n_root, SpriteFont font, GameWorld gameWorld)
         {
             f_root = n_root;
 
@@ -81,7 +85,7 @@ namespace LessThanOk.UI
             f_home = new Frame(Vector2.Zero, new Vector2(800, 600), null);
             Button b_createGame = new Button(SpriteBin.The.AddTextSprite("Create Game","Create Game"), true,
                 loadLobbyMenu, "Create Game");
-            Button b_joinGame = new Button(SpriteBin.The.AddTextSprite("Join Game", "Create Game"), true,
+            Button b_joinGame = new Button(SpriteBin.The.AddTextSprite("Join Game", "Join Game"), true,
                 loadLobbyMenu, "Join Game");
             f_home.addElement(Vector2.Zero, b_createGame);
             f_home.addElement(b_createGame.Size, b_joinGame);
@@ -90,8 +94,19 @@ namespace LessThanOk.UI
             f_game = new Frame(Vector2.Zero, new Vector2(800, 600), null);
             Button b_end = new Button(SpriteBin.The.AddTextSprite("End Game", "End Game"), true,
                 loadPostGameMenu, "end");
-            f_game.addElement(Vector2.Zero, b_end);
+            f_game.addElement(new Vector2(0, 510), b_end);
             f_game.visible = true;
+
+            Button b_add = new Button(SpriteBin.The.AddTextSprite("Add", "Add"), 
+                true, addUnit, "add");
+            f_game.addElement(new Vector2(400, 510), b_add);
+
+
+            fg_game = new Frame_Game(Vector2.Zero, new Vector2(800, 500), null, gameWorld );
+            fg_game.visible = true;
+            f_game.addFrame(fg_game, Vector2.Zero);
+
+    
 
             f_postGame = new Frame(Vector2.Zero, new Vector2(800, 600), null);
             Button b_home = new Button(SpriteBin.The.AddTextSprite("Go Home", "Go Home"), true,
@@ -141,6 +156,14 @@ namespace LessThanOk.UI
         {
             f_root.clear();
             f_root.addFrame(f_home, Vector2.Zero);
+        }
+        private void addUnit(Element sender)
+        {
+            GameWorld temp = fg_game.getGameWorld();
+            List<Command> cmdList = new List<Command>();
+            cmdList.Add(new Command_Add(10, 0, 
+                GameObjectFactory.The.getType("lolTest").ID, new TimeSpan()));
+            temp.update(new TimeSpan(), cmdList);
         }
         /// <summary>
         /// Main update call for all of the user interface. This loop also handels

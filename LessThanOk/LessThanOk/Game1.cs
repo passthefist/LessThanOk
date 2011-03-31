@@ -20,6 +20,7 @@ using LessThanOk.GameData.GameObjects;
 using LessThanOk.GameData.GameObjects.Units;
 
 using LessThanOk.GameData.GameWorld;
+using LessThanOk.GameData.GameObjects.Tiles;
 
 namespace LessThanOk
 {
@@ -81,7 +82,7 @@ namespace LessThanOk
 
             serverProperties = new NetworkSessionProperties();
             arbiter = new Monirator();
-            gameworld = new MasterGameWorld();
+           
             f_root = new Frame(Vector2.Zero, new Vector2(1000, 600), null);
 
         }
@@ -105,8 +106,8 @@ namespace LessThanOk
                 font = Content.Load<SpriteFont>("Kootenay");
 
                 SpriteBin.The._font = font;
-
-                uiManager = new UIManager(f_root, font);
+                initTestGame();
+                uiManager = new UIManager(f_root, font, gameworld);
                 
                 
 
@@ -251,12 +252,12 @@ namespace LessThanOk
         private void initTestGame()
         {
             Texture2D t1 = Content.Load<Texture2D>("Bitmap1");
-            Texture2D t2 = Content.Load<Texture2D>("Bitmap2");
-            Texture2D t3 = Content.Load<Texture2D>("Bitmap3");
+            Texture2D t2 = Content.Load<Texture2D>("Tile");
+            Texture2D t3 = Content.Load<Texture2D>("tile2");
 
             Sprite_2D sprite1 = SpriteBin.The.AddSprite_2D(t1, Color.White,"sprite 1");
-            Sprite_2D sprite2 = SpriteBin.The.AddSprite_2D(t2, Color.White,"sprite_2");
-            Sprite_2D sprite3 = SpriteBin.The.AddSprite_2D(t3, Color.White,"sprite_3");
+            Sprite_2D sprite2 = SpriteBin.The.AddSprite_2D(t2, Color.White,"tile");
+            Sprite_2D sprite3 = SpriteBin.The.AddSprite_2D(t3, Color.White,"tile2");
 
             GameObjectFactory factory = GameObjectFactory.The;
             EngineType engine = new EngineType(3.0f, 0.2f, 0.5f);
@@ -275,12 +276,19 @@ namespace LessThanOk
             factory.addType("BasicWea", weapon);
 
             UnitType unit1 = new UnitType(weapon, armor, engine, sprite1);
-            UnitType unit2 = new UnitType(weapon, armor, engine, sprite2);
-            UnitType unit3 = new UnitType(weapon, armor, engine, sprite3);
+            //UnitType unit2 = new UnitType(weapon, armor, engine, sprite2);
+            //UnitType unit3 = new UnitType(weapon, armor, engine, sprite3);
             
             factory.addType("lol4", warhead);
             factory.addType("lol5", weapon);
             factory.addType("lolTest", unit1);
+
+            TileType tileType = new TileType(sprite2);
+            factory.addType("grASSTile", tileType);
+            TileType tileType2 = new TileType(sprite3);
+            factory.addType("grASSTile2", tileType2);
+
+            gameworld = new MasterGameWorld();
         }
     }
 }

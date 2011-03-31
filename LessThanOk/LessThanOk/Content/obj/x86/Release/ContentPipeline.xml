@@ -7,7 +7,7 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\bin\x86\Debug\Content\Kootenay.xnb</Output>
+      <Output>C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\bin\x86\Release\Content\Kootenay.xnb</Output>
       <Time>2011-03-06T04:45:37.6590146-06:00</Time>
     </Item>
     <Item>
@@ -16,7 +16,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\bin\x86\Debug\Content\Bitmap1.xnb</Output>
+      <Output>C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\bin\x86\Release\Content\Bitmap1.xnb</Output>
       <Time>2011-03-30T19:26:55.2397645-05:00</Time>
     </Item>
     <Item>
@@ -25,7 +25,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\bin\x86\Debug\Content\Tile.xnb</Output>
+      <Output>C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\bin\x86\Release\Content\Tile.xnb</Output>
       <Time>2011-03-30T18:54:55.8399811-05:00</Time>
     </Item>
     <Item>
@@ -34,18 +34,18 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\bin\x86\Debug\Content\tile2.xnb</Output>
+      <Output>C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\bin\x86\Release\Content\tile2.xnb</Output>
       <Time>2011-03-30T19:51:10.6600098-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
-      <BuildConfiguration>Debug</BuildConfiguration>
-      <CompressContent>false</CompressContent>
+      <BuildConfiguration>Release</BuildConfiguration>
+      <CompressContent>true</CompressContent>
       <RootDirectory>C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\Content\</RootDirectory>
       <LoggerRootDirectory>C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\Content\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\bin\x86\Debug\Content\</OutputDirectory>
+      <IntermediateDirectory>C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\Content\obj\x86\Release\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\bin\x86\Release\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>

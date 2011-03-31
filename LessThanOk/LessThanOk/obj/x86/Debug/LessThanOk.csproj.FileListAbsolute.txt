@@ -14,3 +14,5 @@ C:\Users\rdgoetz\Documents\LessThanOk\LessThanOk\LessThanOk\bin\x86\Debug\LessTh
 C:\Users\rdgoetz\Documents\LessThanOk\LessThanOk\LessThanOk\obj\x86\Debug\LessThanOk.pdb
 C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\bin\x86\Debug\Content\Bitmap1.xnb
 C:\Users\rdgoetz\Documents\LessThanOk\LessThanOk\LessThanOk\bin\x86\Debug\Content\Bitmap1.xnb
+C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\bin\x86\Debug\Content\Tile.xnb
+C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\bin\x86\Debug\Content\tile2.xnb

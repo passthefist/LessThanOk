@@ -53,7 +53,10 @@ namespace LessThanOk.GameData.GameObjects.Units
         {
             initFieldMaps();
         }
-
+        public Sprite getImage()
+        {
+            return image;
+        }
         private static void initFieldMaps()
         {
             PropertyInfo[] properties = typeof(UnitType).GetProperties();

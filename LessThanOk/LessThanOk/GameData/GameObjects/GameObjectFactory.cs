@@ -149,7 +149,7 @@ namespace LessThanOk.GameData.GameObjects
         public GameObject createGameObject(UInt16 id)
         {
             GameObject retVal = idToTypeMap[id].create();
-            createdObjects[id] = retVal;
+            createdObjects[nextID] = retVal;
             retVal.ID = nextID;
             findNextID();
             return retVal;

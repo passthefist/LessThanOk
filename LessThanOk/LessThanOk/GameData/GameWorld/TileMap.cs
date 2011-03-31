@@ -27,6 +27,17 @@ namespace LessThanOk.GameData.GameWorld
             width = 800 / 20;
             height = 600 / 20;
             tileSize = 20;
+
+            tileMap = new Tile[width, height];
+
+            for (int i = 0; i < height*width; i++)
+            {
+                if((i%width)%2 == 0)
+                    tileMap[i % width, i / width] = (Tile)GameObjectFactory.The.createGameObject("grASSTile2");
+                else
+                    tileMap[i % width, i / width] = (Tile)GameObjectFactory.The.createGameObject("grASSTile");
+                tileMap[i % width, i / width]._Position = new Vector2(tileSize*(i%width), tileSize*(i/width));
+            }
         }
 
         public GameObject getObjectAtPoint(Vector2 point)
@@ -36,7 +47,7 @@ namespace LessThanOk.GameData.GameWorld
             y = (uint)point.Y;
             x = (uint)point.X;
             y = y / height;
-            x = x % width;
+            x = x / width;
 
             Tile tile = tileMap[x, y];
             if (tile.HasUnits)
@@ -64,8 +75,10 @@ namespace LessThanOk.GameData.GameWorld
 
             for(int i = 0; i < height * width; i++)
             {
-                tileMap[i%width,i/height]._Position = new Vector2(i%width,i/height);
+                tileMap[i % width, i / width] = (Tile)GameObjectFactory.The.createGameObject("grASSTile");
+                tileMap[i%width, i/width]._Position = new Vector2(tileSize*(i%width),tileSize*(i/width));
             }
+
         }
 
         public List<Tile> getTilesInRect(Rectangle rect)
@@ -76,7 +89,7 @@ namespace LessThanOk.GameData.GameWorld
             {
                 for(int j = rect.Top; j < rect.Bottom; j+= tileSize)
                 {
-                    tiles.Add(tileMap[i % width,j / height]);
+                    tiles.Add(tileMap[i/tileSize ,j/tileSize]);
                 }
             }
 
@@ -115,7 +128,7 @@ namespace LessThanOk.GameData.GameWorld
             uint x = (uint)u._Position.X;
             uint y = (uint)u._Position.Y;
 
-            tileMap[x % width, y / height].addUnit(u);
+            tileMap[x / width, y / height].addUnit(u);
         }
     }
 }

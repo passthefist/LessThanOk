@@ -84,7 +84,7 @@ namespace LessThanOk.UI
         /// Itterates through all visible frames and draws each element in the frame.
         /// </summary>
         /// <param name="spriteBatch">SpriteBatch used for drawing.</param>
-        public void draw(SpriteBatch spriteBatch)
+        public virtual void draw(SpriteBatch spriteBatch)
         {
             foreach(Frame f in frames)
             {
@@ -104,7 +104,7 @@ namespace LessThanOk.UI
         /// Frame.
         /// </summary>
         /// <param name="gameTime">Current GameTime.</param>
-        public void update(GameTime gameTime)
+        public virtual void update(GameTime gameTime)
         {
             foreach (Frame f in frames)
             {
@@ -164,7 +164,7 @@ namespace LessThanOk.UI
         /// </summary>
         /// <param name="mouseState">Current mouse state</param>
         /// <returns>Element underneith the mouse. Null if no Elemnt is under the mouse.</returns>
-        public Element findElement(MouseState mouseState)
+        public virtual Element findElement(MouseState mouseState)
         {
             Element retval = null;
             List<Frame> children;
@@ -184,9 +184,12 @@ namespace LessThanOk.UI
                     {
                         if (f.visible && f.isInFrame(mouseState.X, mouseState.Y) &&
                             !frameFound)
-                        {
+                        {     
                             curFrame = f;
-                            frameFound = true;
+                            if (curFrame is Frame_Game)
+                                frameFound = false;
+                            else
+                                frameFound = true;
                         }
                     }
                     if (!frameFound)
