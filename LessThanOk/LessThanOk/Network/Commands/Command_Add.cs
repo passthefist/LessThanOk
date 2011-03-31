@@ -1,4 +1,37 @@
-﻿using System;
+﻿/*---------------------------------------------------------------------------*\
+*                         LessThanOK Engine                                 *
+*                                                                           *
+*          Copyright (C) 2011-2012 by Robert Goetz, Anthony Lobono          *
+*                                                                           *
+*   authors:  Anthony LoBono (ajlobono@gmail.com)                           *
+*                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the MIT Liscense.                                      *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                      *
+ *                                                                           *
+ * You should have received a copy of the MIT Liscense with this library, if *
+ * not, visit http://www.opensource.org/licenses/mit-license.php.            *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                            Class Overview                                 *
+ *                                                                           *
+ * Command_Add.cs is the command for adding objects to the game.  Each add   *
+ * command has an ID for the builder, an ID for the object to be added, and  *
+ * an ID for the object type.  In the case that the command is a request the *
+ * ID of object to be added should be ignored.                               *
+ *                                                                           *
+ * See: Command.cs                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,10 +40,23 @@ namespace LessThanOk.Network.Commands
 {
     class Command_Add : Command
     {
+        /// <summary>
+        /// Constructor for Command_Add.
+        /// </summary>
+        /// <param name="builderID">
+        /// Unsigned int identifying the GameObject that 
+        /// requested the add command</param>
+        /// <param name="builtID">
+        /// Unsigned int identifying the GameObject to be
+        /// added.  Only Valid if the command has been granted.</param>
+        /// <param name="type">
+        /// Unsigned int identifying the GameObjectType to be added</param>
+        /// <param name="timeStamp">
+        /// TimeSpan identifying the number of ticks the command needs to be
+        /// exicuted by. Only valid if command has been granted.</param>
         public Command_Add(UInt16 builderID, UInt16 builtID, UInt16 type,
             TimeSpan timeStamp)
         {
-            granted = false;
             command = new UInt64[2];
             command[1] = (UInt64)timeStamp.Ticks;
             command[0] = 0x0000000000000000;

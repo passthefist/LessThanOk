@@ -38,7 +38,6 @@ namespace LessThanOk.Network.Commands
         public Command_Set(UInt16 id, UInt16 key, UInt32 value,
             TimeSpan timeStamp)
         {
-            granted = false;
             command = new UInt64[2];
             command[1] = (UInt64)timeStamp.Ticks;
             command[0] = 0x0000000000000000;

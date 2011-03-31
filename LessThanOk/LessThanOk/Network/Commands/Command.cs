@@ -1,18 +1,42 @@
-﻿using System;
+﻿/*---------------------------------------------------------------------------*\
+*                         LessThanOK Engine                                 *
+*                                                                           *
+*          Copyright (C) 2011-2012 by Robert Goetz, Anthony Lobono          *
+*                                                                           *
+*   authors:  Anthony LoBono (ajlobono@gmail.com)                           *
+*                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the MIT Liscense.                                      *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                      *
+ *                                                                           *
+ * You should have received a copy of the MIT Liscense with this library, if *
+ * not, visit http://www.opensource.org/licenses/mit-license.php.            *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                            Class Overview                                 *
+ * Command.cs is the super class for all Command Types.                      *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+         
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-/******************** COMMAND *******************************
-* This class is the super class for all commands.           *
-************************************************************/
 namespace LessThanOk.Network.Commands
 {
    
     public class Command
     {
         protected UInt64[] command;
-        protected Boolean granted;
         public enum T_COMMAND
         {
             MOVE = 1,
@@ -27,7 +51,6 @@ namespace LessThanOk.Network.Commands
         /// </summary>
         public Command()
         {
-            granted = false;
             command = new UInt64[2];
             command[0] = 0x0000000000000000;
             command[1] = 0x0000000000000000;
@@ -40,7 +63,6 @@ namespace LessThanOk.Network.Commands
         {
             if (n_command.Length != 2)
                 return;
-            granted = false;
             command = new UInt64[2];
             command[1] = n_command[1];
             command[0] = n_command[0];
@@ -71,15 +93,6 @@ namespace LessThanOk.Network.Commands
             else
                 return 0;
         }
-        /// <summary>
-        /// Sets the granted flag to true.
-        /// </summary>
-        public void grant() { granted = true; }
-        /// <summary>
-        /// Check whether the command has been granted.
-        /// </summary>
-        /// <returns>True if command was granted, false otherwise.</returns>
-        public Boolean isGranted() { return granted; }
         /// <summary>
         /// Returns the string representing the command.  Usefull for debugging.
         /// </summary>

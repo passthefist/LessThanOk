@@ -71,50 +71,7 @@ namespace LessThanOk.UI
         /// <param name="font">Font used for the UI.  Should be a List.</param>
         public UIManager(Frame n_root, SpriteFont font, GameWorld gameWorld)
         {
-            f_root = n_root;
-
-            f_lobby = new Frame(Vector2.Zero, new Vector2(800, 600), null);
-            Button b_ready = new Button(SpriteBin.The.AddTextSprite("Ready", "sprite1"), true,
-                (Element sender) => { }, "ready");
-            Button b_start = new Button(SpriteBin.The.AddTextSprite("Start Game", "sprite2"), true,
-                loadGameMenu, "start");
-            f_lobby.addElement(Vector2.Zero, b_ready);
-            f_lobby.addElement(b_start.Size, b_start);
-            f_lobby.visible = true;
-
-            f_home = new Frame(Vector2.Zero, new Vector2(800, 600), null);
-            Button b_createGame = new Button(SpriteBin.The.AddTextSprite("Create Game","Create Game"), true,
-                loadLobbyMenu, "Create Game");
-            Button b_joinGame = new Button(SpriteBin.The.AddTextSprite("Join Game", "Join Game"), true,
-                loadLobbyMenu, "Join Game");
-            f_home.addElement(Vector2.Zero, b_createGame);
-            f_home.addElement(b_createGame.Size, b_joinGame);
-            f_home.visible = true;
-
-            f_game = new Frame(Vector2.Zero, new Vector2(800, 600), null);
-            Button b_end = new Button(SpriteBin.The.AddTextSprite("End Game", "End Game"), true,
-                loadPostGameMenu, "end");
-            f_game.addElement(new Vector2(0, 510), b_end);
-            f_game.visible = true;
-
-            Button b_add = new Button(SpriteBin.The.AddTextSprite("Add", "Add"), 
-                true, addUnit, "add");
-            f_game.addElement(new Vector2(400, 510), b_add);
-
-
-            fg_game = new Frame_Game(Vector2.Zero, new Vector2(800, 500), null, gameWorld );
-            fg_game.visible = true;
-            f_game.addFrame(fg_game, Vector2.Zero);
-
-    
-
-            f_postGame = new Frame(Vector2.Zero, new Vector2(800, 600), null);
-            Button b_home = new Button(SpriteBin.The.AddTextSprite("Go Home", "Go Home"), true,
-                loadHomeMenu, "Home");
-            f_postGame.addElement(Vector2.Zero, b_home);
-            f_postGame.visible = true;
-
-            f_root.addFrame(f_home, Vector2.Zero);
+            testInit(n_root, font, gameWorld);
        
         }
         /// <summary>
@@ -220,6 +177,61 @@ namespace LessThanOk.UI
         public void draw(SpriteBatch spriteBatch)
         {
             f_root.draw(spriteBatch);
+        }
+        private void testInit(Frame n_root, SpriteFont font, GameWorld gameWorld)
+        {
+            f_root = n_root;
+
+            Vector2 pos;
+
+            f_lobby = new Frame(Vector2.Zero, new Vector2(800, 600), null);
+            Button b_ready = new Button(SpriteBin.The.AddTextSprite("Ready", "sprite1"), true,
+                (Element sender) => { }, "ready");
+            Button b_start = new Button(SpriteBin.The.AddTextSprite("Start Game", "sprite2"), true,
+                loadGameMenu, "start");
+            f_lobby.addElement(Vector2.Zero, b_ready);
+            pos = b_start.Size;
+            pos.Y = 0;
+            pos.X += 20;
+            f_lobby.addElement(pos, b_start);
+            f_lobby.visible = true;
+
+            f_home = new Frame(Vector2.Zero, new Vector2(800, 600), null);
+            Button b_createGame = new Button(SpriteBin.The.AddTextSprite("Create Game", "Create Game"), true,
+                loadLobbyMenu, "Create Game");
+            Button b_joinGame = new Button(SpriteBin.The.AddTextSprite("Join Game", "Join Game"), true,
+                loadLobbyMenu, "Join Game");
+            f_home.addElement(Vector2.Zero, b_createGame);
+            pos = b_createGame.Size;
+            pos.Y = 0;
+            pos.X += 20;
+            f_home.addElement(pos, b_joinGame);
+            f_home.visible = true;
+
+            f_game = new Frame(Vector2.Zero, new Vector2(800, 600), null);
+            Button b_end = new Button(SpriteBin.The.AddTextSprite("End Game", "End Game"), true,
+                loadPostGameMenu, "end");
+            f_game.addElement(new Vector2(0, 510), b_end);
+            f_game.visible = true;
+
+            Button b_add = new Button(SpriteBin.The.AddTextSprite("Add", "Add"),
+                true, addUnit, "add");
+            f_game.addElement(new Vector2(400, 510), b_add);
+
+
+            fg_game = new Frame_Game(Vector2.Zero, new Vector2(800, 500), null, gameWorld);
+            fg_game.visible = true;
+            f_game.addFrame(fg_game, Vector2.Zero);
+
+
+
+            f_postGame = new Frame(Vector2.Zero, new Vector2(800, 600), null);
+            Button b_home = new Button(SpriteBin.The.AddTextSprite("Go Home", "Go Home"), true,
+                loadHomeMenu, "Home");
+            f_postGame.addElement(Vector2.Zero, b_home);
+            f_postGame.visible = true;
+
+            f_root.addFrame(f_home, Vector2.Zero);
         }
     }
 

@@ -9,7 +9,6 @@ namespace LessThanOk.Network.Commands
     {
         public Command_Note(UInt16 errorID, TimeSpan timeStamp)
         {
-            granted = false;
             command = new UInt64[2];
             command[1] = (UInt64)timeStamp.Ticks;
             command[0] = 0x0000000000000000;
