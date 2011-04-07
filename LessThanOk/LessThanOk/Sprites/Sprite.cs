@@ -42,6 +42,7 @@ namespace LessThanOk.Sprites
     public abstract class Sprite
     {
         public float Scale { get; set; }
+        public Vector2 Position { get; set; }
         public float Rotation { get; set; }
         public Color Color { get; set; }
         public float Alpha { get; set; }
