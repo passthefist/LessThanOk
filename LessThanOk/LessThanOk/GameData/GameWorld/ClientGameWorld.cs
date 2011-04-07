@@ -18,6 +18,7 @@ namespace LessThanOk.GameData.GameWorld
 
         override public void update(TimeSpan elps, List<Command> commands)
         {
+            Commands.AddRange(commands);
             foreach (Command cmd in Commands)
             {
                 switch (cmd.getCommandType())

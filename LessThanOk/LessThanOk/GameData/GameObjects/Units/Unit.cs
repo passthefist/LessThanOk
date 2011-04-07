@@ -81,12 +81,6 @@ namespace LessThanOk.GameData.GameObjects.Units
             set { hp = value; }
         }
 
-
-        private List<Weapon> weapons;
-
-        private Armor armor;
-        private Engine engine;
-
         private bool aggressive;
         private bool pursue;
 
@@ -112,13 +106,10 @@ namespace LessThanOk.GameData.GameObjects.Units
 
         protected Unit() : base() { init(); }
 
-        internal Unit(UnitType t, List<Weapon> weps, Armor arm, Engine e, Sprite s)
+        internal Unit(UnitType t)
             : base()
         {
             type = t;
-            weapons = weps;
-            armor = arm;
-            image = s;
         }
 
         /// <summary>
@@ -134,9 +125,6 @@ namespace LessThanOk.GameData.GameObjects.Units
             init();
 
             this.type = u.type;
-            this.weapons = u.weapons;
-            this.armor = u.armor;
-            this.engine = u.engine;
         }
 
         private void init()

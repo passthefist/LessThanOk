@@ -17,22 +17,6 @@ namespace LessThanOk.GameData.GameObjects.Units
             private set { type = value; }
         }
 
-        private Warhead warhead;
-
-        public Warhead _Warhead
-        {
-            get { return warhead; }
-            private set { warhead = value; }
-        }
-
-        private Projectile projectile;
-
-        public Projectile _Projectile
-        {
-            get { return projectile; }
-            private set { projectile = value; }
-        }
-
         static Weapon()
         {
             initFieldMaps();
@@ -53,20 +37,16 @@ namespace LessThanOk.GameData.GameObjects.Units
 
         protected Weapon() : base() { }
 
-        internal Weapon(WeaponType t, Warhead wd, Projectile pd)
+        internal Weapon(WeaponType t)
             : base()
         {
             type = t;
-            warhead = wd;
-            projectile = pd;
         }
 
         public Weapon(Weapon w)
             : base()
         {
             this.type = w.Type;
-            this.warhead = w._Warhead;
-            this.projectile = w._Projectile;
         }
 
         /*

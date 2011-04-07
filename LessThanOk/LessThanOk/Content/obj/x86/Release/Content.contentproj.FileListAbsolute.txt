@@ -1,1 +1,2 @@
 C:\Users\ajlobono\Documents\Visual Studio 2008\Projects\LessThanOk\coms-362\trunk\LessThanOk\LessThanOk\Content\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\rdgoetz\Documents\LessThanOk\LessThanOk\LessThanOk\Content\obj\x86\Release\ResolveAssemblyReference.cache

@@ -19,12 +19,6 @@ namespace LessThanOk.Debug
                 log = new StreamWriter("LessThanOKLog.txt");
             }
 
-            ~Logger()
-            {
-                log.Flush();
-                log.Close();
-            }
-
             public void WriteLog(string text)
             {
                 log.WriteLine(text);

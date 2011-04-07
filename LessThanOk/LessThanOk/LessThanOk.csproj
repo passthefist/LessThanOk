@@ -88,9 +88,6 @@
   <ItemGroup>
     <Compile Include="BufferedCommunication\ChangeList.cs" />
     <Compile Include="BufferedCommunication\RequestList.cs" />
-    <Compile Include="ContentLoader\ContentLoader.cs" />
-    <Compile Include="ContentLoader\SpriteContentReader.cs" />
-    <Compile Include="ContentLoader\UIElementReader.cs" />
     <Compile Include="Event Hooking\Event.cs" />
     <Compile Include="Debug\Logging.cs" />
     <Compile Include="GameData\GameObjects\ActiveGameObject.cs" />

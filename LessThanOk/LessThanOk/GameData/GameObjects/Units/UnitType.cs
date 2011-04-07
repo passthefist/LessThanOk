@@ -121,7 +121,7 @@ namespace LessThanOk.GameData.GameObjects.Units
             Armor arm = (Armor)armor.create();
             Engine eng = (Engine)engine.create();
 
-            protoType = new Unit(this, w, arm, eng, image);
+            protoType = new Unit(this);
         }
 
         /// <summary>

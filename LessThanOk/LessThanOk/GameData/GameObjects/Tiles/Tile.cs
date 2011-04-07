@@ -70,7 +70,7 @@ namespace LessThanOk.GameData.GameObjects.Tiles
         private void initTile(List<Unit> unit, bool has, TileType tType)
         {
             this.hasUnits = has;
-            this.internalUnits = unit;
+            this.internalUnits = new List<Unit> (unit);
             this.type = tType;
             this.image = tType.getImage();
 

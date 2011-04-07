@@ -55,12 +55,12 @@ namespace LessThanOk.GameData.GameObjects.Units
             init(wt, pt);
         }
 
-        private void init(WarheadType warhead, ProjectileType projectile)
+        private void init(WarheadType war, ProjectileType proj)
         {
-            Warhead war = (Warhead)warhead.create();
-            Projectile proj = (Projectile)projectile.create();
+            warhead = war;
+            projectile = proj;
 
-            protoType = new Weapon(this, war, proj);
+            protoType = new Weapon(this);
         }
 
         override public GameObject create()
