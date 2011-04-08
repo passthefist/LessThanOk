@@ -87,8 +87,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BufferedCommunication\ChangeList.cs" />
-    <Compile Include="BufferedCommunication\RequestList.cs" />
-    <Compile Include="Event Hooking\Event.cs" />
+    <Compile Include="BufferedCommunication\RequestQueue.cs" />
+    <Compile Include="BufferedCommunication\RequestList_Client.cs" />
+    <Compile Include="BufferedCommunication\RequestList_Server.cs" />
     <Compile Include="Debug\Logging.cs" />
     <Compile Include="GameData\GameObjects\ActiveGameObject.cs" />
     <Compile Include="GameData\AgnosticObject.cs" />
@@ -114,25 +115,28 @@
     <Compile Include="GameData\GameObjects\Units\Weapon.cs" />
     <Compile Include="GameData\GameObjects\Units\WeaponType.cs" />
     <Compile Include="GameData\GameWorld\TileMap.cs" />
-    <Compile Include="Network\NetworkManager.cs" />
-    <Compile Include="Sprites\Sprite_2D.cs" />
-    <Compile Include="UI\Button.cs" />
-    <Compile Include="UI\Element.cs" />
-    <Compile Include="UI\Frame.cs" />
-    <Compile Include="UI\Frame_Game.cs" />
     <Compile Include="Network\Commands\Command_Add.cs" />
     <Compile Include="Network\Commands\Command.cs" />
     <Compile Include="Network\Commands\Command_Cancel.cs" />
     <Compile Include="Network\Commands\Command_Note.cs" />
     <Compile Include="Network\Commands\Command_Set.cs" />
     <Compile Include="GameData\GameWorld\Monirator.cs" />
+    <Compile Include="Network\NetworkManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Sprites\Sprite.cs" />
     <Compile Include="Sprites\SpriteBin.cs" />
+    <Compile Include="Sprites\Sprite_2D.cs" />
     <Compile Include="Sprites\Sprite_Text.cs" />
+    <Compile Include="UI\Frame.cs" />
+    <Compile Include="UI\InputManager.cs" />
+    <Compile Include="UI\LeftClick.cs" />
+    <Compile Include="UI\RightClick.cs" />
+    <Compile Include="UI\UIElement.cs" />
+    <Compile Include="UI\UIEventListener.cs" />
     <Compile Include="UI\UIManager.cs" />
+    <Compile Include="UI\WindowDefinitions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

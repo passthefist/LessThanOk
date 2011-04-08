@@ -97,7 +97,7 @@ namespace LessThanOk.Network.Commands
         /// Returns the string representing the command.  Usefull for debugging.
         /// </summary>
         /// <returns>Formatted String representing the command</returns>
-        public String ToString()
+        public override String ToString()
         {
             return command[0].ToString() +" "+ command[1].ToString();
         }

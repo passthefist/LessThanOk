@@ -1,65 +1,45 @@
-﻿/*---------------------------------------------------------------------------*\
- *                         LessThanOK Engine                                 *
- *                                                                           *
- *          Copyright (C) 2011-2012 by Robert Goetz, Anthony Lobono          *
- *                                                                           *
- *   authors:  Anthony LoBono (ajlobono@gmail.com)                           *
- *                                                                           *
-\*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*\
- *                                License                                    *
- *                                                                           *
- * This library is free software; you can redistribute it and/or modify it   *
- * under the terms of the MIT Liscense.                                      *
- *                                                                           *
- * This library is distributed in the hope that it will be useful, but       *
- * WITHOUT ANY WARRANTY; without even the implied warranty of                *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                      *
- *                                                                           *
- * You should have received a copy of the MIT Liscense with this library, if *
- * not, visit http://www.opensource.org/licenses/mit-license.php.            *
- *                                                                           *
-\*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*\
- *                            Class Overview                                 *
- *                                                                           *
- * Sprite_2D is a subclass of Sprite and is used to contain all the          *
- * information about a 2D Texture. All instances of Sprites should be        *
- * created with SpriteBin.                                                   *
- *                                                                           *   
- * See: Sprite.cs SpriteBin.cs                                               *                               
- *                                                                           *
-\*---------------------------------------------------------------------------*/
-
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-[assembly: InternalsVisibleTo("SpriteBin")] 
+[assembly: InternalsVisibleTo("SpriteBin")]
 
 namespace LessThanOk.Sprites
 {
     public class Sprite_2D : Sprite
     {
+        private Texture2D _texture;
+        private Rectangle _sourceRect;
 
-        public Texture2D Texture { get; set; }
-        public Color Color { get; set; }
-        public Vector2 Origin { get; set; }
-
-        internal Sprite_2D(Texture2D n_texture, Color n_color)
+        public Texture2D Texture { get { return _texture; } }
+        
+        internal Sprite_2D(Texture2D texture, Vector2 size)
         {
-            Texture = n_texture;
-            Color = n_color;
+            _texture = texture;
+            Size = size;
+            _sourceRect = new Rectangle(0, 0, (int)Size.X, (int)Size.Y);
+            Color = Color.White;
+            Scale = 1;
+            Alpha = 255;
         }
-
-        public override Microsoft.Xna.Framework.Vector2 Size()
+        internal Sprite_2D(Sprite_2D sprite)
         {
-            return new Vector2(Texture.Width, Texture.Height);
+            this._sourceRect = sprite._sourceRect;
+            this._texture = sprite._texture;
+            this.Size = sprite.Size;
+            this.Color = sprite.Color;
+            this.Scale = sprite.Scale;
+            this.Alpha = sprite.Alpha;
+            this.Centered = sprite.Centered;
+            this.Rotation = sprite.Rotation;
+        }
+        public override void draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(_texture, Position, _sourceRect, Color); 
         }
     }
 }

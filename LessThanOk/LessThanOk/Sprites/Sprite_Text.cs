@@ -1,71 +1,46 @@
-﻿/*---------------------------------------------------------------------------*\
- *                         LessThanOK Engine                                 *
- *                                                                           *
- *          Copyright (C) 2011-2012 by Robert Goetz, Anthony Lobono          *
- *                                                                           *
- *   authors:  Anthony LoBono (ajlobono@gmail.com)                           *
- *                                                                           *
-\*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*\
- *                                License                                    *
- *                                                                           *
- * This library is free software; you can redistribute it and/or modify it   *
- * under the terms of the MIT Liscense.                                      *
- *                                                                           *
- * This library is distributed in the hope that it will be useful, but       *
- * WITHOUT ANY WARRANTY; without even the implied warranty of                *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                      *
- *                                                                           *
- * You should have received a copy of the MIT Liscense with this library, if *
- * not, visit http://www.opensource.org/licenses/mit-license.php.            *
- *                                                                           *
-\*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*\
- *                            Class Overview                                 *
- *                                                                           *
- * Sprite_Text is a subclass of Sprit.  It is used for drawing a text to the *
- * application window.                                                       *
- *                                                                           *
- * See: Sprite.cs SpriteBin.cs                                               *
- *                                                                           *
-\*---------------------------------------------------------------------------*/
-
-using System;
-using System.Runtime.CompilerServices;
+﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
-[assembly: InternalsVisibleTo("SpriteBin")] 
+[assembly: InternalsVisibleTo("SpriteBin")]
 
 namespace LessThanOk.Sprites
 {
     public class Sprite_Text : Sprite
     {
-        public SpriteFont Font { get { return mFont; } set { mFont = value; } }
-        public string Text { get { return mText; } set { mText = value; } }
-        private SpriteFont mFont;
-        private string mText;
-        /// <summary>
-        /// Should never be called except by a SpriteBin
-        /// </summary>
-        /// <param name="text">Text for the Sprite</param>
-        /// <param name="font">Font of the Text</param>
+        private SpriteFont _font;
+        private string _text;
+
+        public SpriteFont Font { get { return _font; } }
+        new public Vector2 Size { get { return _font.MeasureString(_text); } }
+        public string Text { get { return _text; } }
+
         internal Sprite_Text(string text, SpriteFont font)
         {
-            mFont = font;
-            mText = text;
+            _font = font;
+            _text = text;
             Color = Color.White;
             Scale = 1;
             Alpha = 255;
         }
-        /// <summary>
-        /// Get the size of the Sprite
-        /// </summary>
-        /// <returns>The size of the Sprite represented as a Vector2</returns>
-        public override Vector2 Size() { return mFont.MeasureString(Text); }
+        internal Sprite_Text(Sprite_Text sprite)
+        {
+            this._text = sprite.Text;
+            this._font = sprite.Font;
+            this.Color = sprite.Color;
+            this.Scale = sprite.Scale;
+            this.Alpha = sprite.Alpha;
+            this.Centered = sprite.Centered;
+            this.Rotation = sprite.Rotation;
+        }
+        public override void draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.DrawString(_font, _text, Position, Color, Rotation,
+                Vector2.Zero, Scale, SpriteEffects.None, 0);
+        }
     }
 }

@@ -33,74 +33,59 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+
 
 namespace LessThanOk.Sprites
 {
     public sealed class SpriteBin
     {
+        private Dictionary<String, Sprite> _sprites;
+
         static readonly SpriteBin the = new SpriteBin();
-      
-        // Explicit static constructor to tell C# compiler
-        // not to mark type as beforefieldinit
-        static SpriteBin()
-        {
-        }
+        static SpriteBin() { }
+        public static SpriteBin The { get { return the; } }
 
-        public static SpriteBin The
-        {
-            get
-            {
-                return the;
-            }
-        }
-        private Dictionary<String, Sprite> spriteDictionary;
-
-        public SpriteFont _font{ get; set; }
-        /// <summary>
-        /// Contructor for SpriteBin.
-        /// </summary>
-        /// <param name="font">Font to be used for all sprites.  Shouls be a list</param>
         private SpriteBin()
         {
-            spriteDictionary = new Dictionary<String, Sprite>();
+            _sprites = new Dictionary<String, Sprite>();
 
         }
-
-        /// <summary>
-        /// Get a new instantce of a Sprite_Text
-        /// </summary>
-        /// <param name="content">Text for the Sprite</param>
-        /// <returns>New instance of a Sprite_Text</returns>
-        public Sprite_Text AddTextSprite(String content, String key)
+        public Sprite_Text AddTextSprite(SpriteFont font, String content, String key)
         {
-            Sprite_Text s = new Sprite_Text(content, _font);
-            spriteDictionary.Add(key, s);
+            Sprite_Text s = new Sprite_Text(content, font);
+            _sprites.Add(key, s);
             return s;
         }
-        public Sprite_2D AddSprite_2D(Texture2D texture, Color color, String key)
+        public Sprite_2D Add2DSprite(Texture2D texture, Vector2 size, String key)
         {
-            Sprite_2D s = new Sprite_2D(texture, color);
-            spriteDictionary.Add(key, s);
+            Sprite_2D s = new Sprite_2D(texture, size);
+            _sprites.Add(key, s);
             return s;
         }
-        /// <summary>
-        /// Add a Sprite to the sprite list
-        /// </summary>
-        /// <param name="s">Sprite to be added to list.</param>
         public void Add(Sprite s, String key)
         {
-            spriteDictionary.Add(key, s);
+            _sprites.Add(key, s);
         }
-        /// <summary>
-        /// Clear the sprite list.
-        /// </summary>
         public void Clear()
         {
-            spriteDictionary.Clear();
+            _sprites.Clear();
         }
-        public Sprite getSprite(String key){ return spriteDictionary[key]; }
+        public Sprite getSprite(String key) 
+        {
+            Sprite retval;
+            if (!(_sprites.TryGetValue(key, out retval)))
+                return null;
+  
+            if (retval is Sprite_2D)
+                return new Sprite_2D((Sprite_2D)retval);
+            else if (retval is Sprite_Text)
+                return new Sprite_Text((Sprite_Text)retval);
+            else
+                return null;
+        }
 
     }
 }

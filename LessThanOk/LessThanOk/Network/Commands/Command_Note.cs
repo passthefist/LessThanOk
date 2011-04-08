@@ -18,7 +18,7 @@ namespace LessThanOk.Network.Commands
 
         public UInt16 getError() { return (UInt16)(command[0] >> 40); }
 
-        public string ToString()
+        public override string ToString()
         {
              string[] retval = new string[4];
              retval[0] = "OpCode\t\t: " + (command[0] >> 56).ToString();

@@ -53,7 +53,7 @@ namespace LessThanOk.Network.Commands
 
         public UInt32 getValue() { return (UInt32)(command[0]); }
 
-        public string ToString()
+        public override string ToString()
         {
             string[] retval = new string[5];
             retval[0] = "OpCode\t\t: " + (command[0] >> 56).ToString();

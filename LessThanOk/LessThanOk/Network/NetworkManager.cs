@@ -2,21 +2,90 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LessThanOk.Network.Commands;
+using Microsoft.Xna.Framework.Net;
 
 namespace LessThanOk.Network
 {
-    class NetworkManager
+    public sealed class NetworkManager
     {
-        private List<Command> Changes;
+        private static NetworkSession _session;
+        private static int _maxGamers;
+        private static int _maxLocalGamers;
 
-        public NetworkManager()
+        public static NetworkSession Session { get { return _session; } }
+
+
+        static readonly NetworkManager the = new NetworkManager();
+        static NetworkManager() 
+        {
+            _maxGamers = 2;
+            _maxLocalGamers = 2;
+        }
+        public static NetworkManager The { get { return the; } }
+
+        public void startSession()
+        {
+            try
+            {
+                _session = NetworkSession.Create(NetworkSessionType.SystemLink,
+                                                       _maxLocalGamers, _maxGamers);
+
+                _session.GamerJoined += GamerJoinedEventHandler;
+                _session.GamerLeft += GamerLeftEventHandler;
+                _session.GameEnded += SessionEndedEventHandler;
+                _session.GameStarted += SessionStartedEventHandler;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+        public void joinSession()
+        {
+            try
+            {
+                // Search for sessions.
+                using (AvailableNetworkSessionCollection availableSessions =
+                            NetworkSession.Find(NetworkSessionType.SystemLink,
+                                                _maxLocalGamers, null))
+                {
+                    if (availableSessions.Count == 0)
+                    {
+                        throw new Exception();
+                    }
+
+                    // Join the first session we found.
+                    _session = NetworkSession.Join(availableSessions[0]);
+
+                    _session.GamerJoined += GamerJoinedEventHandler;
+                    _session.GamerLeft += GamerLeftEventHandler;
+                    _session.GameEnded += SessionEndedEventHandler;
+                    _session.GameStarted += SessionStartedEventHandler;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+        void GamerJoinedEventHandler(object sender, GamerJoinedEventArgs e)
+        {
+ 
+        }
+        void GamerLeftEventHandler(object sender, GamerLeftEventArgs e)
         {
 
         }
-        public void getChanges(List<Command> changes)
+        void SessionStartedEventHandler(object sender, GameStartedEventArgs e)
         {
-            Changes = changes;
-        } 
+
+        }
+        void SessionEndedEventHandler(object sender, GameEndedEventArgs e)
+        {
+        
+        }
+        
+        
+        
     }
 }
