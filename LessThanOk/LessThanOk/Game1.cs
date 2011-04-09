@@ -100,7 +100,7 @@ namespace LessThanOk
             {
                 if (NetworkManager.Session.IsHost)
                 {
-
+                    NetworkManager.The.update(gameTime);
                 }
             }
            

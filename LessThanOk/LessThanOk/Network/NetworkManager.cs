@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Net;
+using Microsoft.Xna.Framework;
 
 namespace LessThanOk.Network
 {
@@ -18,10 +19,16 @@ namespace LessThanOk.Network
         static readonly NetworkManager the = new NetworkManager();
         static NetworkManager() 
         {
-            _maxGamers = 2;
+            _maxGamers = 3;
             _maxLocalGamers = 2;
         }
         public static NetworkManager The { get { return the; } }
+
+        public void update(GameTime gameTime)
+        {
+            if (_session != null)
+                _session.Update();
+        }
 
         public void startSession()
         {
@@ -51,8 +58,7 @@ namespace LessThanOk.Network
                 {
                     if (availableSessions.Count == 0)
                     {
-                        Console.WriteLine("No Games Found");
-                        throw new Exception();
+                        throw new Exception("No Games Found");
                     }
 
                     // Join the first session we found.
