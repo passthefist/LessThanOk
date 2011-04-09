@@ -10,17 +10,25 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace LessThanOk.Sprites
 {
-    public class Sprite_2D : Sprite
+    public class Sprite_2D: Sprite
     {
         private Texture2D _texture;
         private Rectangle _sourceRect;
+        private Vector2 _size;
 
+        public override float Scale { get; set; }
+        public override Vector2 Position { get; set; }
+        public override Vector2 Size { get { return _size; } }
+        public override float Rotation { get; set; }
+        public override Color Color { get; set; }
+        public override float Alpha { get; set; }
+        public override bool Centered { get; set; }
         public Texture2D Texture { get { return _texture; } }
         
         internal Sprite_2D(Texture2D texture, Vector2 size)
         {
             _texture = texture;
-            Size = size;
+            _size = size;
             _sourceRect = new Rectangle(0, 0, (int)Size.X, (int)Size.Y);
             Color = Color.White;
             Scale = 1;
@@ -30,7 +38,7 @@ namespace LessThanOk.Sprites
         {
             this._sourceRect = sprite._sourceRect;
             this._texture = sprite._texture;
-            this.Size = sprite.Size;
+            this._size = sprite.Size;
             this.Color = sprite.Color;
             this.Scale = sprite.Scale;
             this.Alpha = sprite.Alpha;

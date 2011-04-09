@@ -39,6 +39,7 @@ namespace LessThanOk.UI
 
             else if (leftClick.Equals(ButtonState.Pressed))
             {
+                curElement = UIManager.The.Root.getElementAt(mousePos);
                 // Left click detected
                 leftClick = ButtonState.Released;
                 if (curElement != null)
@@ -51,7 +52,7 @@ namespace LessThanOk.UI
             if (curMouseState.RightButton.Equals(ButtonState.Pressed))
                 rightClick = ButtonState.Pressed;
 
-            else if (rightClick.Equals(ButtonState.Released))
+            else if (rightClick.Equals(ButtonState.Pressed))
             {
                 // Right click detected
                 rightClick = ButtonState.Released;

@@ -36,6 +36,7 @@ namespace LessThanOk.UI
             Sprite_Text ready = SpriteBin.The.AddTextSprite(font, "Ready", "ready");
             Sprite_Text end = SpriteBin.The.AddTextSprite(font, "End Game", "end");
             Sprite_Text home = SpriteBin.The.AddTextSprite(font, "Home", "home");
+            Sprite_Text lobbyText = SpriteBin.The.AddTextSprite(font, "", "lobbyText");
 
             UIElement eStart = new UIElement("start", start, new Vector2(0, 400));
             UIElement eReady = new UIElement("ready", ready, new Vector2(400, 400));
@@ -43,14 +44,17 @@ namespace LessThanOk.UI
             UIElement eCreate = new UIElement("create", create, new Vector2(400, 0));
             UIElement eEnd = new UIElement("end", end, new Vector2(0, 400));
             UIElement eHome = new UIElement("home", home, new Vector2(0, 0));
+            LobbyList eLobby = new LobbyList("lobbyList", new Vector2(0, 0), lobbyText);
 
             fhome.addElement(eCreate);
             fhome.addElement(eJoin);
 
             fhostlobby.addElement(eReady);
             fhostlobby.addElement(eStart);
+            fhostlobby.addElement(eLobby);
 
             fclientlobby.addElement(eReady);
+            fclientlobby.addElement(eLobby);
 
             fgame.addElement(eEnd);
 

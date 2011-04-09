@@ -43,7 +43,7 @@ namespace LessThanOk.UI
         }
         public void update(GameTime gameTime)
         {
-
+            Root.update(gameTime);
         }
 
     }

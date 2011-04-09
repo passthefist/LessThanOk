@@ -13,23 +13,30 @@ namespace LessThanOk.Sprites
     public class Sprite_Text : Sprite
     {
         private SpriteFont _font;
-        private string _text;
+        private Vector2 _size;
 
+        public override float Scale { get; set; }
+        public override Vector2 Position { get; set; }
+        public override float Rotation { get; set; }
+        public override Color Color { get; set; }
+        public override float Alpha { get; set; }
+        public override bool Centered { get; set; }
         public SpriteFont Font { get { return _font; } }
-        new public Vector2 Size { get { return _font.MeasureString(_text); } }
-        public string Text { get { return _text; } }
+        public override Vector2 Size { get { return _size; } }
+        public string Text { get; set; }
 
         internal Sprite_Text(string text, SpriteFont font)
         {
             _font = font;
-            _text = text;
+            Text = text;
+            _size = _font.MeasureString(Text);
             Color = Color.White;
             Scale = 1;
             Alpha = 255;
         }
         internal Sprite_Text(Sprite_Text sprite)
         {
-            this._text = sprite.Text;
+            this.Text = sprite.Text;
             this._font = sprite.Font;
             this.Color = sprite.Color;
             this.Scale = sprite.Scale;
@@ -39,7 +46,7 @@ namespace LessThanOk.Sprites
         }
         public override void draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(_font, _text, Position, Color, Rotation,
+            spriteBatch.DrawString(_font, Text, Position, Color, Rotation,
                 Vector2.Zero, Scale, SpriteEffects.None, 0);
         }
     }

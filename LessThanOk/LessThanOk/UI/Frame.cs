@@ -32,16 +32,20 @@ namespace LessThanOk.UI
             foreach (UIElement e in _elements.Values)
                 e.draw(spriteBatch);
         }
-
+        public void update(GameTime gameTime)
+        {
+            foreach (UIElement e in _elements.Values)
+                e.update(gameTime);
+        }
         public UIElement getElementAt(Vector2 mousePos)
         {
             float x = mousePos.X;
             float y = mousePos.Y;
             foreach (UIElement e in _elements.Values)
             {
-                if (x >= e.Position.X && x <= (e.Position.X + e.image.Size.X))
+                if (x >= e.Position.X && x <= (e.Position.X + e.Image.Size.X))
                 {
-                    if (y >= e.Position.Y && y <= (e.Position.Y + e.image.Size.Y))
+                    if (y >= e.Position.Y && y <= (e.Position.Y + e.Image.Size.Y))
                         return e;
                 }
             }

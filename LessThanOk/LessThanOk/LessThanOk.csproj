@@ -132,6 +132,7 @@
     <Compile Include="UI\Frame.cs" />
     <Compile Include="UI\InputManager.cs" />
     <Compile Include="UI\LeftClick.cs" />
+    <Compile Include="UI\LobbyList.cs" />
     <Compile Include="UI\RightClick.cs" />
     <Compile Include="UI\UIElement.cs" />
     <Compile Include="UI\UIEventListener.cs" />

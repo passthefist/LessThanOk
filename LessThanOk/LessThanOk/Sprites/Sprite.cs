@@ -9,13 +9,13 @@ namespace LessThanOk.Sprites
 {
     public abstract class Sprite
     {
-        public float Scale { get; set; }
-        public Vector2 Position { get; set; }
-        public Vector2 Size { get; set; }
-        public float Rotation { get; set; }
-        public Color Color { get; set; }
-        public float Alpha { get; set; }
-        public bool Centered { get; set; }
+        public abstract float Scale { get; set; }
+        public abstract Vector2 Position { get; set; }
+        public abstract Vector2 Size { get; }
+        public abstract float Rotation { get; set; }
+        public abstract Color Color { get; set;  }
+        public abstract float Alpha { get; set;  }
+        public abstract bool Centered { get; set; }
         public abstract void draw(SpriteBatch spriteBatch);
     }
 }

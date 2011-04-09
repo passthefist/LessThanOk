@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.GamerServices;
+
 using LessThanOk.Network;
 
 namespace LessThanOk.UI
@@ -46,11 +48,13 @@ namespace LessThanOk.UI
                 }
                 else if (element.Name == "join")
                 {
+                    Console.WriteLine("Joining Session...");
                     NetworkManager.The.joinSession();
                     UIManager.The.switchFrame("clientlobby");
                 }
                 else if (element.Name == "create")
                 {
+                    Console.WriteLine("Creating Session...");
                     NetworkManager.The.startSession();
                     UIManager.The.switchFrame("hostlobby");
                 }
@@ -60,7 +64,7 @@ namespace LessThanOk.UI
                 }
                 else if (element.Name == "ready")
                 {
-
+                       
                 }
             }
             else
