@@ -83,20 +83,7 @@ namespace LessThanOk.GameData.GameObjects.Units
 
         static Projectile()
         {
-            initFieldMaps();
-        }
-
-        private static void initFieldMaps()
-        {
-            PropertyInfo[] properties = typeof(Projectile).GetProperties();
-
-            ushort id = 0;
-            foreach (PropertyInfo property in properties)
-            {
-                idToPropMap[id] = property;
-                fieldNameToIDMap[property.Name] = id;
-                id++;
-            }
+            AgnosticObject.initFieldMaps(typeof(Projectile));
         }
 
         protected Projectile() { init(); }

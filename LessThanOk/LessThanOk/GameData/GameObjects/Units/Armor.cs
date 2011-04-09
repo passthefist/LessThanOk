@@ -61,20 +61,7 @@ namespace LessThanOk.GameData.GameObjects.Units
 
         static Armor()
         {
-            initFieldMaps();
-        }
-
-        private static void initFieldMaps()
-        {
-            PropertyInfo[] properties = typeof(Armor).GetProperties();
-
-            ushort id = 0;
-            foreach (PropertyInfo property in properties)
-            {
-                idToPropMap[id] = property;
-                fieldNameToIDMap[property.Name] = id;
-                id++;
-            }
+            AgnosticObject.initFieldMaps(typeof(Armor));
         }
 
         protected Armor()

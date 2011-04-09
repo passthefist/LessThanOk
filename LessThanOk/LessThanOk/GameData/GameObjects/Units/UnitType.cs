@@ -51,23 +51,7 @@ namespace LessThanOk.GameData.GameObjects.Units
 
         static UnitType()
         {
-            initFieldMaps();
-        }
-        public Sprite getImage()
-        {
-            return image;
-        }
-        private static void initFieldMaps()
-        {
-            PropertyInfo[] properties = typeof(UnitType).GetProperties();
-
-            ushort id = 0;
-            foreach (PropertyInfo property in properties)
-            {
-                idToPropMap[id] = property;
-                fieldNameToIDMap[property.Name] = id;
-                id++;
-            }
+            AgnosticObject.initFieldMaps(typeof(UnitType));
         }
 
         public UnitType(string wep, string a, string e, Sprite s)
@@ -99,6 +83,11 @@ namespace LessThanOk.GameData.GameObjects.Units
         public UnitType(List<WeaponType> weps, ArmorType a, EngineType e, Sprite s)
         {
             init(weps,a,e,s);
+        }
+
+        public Sprite getImage()
+        {
+            return image;
         }
 
         private void init(List<WeaponType> weps, ArmorType a, EngineType e, Sprite s)

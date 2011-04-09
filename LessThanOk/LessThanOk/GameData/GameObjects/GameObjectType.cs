@@ -72,20 +72,7 @@ namespace LessThanOk.GameData.GameObjects
 
         static GameObjectType()
         {
-            initFieldMaps();
-        }
-
-        private static void initFieldMaps()
-        {
-            PropertyInfo[] properties = typeof(GameObjectType).GetProperties();
-
-            ushort id = 0;
-            foreach (PropertyInfo property in properties)
-            {
-                idToPropMap[id] = property;
-                fieldNameToIDMap[property.Name] = id;
-                id++;
-            }
+            AgnosticObject.initFieldMaps(typeof(GameObjectType));
         }
 
         public GameObjectType()

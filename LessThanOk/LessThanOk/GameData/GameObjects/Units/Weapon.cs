@@ -19,20 +19,7 @@ namespace LessThanOk.GameData.GameObjects.Units
 
         static Weapon()
         {
-            initFieldMaps();
-        }
-
-        private static void initFieldMaps()
-        {
-            PropertyInfo[] properties = typeof(Weapon).GetProperties();
-
-            ushort id = 0;
-            foreach (PropertyInfo property in properties)
-            {
-                idToPropMap[id] = property;
-                fieldNameToIDMap[property.Name] = id;
-                id++;
-            }
+            AgnosticObject.initFieldMaps(typeof(Weapon));
         }
 
         protected Weapon() : base() { }

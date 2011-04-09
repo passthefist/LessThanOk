@@ -127,20 +127,7 @@ using LessThanOk.GameData.GameObjects;namespace LessThanOk.GameData.GameObjects.
 
         static ProjectileType()
         {
-            initFieldMaps();
-        }
-
-        private static void initFieldMaps()
-        {
-            PropertyInfo[] properties = typeof(ProjectileType).GetProperties();
-
-            ushort id = 0;
-            foreach (PropertyInfo property in properties)
-            {
-                idToPropMap[id] = property;
-                fieldNameToIDMap[property.Name] = id;
-                id++;
-            }
+            AgnosticObject.initFieldMaps(typeof(ProjectileType));
         }
 
         /// <summary>

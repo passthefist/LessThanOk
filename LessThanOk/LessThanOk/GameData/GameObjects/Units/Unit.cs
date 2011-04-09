@@ -48,6 +48,11 @@ namespace LessThanOk.GameData.GameObjects.Units
     /// </summary>
     public class Unit : ActiveGameObject
     {
+        public event EventHandler unitKilled;
+        public event EventHandler unitHealthChange;
+        public event EventHandler unitWeaponFired;
+        public event EventHandler unitUsedAbility;
+
         private UnitType type;
 
         /// <summary>
@@ -61,21 +66,12 @@ namespace LessThanOk.GameData.GameObjects.Units
 
         private Vector3 velocity;
 
-        /// <summary>
-        /// The velocity of this unit
-        /// </summary>
-        public Vector3 _Velocity
-        {
-            get { return velocity; }
-            private set { velocity = value; }
-        }
-
         private UInt32 hp;
 
         /// <summary>
         /// How much health this unti has.
         /// </summary>
-        public UInt32 _hp
+        public UInt32 health
         {
             get { return hp; }
             set { hp = value; }
@@ -88,20 +84,7 @@ namespace LessThanOk.GameData.GameObjects.Units
 
         static Unit()
         {
-            initFieldMaps();
-        }
-
-        private static void initFieldMaps()
-        {
-            PropertyInfo[] properties = typeof(Unit).GetProperties();
-
-            ushort id = 0;
-            foreach (PropertyInfo property in properties)
-            {
-                idToPropMap[id] = property;
-                fieldNameToIDMap[property.Name] = id;
-                id++;
-            }
+            AgnosticObject.initFieldMaps(typeof(Unit));
         }
 
         protected Unit() : base() { init(); }
@@ -121,7 +104,6 @@ namespace LessThanOk.GameData.GameObjects.Units
         public Unit(Unit u)
             : base()
         {
-
             init();
 
             this.type = u.type;
@@ -143,12 +125,27 @@ namespace LessThanOk.GameData.GameObjects.Units
         /// </param>
         override public void update(GameTime elps)
         {
-
+            switch (commands.Peek().getCommandType())
+            {
+                case Command.T_COMMAND.MOVE:
+                    break;
+                //case Command.T_COMMAND.USEABILITY:
+                //    break;
+                default:
+                    break;
+            }
         }
 
         public void addCommand(Command newCommand)
         {
-            commands.Enqueue(newCommand);
+            if (newCommand.getCommandType() == Command.T_COMMAND.CANCEL)
+            {
+                commands.Clear();
+            }
+            else
+            {
+                commands.Enqueue(newCommand);
+            }
         }
 
         //	public WeaponFire fireWeapon()

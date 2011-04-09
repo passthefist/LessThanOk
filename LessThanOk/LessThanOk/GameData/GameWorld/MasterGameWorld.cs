@@ -43,7 +43,6 @@ namespace LessThanOk.GameData.GameWorld
 
         override public void update(TimeSpan gameTime, List<Command> commands)
         {
-            GameObjectFactory fact = GameObjectFactory.The;
             foreach (Command cmd in commands)
             {
                 switch (cmd.getCommandType())
@@ -77,6 +76,10 @@ namespace LessThanOk.GameData.GameWorld
             {
                 map.placeUnit(unit);
 //				unit.addCommand();
+            }
+
+            foreach (Unit unit in units)
+            {
             }
         }
 	}

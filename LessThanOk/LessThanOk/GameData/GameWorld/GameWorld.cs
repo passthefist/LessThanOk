@@ -22,6 +22,7 @@ namespace LessThanOk.GameData.GameWorld
             units = new List<Unit>(12);
             gameTime = new TimeSpan();
             map = new TileMap();
+            fact = GameObjectFactory.The;
         }
 		
 		public void setGameTime(TimeSpan time){}

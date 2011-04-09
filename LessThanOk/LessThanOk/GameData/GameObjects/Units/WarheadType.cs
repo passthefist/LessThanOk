@@ -164,20 +164,7 @@ using LessThanOk.GameData.GameObjects;namespace LessThanOk.GameData.GameObjects.
 
         static WarheadType()
         {
-            initFieldMaps();
-        }
-
-        private static void initFieldMaps()
-        {
-            PropertyInfo[] properties = typeof(WarheadType).GetProperties();
-
-            ushort id = 0;
-            foreach (PropertyInfo property in properties)
-            {
-                idToPropMap[id] = property;
-                fieldNameToIDMap[property.Name] = id;
-                id++;
-            }
+            AgnosticObject.initFieldMaps(typeof(WarheadType));
         }
 
         /// <summary>

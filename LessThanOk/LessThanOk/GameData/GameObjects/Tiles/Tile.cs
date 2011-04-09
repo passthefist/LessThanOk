@@ -37,21 +37,9 @@ namespace LessThanOk.GameData.GameObjects.Tiles
 
         static Tile()
         {
-            initFieldMaps();
+            AgnosticObject.initFieldMaps(typeof(AgnosticObject));
         }
 
-        private static void initFieldMaps()
-        {
-            PropertyInfo[] properties = typeof(Tile).GetProperties();
-
-            ushort id = 0;
-            foreach (PropertyInfo property in properties)
-            {
-                idToPropMap[id] = property;
-                fieldNameToIDMap[property.Name] = id;
-                id++;
-            }
-        }
         private Tile()
         {
             

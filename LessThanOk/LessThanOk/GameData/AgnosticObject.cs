@@ -38,35 +38,52 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.Xna.Framework;
-
+using LessThanOk.GameData.GameObjects;
 ///<summary>
 ///Provides an agnostic interface for modifying an object. Fields can be
 ///accessed by their name using the provided functions.
 ///</summary>
 public class AgnosticObject
 {
-	protected static Dictionary<ushort,PropertyInfo> idToPropMap;
-	protected static Dictionary<string,ushort> fieldNameToIDMap;
-	
+	protected static Dictionary<ushort,string> idDecode;
+    protected static Dictionary<string, ushort> stringDecode;
+
 	static AgnosticObject()
 	{
-		idToPropMap = new Dictionary<ushort, PropertyInfo>();
-		fieldNameToIDMap = new Dictionary<string, ushort>();
-		initFieldMaps();
+        idDecode = new Dictionary<ushort, string>();
+        stringDecode = new Dictionary<string, ushort>();
+		initFieldMaps(typeof(AgnosticObject));
 	}
 	
-	private static void initFieldMaps()
+    /// <summary>
+    /// Initializes the field maps for decoding an
+    /// ID value to the name of a property of
+    /// the calling class and reverse. Allows for
+    /// agnostically setting properties from an int
+    /// value.
+    /// 
+    /// </summary>
+	protected static void initFieldMaps(Type typeInfo)
 	{
-		PropertyInfo[] properties = typeof(AgnosticObject).GetProperties();
+        PropertyInfo[] properties = typeInfo.GetProperties();
 		
-		ushort id = 0;
         foreach (PropertyInfo property in properties)
         {
-            idToPropMap[id] = property;
-            fieldNameToIDMap[property.Name] = id;
-            id++;
+            UInt16 id = (UInt16) stringDecode.Count;
+            if (!stringDecode.ContainsKey(property.Name))
+            {
+                stringDecode[property.Name] = id;
+                idDecode[id] = property.Name;
+            }
         }
 	}
+
+    private void setProperty(string fieldName, object newValue)
+    {
+        
+        this.GetType().InvokeMember(
+            fieldName, BindingFlags.SetProperty, null, this, new object[] { newValue });
+    }
 	
 	/// <summary>
 	/// Set a field given its name and a new value.
@@ -77,10 +94,21 @@ public class AgnosticObject
 	/// <param name="newValue">
 	/// A <see cref="System.Object"/>
 	/// </param>
-	public void setField(string fieldName, object newValue)
+    public void setField(string fieldName, uint newValue)
 	{
-		this.GetType().InvokeMember(
-			fieldName, BindingFlags.SetProperty, null, this, new object[] { newValue });
+        Type t = this.GetType().GetProperty(fieldName).PropertyType;
+        if(t.IsSubclassOf(typeof(GameObject)))
+        {
+            setProperty(fieldName, GameObjectFactory.The.getGameObject((ushort)newValue));
+        }
+        else if (t.IsSubclassOf(typeof(GameObjectType)))
+        {
+            setProperty(fieldName, GameObjectFactory.The.getType((ushort)newValue));
+        }
+        else
+        {
+            setProperty(fieldName, newValue);
+        }
 	}
 	
 	/// <summary>
@@ -92,9 +120,9 @@ public class AgnosticObject
 	/// <param name="newValue">
 	/// A <see cref="System.Object"/>
 	/// </param>
-	public void setField(ushort fieldID, object newValue)
+	public void setField(ushort fieldID, uint newValue)
 	{
-		idToPropMap[fieldID].SetValue(this,newValue,null);
+        setField(idDecode[fieldID], newValue);
 	}
 	
 	/// <summary>
@@ -108,6 +136,6 @@ public class AgnosticObject
 	/// </returns>
 	public UInt16 getFieldID(string fieldName)
 	{
-		return fieldNameToIDMap[fieldName];
+		return stringDecode[fieldName];
 	}
 }

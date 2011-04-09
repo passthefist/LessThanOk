@@ -55,21 +55,9 @@ namespace LessThanOk.GameData.GameObjects.Units
 
         static Engine()
         {
-            initFieldMaps();
+            AgnosticObject.initFieldMaps(typeof(Engine));
         }
 
-        private static void initFieldMaps()
-        {
-            PropertyInfo[] properties = typeof(Engine).GetProperties();
-
-            ushort id = 0;
-            foreach (PropertyInfo property in properties)
-            {
-                idToPropMap[id] = property;
-                fieldNameToIDMap[property.Name] = id;
-                id++;
-            }
-        }
 
         protected Engine() : base() { }
 

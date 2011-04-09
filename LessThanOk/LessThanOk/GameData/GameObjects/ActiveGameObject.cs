@@ -71,20 +71,7 @@ namespace LessThanOk.GameData.GameObjects
         //---------------------Reflexive Maps----------------------
         static ActiveGameObject()
         {
-            initFieldMaps();
-        }
-
-        private static void initFieldMaps()
-        {
-            PropertyInfo[] properties = typeof(ActiveGameObject).GetProperties();
-
-            ushort id = 0;
-            foreach (PropertyInfo property in properties)
-            {
-                idToPropMap[id] = property;
-                fieldNameToIDMap[property.Name] = id;
-                id++;
-            }
+            AgnosticObject.initFieldMaps(typeof(ActiveGameObject));
         }
 
         //-----------------Instance Functions----------------------

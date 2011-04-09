@@ -65,20 +65,7 @@ using LessThanOk.GameData.GameObjects;namespace LessThanOk.GameData.GameObjects.
 
         static EngineType()
         {
-            initFieldMaps();
-        }
-
-        private static void initFieldMaps()
-        {
-            PropertyInfo[] properties = typeof(EngineType).GetProperties();
-
-            ushort id = 0;
-            foreach (PropertyInfo property in properties)
-            {
-                idToPropMap[id] = property;
-                fieldNameToIDMap[property.Name] = id;
-                id++;
-            }
+            AgnosticObject.initFieldMaps(typeof(EngineType));
         }
 
         /// <summary>

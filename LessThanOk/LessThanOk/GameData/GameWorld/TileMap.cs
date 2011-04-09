@@ -46,6 +46,10 @@ namespace LessThanOk.GameData.GameWorld
             uint y;
             y = (uint)point.Y;
             x = (uint)point.X;
+
+            if (y < 0 || y > height || x < 0 || x > width)
+                return null;
+
             y = y / height;
             x = x / width;
 
@@ -104,6 +108,25 @@ namespace LessThanOk.GameData.GameWorld
             foreach (Tile t in tiles)
             {
                 if(t.HasUnits)
+                {
+                    foreach (Unit u in t.InternalUnits)
+                    {
+                        units.Add(u);
+                    }
+                }
+            }
+
+            return units;
+        }
+
+        public List<Unit> getUnitsInCirc(Rectangle rect)
+        {
+            List<Tile> tiles = getTilesInRect(rect);
+            List<Unit> units = new List<Unit>(rect.Width * rect.Height);
+
+            foreach (Tile t in tiles)
+            {
+                if (t.HasUnits)
                 {
                     foreach (Unit u in t.InternalUnits)
                     {

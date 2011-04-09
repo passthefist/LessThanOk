@@ -116,20 +116,7 @@ using LessThanOk.GameData.GameObjects;namespace LessThanOk.GameData.GameObjects.
 
         static ArmorType()
         {
-            initFieldMaps();
-        }
-
-        private static void initFieldMaps()
-        {
-            PropertyInfo[] properties = typeof(ArmorType).GetProperties();
-
-            ushort id = 0;
-            foreach (PropertyInfo property in properties)
-            {
-                idToPropMap[id] = property;
-                fieldNameToIDMap[property.Name] = id;
-                id++;
-            }
+            AgnosticObject.initFieldMaps(typeof(ArmorType));
         }
 
         /// <summary>

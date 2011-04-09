@@ -42,6 +42,8 @@ namespace LessThanOk.GameData.GameWorld
                     case Command.T_COMMAND.REMOVE:
                         break;
                     case Command.T_COMMAND.SET:
+                        Command_Set cSet = (Command_Set)cmd;
+                        fact.getGameObject(cSet.getID()).setField(cSet.getKey(),cSet.getValue());
                         break;
                     case Command.T_COMMAND.ERROR:
                         break;

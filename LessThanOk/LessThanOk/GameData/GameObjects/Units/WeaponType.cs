@@ -8,6 +8,7 @@ namespace LessThanOk.GameData.GameObjects.Units
 {
     public class WeaponType : GameObjectType
     {
+
         private WarheadType warhead;
 
         public WarheadType _Warhead
@@ -26,20 +27,7 @@ namespace LessThanOk.GameData.GameObjects.Units
 
         static WeaponType()
         {
-            initFieldMaps();
-        }
-
-        private static void initFieldMaps()
-        {
-            PropertyInfo[] properties = typeof(WeaponType).GetProperties();
-
-            ushort id = 0;
-            foreach (PropertyInfo property in properties)
-            {
-                idToPropMap[id] = property;
-                fieldNameToIDMap[property.Name] = id;
-                id++;
-            }
+            AgnosticObject.initFieldMaps(typeof(WeaponType));
         }
 
         public WeaponType(WarheadType warhead, ProjectileType projectile)
@@ -49,8 +37,8 @@ namespace LessThanOk.GameData.GameObjects.Units
 
         public WeaponType(string warhead, string projectile)
         {
-            WarheadType wt = (WarheadType) GameObjectFactory.The.getType(warhead);
-            ProjectileType pt = (ProjectileType) GameObjectFactory.The.getType(projectile);
+            WarheadType wt = (WarheadType)GameObjectFactory.The.getType(warhead);
+            ProjectileType pt = (ProjectileType)GameObjectFactory.The.getType(projectile);
 
             init(wt, pt);
         }
