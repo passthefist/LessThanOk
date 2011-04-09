@@ -51,6 +51,7 @@ namespace LessThanOk.Network
                 {
                     if (availableSessions.Count == 0)
                     {
+                        Console.WriteLine("No Games Found");
                         throw new Exception();
                     }
 
