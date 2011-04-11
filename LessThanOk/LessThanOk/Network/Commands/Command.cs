@@ -37,6 +37,8 @@ namespace LessThanOk.Network.Commands
     public class Command
     {
         protected UInt64[] command;
+        public UInt64[] CMD { get { return command; } }
+
         public enum T_COMMAND
         {
             MOVE = 1,

@@ -40,6 +40,10 @@ namespace LessThanOk.BufferedCommunication
         private static Queue<RemovalChange> remsList = new Queue<RemovalChange>();
         private static Queue<SetValueChange> setsList = new Queue<SetValueChange>();
 
+        public static ChangeList The { get { return The; } }
+        static readonly ChangeList the = new ChangeList();
+        static ChangeList() { }
+
         public static bool pushAdd(ref AdditionChange change)
         {
             addsList.Enqueue(change);
@@ -61,36 +65,41 @@ namespace LessThanOk.BufferedCommunication
             return true;
         }
 
-        public static bool pullAdd(out AdditionChange change) {
+        public static bool pullAdd(out List<AdditionChange> change) 
+        {
             if (addsList.Count == 0)
             {
                 change = null;
                 return false;
             }
-
-            change = addsList.Dequeue();
+            change = new List<AdditionChange>(addsList);
+            addsList.Clear();
             return true;
+            
         }
 
-        public static bool pullRem(out RemovalChange change) {
+        public static bool pullRem(out List<RemovalChange> change) 
+        {
             if (remsList.Count == 0)
             {
                 change = null;
                 return false;
             }
-
-            change = remsList.Dequeue();
+            change = new List<RemovalChange>(remsList);
+            remsList.Clear();
             return true;
         }
 
-        public static bool pullSet(out SetValueChange change) {
+        public static bool pullSet(out List<SetValueChange> change) 
+        {
             if (setsList.Count == 0)
             {
                 change = null;
                 return false;
             }
 
-            change = setsList.Dequeue();
+            change = new List<SetValueChange>(setsList);
+            setsList.Clear();
             return true;
         }
     }

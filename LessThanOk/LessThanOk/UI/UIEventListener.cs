@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.GamerServices;
-
+using LessThanOk.UI.Events;
 using LessThanOk.Network;
+using LessThanOk.BufferedCommunication;
+using LessThanOk.Network.Commands;
+using LessThanOk.GameData.GameObjects;
 
 namespace LessThanOk.UI
 {
@@ -64,7 +67,18 @@ namespace LessThanOk.UI
                 }
                 else if (element.Name == "ready")
                 {
-                       
+            
+                }
+                else if (element.Name == "add")
+                {
+                    if (NetworkManager.Session.IsHost)
+                    {
+                        UInt16 builder = InputManager.Selected.ID;
+                        UInt16 type = GameObjectFactory.The.getType("test unit").ID;
+
+                        Command_Add cmd = new Command_Add(builder, 0, type, new TimeSpan());
+                        RequestQueue_Server.The.push(cmd);
+                    }
                 }
             }
             else

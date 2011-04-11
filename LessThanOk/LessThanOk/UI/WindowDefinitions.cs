@@ -27,7 +27,7 @@ namespace LessThanOk.UI
             Frame fhome = new Frame(800, 500);
             Frame fhostlobby = new Frame(800, 500);
             Frame fclientlobby = new Frame(800, 500);
-            Frame fgame = new Frame(800, 500);
+            Frame fgame = new Frame_Game(800, 500);
             Frame fpostgame = new Frame(800, 500);
 
             Sprite_Text start = SpriteBin.The.AddTextSprite(font, "Start Game", "start");
@@ -37,6 +37,7 @@ namespace LessThanOk.UI
             Sprite_Text end = SpriteBin.The.AddTextSprite(font, "End Game", "end");
             Sprite_Text home = SpriteBin.The.AddTextSprite(font, "Home", "home");
             Sprite_Text lobbyText = SpriteBin.The.AddTextSprite(font, "", "lobbyText");
+            Sprite_Text add = SpriteBin.The.AddTextSprite(font, "Add", "add");
 
             UIElement eStart = new UIElement("start", start, new Vector2(0, 400));
             UIElement eReady = new UIElement("ready", ready, new Vector2(400, 400));
@@ -44,7 +45,9 @@ namespace LessThanOk.UI
             UIElement eCreate = new UIElement("create", create, new Vector2(400, 0));
             UIElement eEnd = new UIElement("end", end, new Vector2(0, 400));
             UIElement eHome = new UIElement("home", home, new Vector2(0, 0));
+            UIElement eAdd = new UIElement("add", add, new Vector2(400, 400));
             LobbyList eLobby = new LobbyList("lobbyList", new Vector2(0, 0), lobbyText);
+
 
             fhome.addElement(eCreate);
             fhome.addElement(eJoin);
@@ -57,6 +60,7 @@ namespace LessThanOk.UI
             fclientlobby.addElement(eLobby);
 
             fgame.addElement(eEnd);
+            fgame.addElement(eAdd);
 
             fpostgame.addElement(eHome);
 

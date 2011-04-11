@@ -13,10 +13,11 @@ namespace LessThanOk.UI
         public int Height { get { return _height; } }
         public Dictionary<Vector2, UIElement> Elements { get { return _elements; } }
 
-        private int _width;
-        private int _height;
-        private Dictionary<Vector2, UIElement> _elements;
+        protected int _width;
+        protected int _height;
+        protected Dictionary<Vector2, UIElement> _elements;
 
+        public Frame() { }
         public Frame(int width, int height)
         {
             _width = width;
@@ -27,12 +28,12 @@ namespace LessThanOk.UI
         {
             _elements.Add(element.Position, element);
         }
-        public void draw(SpriteBatch spriteBatch)
+        public virtual void draw(SpriteBatch spriteBatch)
         {
             foreach (UIElement e in _elements.Values)
                 e.draw(spriteBatch);
         }
-        public void update(GameTime gameTime)
+        public virtual void update(GameTime gameTime)
         {
             foreach (UIElement e in _elements.Values)
                 e.update(gameTime);

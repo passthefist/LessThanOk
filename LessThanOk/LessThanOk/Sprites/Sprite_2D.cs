@@ -23,6 +23,7 @@ namespace LessThanOk.Sprites
         public override Color Color { get; set; }
         public override float Alpha { get; set; }
         public override bool Centered { get; set; }
+        public override bool Hover { get; set; }
         public Texture2D Texture { get { return _texture; } }
         
         internal Sprite_2D(Texture2D texture, Vector2 size)

@@ -127,9 +127,14 @@ namespace LessThanOk
             }
             if (NetworkManager.Session != null)
             {
+                NetworkManager.The.update(gameTime);
                 if (NetworkManager.Session.IsHost)
                 {
-                    NetworkManager.The.update(gameTime);
+                    NetworkManager.The.serverReadPackets();
+                }
+                else
+                {
+                    NetworkManager.The.clientReadPackets();
                 }
             }
            

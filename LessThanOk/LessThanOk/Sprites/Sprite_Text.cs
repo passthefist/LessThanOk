@@ -23,6 +23,7 @@ namespace LessThanOk.Sprites
         public override bool Centered { get; set; }
         public SpriteFont Font { get { return _font; } }
         public override Vector2 Size { get { return _size; } }
+        public override bool Hover { get; set; }
         public string Text { get; set; }
 
         internal Sprite_Text(string text, SpriteFont font)

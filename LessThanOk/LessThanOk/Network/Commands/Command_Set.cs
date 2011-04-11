@@ -33,7 +33,7 @@ using System.Text;
 
 namespace LessThanOk.Network.Commands
 {
-    class Command_Set : Command
+    public class Command_Set : Command
     {
         public Command_Set(UInt16 id, UInt16 key, UInt32 value,
             TimeSpan timeStamp)

@@ -18,6 +18,9 @@ namespace LessThanOk.GameData.GameWorld
     public class AdditionChange : Change
     {
         private GameObject added;
+        private GameObjectType type;
+
+        public GameObjectType Type { get { return type; } set { type = value; } }
         public GameObject AddedObject
         { get { return added; } private set { added = value; } }
 
@@ -30,6 +33,13 @@ namespace LessThanOk.GameData.GameWorld
             tstamp = time;
             added = child;
             adder = parent;
+        }
+        public AdditionChange(TimeSpan time, GameObject child, GameObject parent, GameObjectType ntype)
+        {
+            tstamp = time;
+            added = child;
+            adder = parent;
+            type = ntype;
         }
     }
 

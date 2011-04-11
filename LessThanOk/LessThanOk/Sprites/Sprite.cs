@@ -16,6 +16,7 @@ namespace LessThanOk.Sprites
         public abstract Color Color { get; set;  }
         public abstract float Alpha { get; set;  }
         public abstract bool Centered { get; set; }
+        public abstract bool Hover { get; set; }
         public abstract void draw(SpriteBatch spriteBatch);
     }
 }

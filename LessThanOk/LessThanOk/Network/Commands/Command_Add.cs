@@ -38,7 +38,7 @@ using System.Text;
 
 namespace LessThanOk.Network.Commands
 {
-    class Command_Add : Command
+    public class Command_Add : Command
     {
         /// <summary>
         /// Constructor for Command_Add.

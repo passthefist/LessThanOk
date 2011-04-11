@@ -86,7 +86,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BufferedCommunication\BlackBoard.cs" />
     <Compile Include="BufferedCommunication\ChangeList.cs" />
+    <Compile Include="BufferedCommunication\ExicutionQueue.cs" />
     <Compile Include="BufferedCommunication\RequestQueue.cs" />
     <Compile Include="BufferedCommunication\RequestList_Client.cs" />
     <Compile Include="BufferedCommunication\RequestList_Server.cs" />
@@ -128,12 +130,14 @@
     <Compile Include="Sprites\Sprite.cs" />
     <Compile Include="Sprites\SpriteBin.cs" />
     <Compile Include="Sprites\Sprite_2D.cs" />
+    <Compile Include="Sprites\Sprite_GameObject.cs" />
     <Compile Include="Sprites\Sprite_Text.cs" />
     <Compile Include="UI\Frame.cs" />
+    <Compile Include="UI\Frame_Game.cs" />
     <Compile Include="UI\InputManager.cs" />
-    <Compile Include="UI\LeftClick.cs" />
+    <Compile Include="UI\Events\LeftClick.cs" />
     <Compile Include="UI\LobbyList.cs" />
-    <Compile Include="UI\RightClick.cs" />
+    <Compile Include="UI\Events\RightClick.cs" />
     <Compile Include="UI\UIElement.cs" />
     <Compile Include="UI\UIEventListener.cs" />
     <Compile Include="UI\UIManager.cs" />

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LessThanOk.Network.Commands
 {
-    class Command_Note: Command
+    public class Command_Note: Command
     {
         public Command_Note(UInt16 errorID, TimeSpan timeStamp)
         {

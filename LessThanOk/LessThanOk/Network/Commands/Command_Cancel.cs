@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LessThanOk.Network.Commands
 {
-    class Command_Cancel: Command
+    public class Command_Cancel: Command
     {
          public Command_Cancel(UInt16 id, TimeSpan timeStamp)
         {
