@@ -115,6 +115,8 @@ namespace LessThanOk.GameData.GameObjects
 
             Tiles.TileType firstTile = new LessThanOk.GameData.GameObjects.Tiles.TileType(Sprites.SpriteBin.The.getSprite("grassTile"));
             Tiles.TileType secondTile = new LessThanOk.GameData.GameObjects.Tiles.TileType(Sprites.SpriteBin.The.getSprite("yellowTile"));
+            addType("grassTile", firstTile);
+            addType("yellowTile", secondTile);
         }
 
         public void freeID(UInt16 id)

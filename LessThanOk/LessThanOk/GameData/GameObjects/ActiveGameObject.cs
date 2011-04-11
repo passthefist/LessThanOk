@@ -54,7 +54,11 @@ namespace LessThanOk.GameData.GameObjects
         public Vector2 _Position
         {
             get { return position; }
-            set { position = value; }
+            set 
+            { 
+                position = value;
+                image.Position = position;
+            }
         }
 
         protected Sprite image;

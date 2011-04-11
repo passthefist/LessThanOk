@@ -63,6 +63,7 @@ namespace LessThanOk.UI
                 }
                 else if (element.Name == "start")
                 {
+
                     UIManager.The.switchFrame("game");
                 }
                 else if (element.Name == "ready")

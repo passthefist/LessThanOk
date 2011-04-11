@@ -14,10 +14,9 @@ namespace LessThanOk.BufferedCommunication
 
         private static TileMap _map;
        
-        public static bool updateTileMap(ref TileMap map)
+        public static bool updateTileMap(TileMap map)
         {
-            _map = map;
-            map = null;
+            _map = new TileMap(map);
             return true;
         }
         public static bool getTileMap(out TileMap map)

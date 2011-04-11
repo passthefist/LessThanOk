@@ -117,6 +117,7 @@
     <Compile Include="GameData\GameObjects\Units\Weapon.cs" />
     <Compile Include="GameData\GameObjects\Units\WeaponType.cs" />
     <Compile Include="GameData\GameWorld\TileMap.cs" />
+    <Compile Include="LessThanMath.cs" />
     <Compile Include="Network\Commands\Command_Add.cs" />
     <Compile Include="Network\Commands\Command.cs" />
     <Compile Include="Network\Commands\Command_Cancel.cs" />

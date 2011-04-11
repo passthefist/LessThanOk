@@ -52,6 +52,7 @@ namespace LessThanOk.GameData.GameObjects.Tiles
 
         internal Tile(Tile src)
         {
+            this.position = src.position;
             initTile(src.internalUnits, src.hasUnits, src.type);
         }
 
@@ -61,6 +62,7 @@ namespace LessThanOk.GameData.GameObjects.Tiles
             this.internalUnits = new List<Unit> (unit);
             this.type = tType;
             this.image = tType.getImage();
+            this.image.Position = this.position;
 
         }
 

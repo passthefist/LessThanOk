@@ -33,11 +33,21 @@ namespace LessThanOk.GameData.GameWorld
             for (int i = 0; i < height*width; i++)
             {
                 if((i%width)%2 == 0)
-                    tileMap[i % width, i / width] = (Tile)GameObjectFactory.The.createGameObject("grASSTile2");
+                    tileMap[i % width, i / width] = (Tile)GameObjectFactory.The.createGameObject("grassTile");
                 else
-                    tileMap[i % width, i / width] = (Tile)GameObjectFactory.The.createGameObject("grASSTile");
+                    tileMap[i % width, i / width] = (Tile)GameObjectFactory.The.createGameObject("yellowTile");
                 tileMap[i % width, i / width]._Position = new Vector2(tileSize*(i%width), tileSize*(i/width));
             }
+        }
+        public TileMap(TileMap nmap)
+        {
+            this.height = nmap.height;
+            this.width = nmap.width;
+            this.tileSize = nmap.tileSize;
+            this.tileMap = new Tile[nmap.width, nmap.height];
+            for (int i = 0; i < nmap.width; i++)
+                for (int j = 0; j < nmap.height; j++)
+                    this.tileMap[i, j] = new Tile(nmap.tileMap[i, j]);
         }
 
         public TileMap(uint width, uint height, byte tileSize)

@@ -34,6 +34,7 @@ namespace LessThanOk
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        MasterGameWorld masterGame;
 
         public Game1()
         {
@@ -43,27 +44,6 @@ namespace LessThanOk
 
             Content.RootDirectory = "Content";
             base.Components.Add(new GamerServicesComponent(this));
-
-            double error = 0;
-
-            Point p1 = new Point(0, 0);
-            Point p2 = new Point(0, 0);
-
-            for (int i = 0; i < 5000; i++)
-            {
-                p1.X += LessThanMath.random(-10, 10);
-                p1.Y += LessThanMath.random(-10, 10);
-                p2.X += LessThanMath.random(-10, 10);
-                p2.Y += LessThanMath.random(-10, 10);
-
-                double f = Math.Sqrt((double)((p1.X - p2.X) * (p1.X - p2.X) + (p1.Y - p2.Y) * (p1.Y - p2.Y)));
-
-                int d = LessThanMath.approxDist(p1, p2);
-
-                error += (f - d) / f;
-            }
-
-            error /= 5000;
 
         }
         /// <summary>
@@ -80,12 +60,14 @@ namespace LessThanOk
             SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Bitmap1"), new Vector2(), "PersonSprite");
             SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Bitmap2"), new Vector2(), "GunSprite");
 
-            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Tile"), new Vector2(), "grassTile");
-            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("tile2"), new Vector2(), "yellowTile");
-
+            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Tile"), new Vector2(20,20), "grassTile");
+            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("tile2"), new Vector2(20,20), "yellowTile");
+            
             UIManager.The.init(Content);
             InputManager.The.init();
             GameObjectFactory.The.loadXmlData(null);
+            masterGame = new MasterGameWorld();
+            masterGame.update(new TimeSpan());
         }
 
         /// <summary>
@@ -131,6 +113,7 @@ namespace LessThanOk
                 if (NetworkManager.Session.IsHost)
                 {
                     NetworkManager.The.serverReadPackets();
+                    masterGame.update(gameTime.ElapsedGameTime);
                 }
                 else
                 {

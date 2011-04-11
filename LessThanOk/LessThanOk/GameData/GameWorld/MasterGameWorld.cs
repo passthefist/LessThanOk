@@ -79,6 +79,8 @@ namespace LessThanOk.GameData.GameWorld
 //				unit.addCommand();
             }
 
+            ConstructTileMap();
+
             List<Unit> targets = new List<Unit>();
             Dictionary<KeyValuePair<Unit,UInt16>,UInt32> setUnits = new Dictionary<KeyValuePair<Unit,ushort>,uint>();
             

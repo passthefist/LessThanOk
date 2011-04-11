@@ -97,13 +97,20 @@ namespace LessThanOk.UI
 
         private void setHover(UIElement curElement, ActiveGameObject curObject)
         {
-            if (curElement != null)
+            if (_elementHover == null)
+                _elementHover = curElement;
+            else if (curElement != null)
             {
                 if (curElement.Name != _elementHover.Name)
                 {
                     curElement.Image.Hover = true;
                     _elementHover.Image.Hover = false;
                 }
+            }
+            if(_objectHover == null)
+                _objectHover = curObject;
+            else if (curObject != null)
+            {
                 if (curObject.ID != _objectHover.ID)
                 {
                     curObject.Sprite.Hover = true;
