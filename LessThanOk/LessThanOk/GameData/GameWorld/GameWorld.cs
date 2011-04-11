@@ -26,7 +26,7 @@ namespace LessThanOk.GameData.GameWorld
         }
 		
 		public void setGameTime(TimeSpan time){}
-		public abstract void update(TimeSpan elps, List<Command> commands);
+		public abstract void update(TimeSpan elps);
 
         public TileMap getTileMap()
         {

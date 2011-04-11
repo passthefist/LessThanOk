@@ -41,8 +41,9 @@ namespace LessThanOk.GameData.GameWorld
 		{
 		}
 
-        override public void update(TimeSpan gameTime, List<Command> commands)
+        override public void update(TimeSpan gameTime)
         {
+            Queue<Command> commands = RequestQueue_Server.The.Requests;
             foreach (Command cmd in commands)
             {
                 switch (cmd.getCommandType())
@@ -78,8 +79,38 @@ namespace LessThanOk.GameData.GameWorld
 //				unit.addCommand();
             }
 
+            List<Unit> targets = new List<Unit>();
+            Dictionary<KeyValuePair<Unit,UInt16>,UInt32> setUnits = new Dictionary<KeyValuePair<Unit,ushort>,uint>();
+            
+
             foreach (Unit unit in units)
             {
+                UInt16 setField = unit.Target.getFieldID("health");
+                if (unit.Target == null)
+                {
+                    targets = map.getUnitsInCirc(new Point((int)unit._Position.X, (int)unit._Position.Y), 250);
+                    if(targets.Count > 0)
+                    {
+                        unit.Target = targets[0];
+                    }
+                }
+
+                (unit.Target as Unit).health -= 5;
+
+                if ((unit.Target as Unit).health < 0)
+                {
+                    setUnits.Remove(new KeyValuePair<Unit, ushort>(unit, setField));
+                    //removeUnit(unit.Target);
+                }
+                else
+                {
+                    setUnits.Add(new KeyValuePair<Unit, ushort>(unit, setField), (unit.Target as Unit).health);
+                }
+            }
+
+            foreach (KeyValuePair<KeyValuePair<Unit, ushort>, UInt32> kv in setUnits)
+            {
+                setValue(kv.Key.Key, kv.Key.Value, kv.Value);
             }
         }
 	}

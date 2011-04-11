@@ -41,6 +41,7 @@
 \*---------------------------------------------------------------------------*/
 
 using System;
+using System.Xml;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
@@ -69,6 +70,8 @@ namespace LessThanOk.GameData.GameObjects
                 return the;
             }
         }
+
+
         private UInt16 numTypes;
         private UInt16 nextID;
         private Dictionary<UInt16, GameObject> createdObjects;
@@ -84,6 +87,34 @@ namespace LessThanOk.GameData.GameObjects
 
             idToTypeMap = new Dictionary<UInt16, GameObjectType>();
             stringToIdMap = new Dictionary<string, UInt16>();
+        }
+
+        /// <summary>
+        /// Loads Factory data from an XML file. See online
+        /// documentation/existing mods for formatting.
+        /// </summary>
+        /// <param name="xml">The xml document to read from.</param>
+        public void loadXmlData(XmlDocument xml)
+        {
+            Units.ArmorType armor = new Units.ArmorType(10, 5);
+            Units.EngineType engine = new Units.EngineType(0.0f, 0.0f, 0.0f);
+            Units.ProjectileType proj = new Units.ProjectileType(false, 0.0f, 0.0f, 0.0f);
+            Units.WarheadType warhead = new Units.WarheadType(5, 5, Units.WarheadType.Types.BALlISTIC);
+            Units.WeaponType weapon = new Units.WeaponType(warhead, proj);
+
+            Units.UnitType unit1 = new Units.UnitType(weapon, armor, engine, Sprites.SpriteBin.The.getSprite("PersonSprite")) ;
+            Units.UnitType unit2 = new Units.UnitType(weapon, armor, engine, Sprites.SpriteBin.The.getSprite("GunSprite"));
+
+            addType("BasicArmor", armor);
+            addType("BasicEngine", engine);
+            addType("BasicProjectile", proj);
+            addType("BasicWarhead", warhead);
+            addType("BasicWeapon", weapon);
+            addType("TestUnit", unit1);
+            addType("OtherUnit", unit2);
+
+            Tiles.TileType firstTile = new LessThanOk.GameData.GameObjects.Tiles.TileType(Sprites.SpriteBin.The.getSprite("grassTile"));
+            Tiles.TileType secondTile = new LessThanOk.GameData.GameObjects.Tiles.TileType(Sprites.SpriteBin.The.getSprite("yellowTile"));
         }
 
         public void freeID(UInt16 id)

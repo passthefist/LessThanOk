@@ -77,6 +77,14 @@ namespace LessThanOk.GameData.GameObjects.Units
             set { hp = value; }
         }
 
+        private ActiveGameObject target;
+
+        public ActiveGameObject Target
+        {
+            get { return target; }
+            set { target = value; }
+        }
+
         private bool aggressive;
         private bool pursue;
 
@@ -112,6 +120,7 @@ namespace LessThanOk.GameData.GameObjects.Units
         private void init()
         {
             velocity = new Vector3();
+            target = null;
             commands = new Queue<Command>();
             aggressive = false;
             pursue = false;

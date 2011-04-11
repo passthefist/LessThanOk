@@ -40,30 +40,6 @@ namespace LessThanOk.GameData.GameWorld
             }
         }
 
-        public GameObject getObjectAtPoint(Vector2 point)
-        {
-            uint x;
-            uint y;
-            y = (uint)point.Y;
-            x = (uint)point.X;
-
-            if (y < 0 || y > height || x < 0 || x > width)
-                return null;
-
-            y = y / height;
-            x = x / width;
-
-            Tile tile = tileMap[x, y];
-            if (tile.HasUnits)
-            {
-                return tile.InternalUnits[0];
-            }
-            else
-            {
-                return tile;
-            }
-        }
-
         public TileMap(uint width, uint height, byte tileSize)
         {
             if (width * height > 16384)
@@ -100,6 +76,31 @@ namespace LessThanOk.GameData.GameWorld
             return tiles;
         }
 
+        public ActiveGameObject getObjectAtPoint(Vector2 point)
+        {
+            //TODO: structure should support 
+            uint x;
+            uint y;
+            y = (uint)point.Y;
+            x = (uint)point.X;
+
+            if (y < 0 || y > height || x < 0 || x > width)
+                return null;
+
+            y = y / height;
+            x = x / width;
+
+            Tile tile = tileMap[x, y];
+            if (tile.HasUnits)
+            {
+                return tile.InternalUnits[0];
+            }
+            else
+            {
+                return tile;
+            }
+        }
+
         public List<Unit> getUnitsInRect(Rectangle rect)
         {
             List<Tile> tiles = getTilesInRect(rect);
@@ -118,11 +119,11 @@ namespace LessThanOk.GameData.GameWorld
 
             return units;
         }
-
-        public List<Unit> getUnitsInCirc(Rectangle rect)
+        
+        public List<Unit> getUnitsInCirc(Point center, int radius)
         {
-            List<Tile> tiles = getTilesInRect(rect);
-            List<Unit> units = new List<Unit>(rect.Width * rect.Height);
+            List<Tile> tiles = getTilesInRect(new Rectangle(center.X - radius, center.Y - radius,2*radius,2*radius));
+            List<Unit> units = new List<Unit>(radius/4);
 
             foreach (Tile t in tiles)
             {
@@ -130,7 +131,10 @@ namespace LessThanOk.GameData.GameWorld
                 {
                     foreach (Unit u in t.InternalUnits)
                     {
-                        units.Add(u);
+                        if (LessThanMath.approxDist((int)u._Position.X, (int)u._Position.Y, center.X, center.Y) < radius)
+                        {
+                            units.Add(u);
+                        }
                     }
                 }
             }

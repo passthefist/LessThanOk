@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using LessThanOk.GameData.GameObjects.Units;
 using LessThanOk.GameData.GameObjects;
 using LessThanOk.GameData.GameWorld;
+using LessThanOk.BufferedCommunication;
 
 namespace LessThanOk.GameData.GameWorld
 {
@@ -16,9 +17,9 @@ namespace LessThanOk.GameData.GameWorld
         {
         }
 
-        override public void update(TimeSpan elps, List<Command> commands)
+        override public void update(TimeSpan elps)
         {
-            Commands.AddRange(commands);
+            Commands.AddRange(RequestQueue_Client.The.Requests);
             foreach (Command cmd in Commands)
             {
                 switch (cmd.getCommandType())
