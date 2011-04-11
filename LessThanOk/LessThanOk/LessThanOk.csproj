@@ -131,7 +131,6 @@
     <Compile Include="Sprites\Sprite.cs" />
     <Compile Include="Sprites\SpriteBin.cs" />
     <Compile Include="Sprites\Sprite_2D.cs" />
-    <Compile Include="Sprites\Sprite_GameObject.cs" />
     <Compile Include="Sprites\Sprite_Text.cs" />
     <Compile Include="UI\Frame.cs" />
     <Compile Include="UI\Frame_Game.cs" />

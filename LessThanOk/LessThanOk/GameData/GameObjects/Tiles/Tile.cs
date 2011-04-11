@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using LessThanOk.GameData.GameObjects.Units;
 using LessThanOk.GameData;
+using LessThanOk.Sprites;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Reflection;
 
 namespace LessThanOk.GameData.GameObjects.Tiles
@@ -61,14 +63,18 @@ namespace LessThanOk.GameData.GameObjects.Tiles
             this.hasUnits = has;
             this.internalUnits = new List<Unit> (unit);
             this.type = tType;
-            this.image = tType.getImage();
+            this.image = (Sprite_2D)tType.getImage();
             this.image.Position = this.position;
-
         }
 
         override public void update(GameTime gameTime)
         {
             //update sprite animations
+        }
+
+        public void draw(SpriteBatch batch)
+        {
+            batch.Draw(((Sprite_2D)type.getImage()).Texture, this.position, Color.White);
         }
 
         public void clear() 

@@ -39,6 +39,8 @@ using Microsoft.Xna.Framework;
 using LessThanOk.Network.Commands;
 using LessThanOk.GameData.GameObjects;
 using LessThanOk.Sprites;
+using Microsoft.Xna.Framework.Graphics;
+
 [assembly: InternalsVisibleTo("UnitType")]
 
 namespace LessThanOk.GameData.GameObjects.Units
@@ -143,6 +145,11 @@ namespace LessThanOk.GameData.GameObjects.Units
                 default:
                     break;
             }
+        }
+
+        public void draw(SpriteBatch batch)
+        {
+            batch.Draw(((Sprite_2D)type.getImage()).Texture, this.position, Color.White);
         }
 
         public void addCommand(Command newCommand)

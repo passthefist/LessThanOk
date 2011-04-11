@@ -61,12 +61,12 @@ namespace LessThanOk.GameData.GameObjects
             }
         }
 
-        protected Sprite image;
+        protected Sprite_2D image;
 
         /// <summary>
         /// The image for this object
         /// </summary>
-        public Sprite Sprite
+        public Sprite_2D Sprite
         {
             get { return image; }
             set { image = value; }
