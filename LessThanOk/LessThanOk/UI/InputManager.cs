@@ -113,7 +113,7 @@ namespace LessThanOk.UI
             {
                 if (curObject.ID != _objectHover.ID)
                 {
-                    curObject.Sprite.Hover = true;
+                    //curObject.Sprite.Hover = true;
                     _elementHover.Image.Hover = false;
                 }
             }

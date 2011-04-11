@@ -57,7 +57,6 @@ namespace LessThanOk.GameData.GameObjects
             set 
             { 
                 position = value;
-                image.Position = position;
             }
         }
 

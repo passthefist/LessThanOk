@@ -75,7 +75,7 @@ namespace LessThanOk.UI
                     if (NetworkManager.Session.IsHost)
                     {
                         UInt16 builder = InputManager.Selected.ID;
-                        UInt16 type = GameObjectFactory.The.getType("test unit").ID;
+                        UInt16 type = GameObjectFactory.The.getType("TestUnit").ID;
 
                         Command_Add cmd = new Command_Add(builder, 0, type, new TimeSpan());
                         RequestQueue_Server.The.push(cmd);

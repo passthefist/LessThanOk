@@ -29,10 +29,10 @@ namespace LessThanOk.UI
             foreach (UIElement e in Elements.Values)
                 e.draw(spriteBatch);
             foreach (Tile t in _map.getTilesInRect(_view))
-                t.Sprite.draw(spriteBatch);
+                t.draw(spriteBatch);
             foreach (Tile t in _map.getTilesInRect(_view))
                 foreach (Unit u in t.InternalUnits)
-                    u.Sprite.draw(spriteBatch);
+                    u.draw(spriteBatch);
         }
         public override void update(GameTime gameTime)
         {

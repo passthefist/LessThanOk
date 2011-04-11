@@ -55,6 +55,7 @@ namespace LessThanOk.GameData.GameObjects.Tiles
         internal Tile(Tile src)
         {
             this.position = src.position;
+            this.ID = src.ID;
             initTile(src.internalUnits, src.hasUnits, src.type);
         }
 

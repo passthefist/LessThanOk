@@ -65,8 +65,8 @@ namespace LessThanOk.GameData.GameObjects
 
         ~GameObject()
         {
-            Console.WriteLine("Removing Object: {0} with {1}", this.GetType(), this.id);
-            GameObjectFactory.The.freeID(id);
+            //Console.WriteLine("Removing Object: {0} with {1}", this.GetType(), this.id);
+            //GameObjectFactory.The.freeID(id);
         }
     }
 } 

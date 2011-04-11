@@ -83,11 +83,10 @@ namespace LessThanOk.GameData.GameWorld
 
             List<Unit> targets = new List<Unit>();
             Dictionary<KeyValuePair<Unit,UInt16>,UInt32> setUnits = new Dictionary<KeyValuePair<Unit,ushort>,uint>();
-            
+            UInt16 setField;
 
             foreach (Unit unit in units)
             {
-                UInt16 setField = unit.Target.getFieldID("health");
                 if (unit.Target == null)
                 {
                     targets = map.getUnitsInCirc(new Point((int)unit._Position.X, (int)unit._Position.Y), 250);
@@ -97,6 +96,8 @@ namespace LessThanOk.GameData.GameWorld
                     }
                 }
 
+                setField = unit.Target.getFieldID("health");
+                
                 (unit.Target as Unit).health -= 5;
 
                 if ((unit.Target as Unit).health < 0)

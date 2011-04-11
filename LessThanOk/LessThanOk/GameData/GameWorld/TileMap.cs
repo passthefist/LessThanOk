@@ -79,7 +79,9 @@ namespace LessThanOk.GameData.GameWorld
             {
                 for(int j = rect.Top; j < rect.Bottom; j+= tileSize)
                 {
-                    tiles.Add(tileMap[i/tileSize ,j/tileSize]);
+                    if(i/tileSize >= 0 && j/tileSize >= 0)
+                        if(i/tileSize < width && j/tileSize < height)
+                            tiles.Add(tileMap[i/tileSize ,j/tileSize]);
                 }
             }
 
@@ -94,11 +96,11 @@ namespace LessThanOk.GameData.GameWorld
             y = (uint)point.Y;
             x = (uint)point.X;
 
-            if (y < 0 || y > height || x < 0 || x > width)
-                return null;
+            y = y / tileSize;
+            x = x / tileSize;
 
-            y = y / height;
-            x = x / width;
+            if (y < 0 || y >= height || x < 0 || x >= width)
+                return null;
 
             Tile tile = tileMap[x, y];
             if (tile.HasUnits)
