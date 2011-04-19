@@ -32,6 +32,14 @@ namespace LessThanOk.GameData.GameWorld
 
         protected void ConstructTileMap()
         {
+            map.clear();
+
+            foreach (Unit unit in units)
+            {
+                map.placeUnit(unit);
+                //				unit.addCommand();
+            }
+
             BlackBoard.updateTileMap(map);
         }
 

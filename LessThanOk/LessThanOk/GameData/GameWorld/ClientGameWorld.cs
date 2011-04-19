@@ -62,12 +62,6 @@ namespace LessThanOk.GameData.GameWorld
 
             map.clear();
 
-            foreach (Unit unit in units)
-            {
-                map.placeUnit(unit);
-//				unit.addCommand();
-            }
-
             ConstructTileMap();
         }
     }
