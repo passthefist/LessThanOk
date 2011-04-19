@@ -42,6 +42,7 @@ namespace LessThanOk.UI
         }
         public ActiveGameObject getObjectAt(Vector2 pos)
         {
+            Boolean success = BlackBoard.getTileMap(out _map);
             return _map.getObjectAtPoint(pos);
         }
     }
