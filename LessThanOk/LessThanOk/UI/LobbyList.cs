@@ -26,14 +26,15 @@ namespace LessThanOk.UI
         {
             String text = "";
             Sprite_Text temp = (Sprite_Text)_image;
-
-            foreach (Gamer g in NetworkManager.Session.AllGamers)
+            /*
+            foreach (Gamer g in session.AllGamers)
             {
                 text += g.Gamertag;
                 text += "\n";
             }
             temp.Text = text;
             _image = temp;
+             */
         }
         public override void draw(SpriteBatch spriteBatch)
         {

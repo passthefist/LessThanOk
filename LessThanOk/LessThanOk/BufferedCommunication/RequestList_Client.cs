@@ -5,11 +5,11 @@ using System.Text;
 
 namespace LessThanOk.BufferedCommunication
 {
-    public sealed class RequestQueue_Client : RequestQueue
+    public sealed class GlobalRequestQueue : RequestQueue
     {
-        static readonly RequestQueue_Client the = new RequestQueue_Client();
-        static RequestQueue_Client(){}
-        public static RequestQueue_Client The {get{return the;}}
+        static readonly GlobalRequestQueue the = new GlobalRequestQueue();
+        static GlobalRequestQueue(){}
+        public static GlobalRequestQueue The {get{return the;}}
 
     }
 }

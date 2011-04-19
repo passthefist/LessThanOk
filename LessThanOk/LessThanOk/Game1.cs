@@ -35,6 +35,8 @@ namespace LessThanOk
         GameWorld gameWorld;
         UIEventListener GameController;
         List<GlobalEvent> globalEvents;
+        NetworkSession session;
+        CommandRequester commandRequester;
 
         public Game1()
         {
@@ -50,7 +52,14 @@ namespace LessThanOk
             globalEvents.Add(new GlobalEvent(GlobalEvent.EVENTNAME.JOINGAME));
             globalEvents.Add(new GlobalEvent(GlobalEvent.EVENTNAME.STARTGAME));
             globalEvents.Add(new GlobalEvent(GlobalEvent.EVENTNAME.ENDGAME));
-            GameController = new UIEventListener(globalEvents);
+
+            List<CommandEvent> commandEvents = new List<CommandEvent>();
+            commandEvents.Add(new CommandEvent(CommandEvent.EVENTNAME.ADD));
+
+            GameController = new UIEventListener(globalEvents, commandEvents);
+            commandRequester = new CommandRequester();
+            
+            commandRequester.subscribe(commandEvents);
             subscribe(globalEvents);
 
 
@@ -74,8 +83,7 @@ namespace LessThanOk
             
             UIManager.The.init(Content);
             InputManager.The.init();
-            
-            NetworkManager.The.subscribe(globalEvents);
+     
             UIManager.The.subscribe(globalEvents);
     
             GameObjectFactory.The.loadXmlData(null);
@@ -119,21 +127,20 @@ namespace LessThanOk
                 UIManager.The.update(gameTime);
                 InputManager.The.update(gameTime);
             }
-            if (NetworkManager.Session != null)
+            if (session != null)
             {
-                NetworkManager.The.update(gameTime);
-
-                if (NetworkManager.Session.IsHost)
+                session.Update();
+                if (session.IsHost)
                 {
                     NetworkManager.The.serverReadPackets();
-                    if(NetworkManager.Session.SessionState == NetworkSessionState.Playing)
+                    if(session.SessionState == NetworkSessionState.Playing)
                         gameWorld.update(gameTime.ElapsedGameTime);
                     NetworkManager.The.serverWritePackets();
                 }
                 else
                 {
                     NetworkManager.The.clientReadPackets();
-                    if (NetworkManager.Session.SessionState == NetworkSessionState.Playing)
+                    if (session.SessionState == NetworkSessionState.Playing)
                         gameWorld.update(gameTime.ElapsedGameTime);
                 }
             }
@@ -156,35 +163,35 @@ namespace LessThanOk
             base.Draw(gameTime);
         }
 
-        void GameStartedEventHandler(object sender, GameStartedEventArgs args)
-        {
-            if (NetworkManager.Session.IsHost)
-                gameWorld = new MasterGameWorld();
-            else
-                gameWorld = new ClientGameWorld();
-            gameWorld.update(new TimeSpan());
-            UIManager.The.update(new GameTime());
-        }
+        
 
         #region GlobalEventSubscriber Members
 
+        public void StartGameHandler(object sender, EventArgs args)
+        {
+            session.StartGame();
+        }
         public void JoinSessionHandler(object sender, EventArgs e)
         {
-            NetworkManager.Session.GameStarted += StartGameHandler;
+            AvailableNetworkSessionCollection sessions;
+            sessions = NetworkSession.Find(NetworkSessionType.SystemLink, 2, null);
+            if (sessions.Count > 0)
+            {
+                session = NetworkSession.Join(sessions[0]);
+                session.GameStarted += GameSessionStartedHandler;
+            }
+            else
+            {
+                throw new Exception();
+            }
         }
 
         public void CreateSessionHandler(object sender, EventArgs e)
         {
-            //throw new NotImplementedException();
+            session = NetworkSession.Create(NetworkSessionType.SystemLink, 2, 2);
+            session.GameStarted += GameSessionStartedHandler;
         }
 
-        public void StartGameHandler(object sender, EventArgs e)
-        {
-            if (NetworkManager.Session.IsHost)
-                gameWorld = new MasterGameWorld();
-            else
-                gameWorld = new ClientGameWorld();
-        }
 
         public void EndGameHandler(object sender, EventArgs e)
         {
@@ -212,6 +219,18 @@ namespace LessThanOk
                         break;
                 }
             }
+        }
+
+        #endregion
+
+        #region SessionEventHandlers
+        
+        public void GameSessionStartedHandler(object sender, EventArgs e)
+        {
+            if (session.IsHost)
+                gameWorld = new MasterGameWorld();
+            else
+                gameWorld = new ClientGameWorld();
         }
 
         #endregion

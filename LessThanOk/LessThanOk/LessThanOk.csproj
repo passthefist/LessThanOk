@@ -120,6 +120,9 @@
     <Compile Include="GlobalEvent.cs" />
     <Compile Include="GlobalEventSubscriber.cs" />
     <Compile Include="LessThanMath.cs" />
+    <Compile Include="Network\Commands\CommandEvent.cs" />
+    <Compile Include="Network\Commands\CommandEventSubscriber.cs" />
+    <Compile Include="Network\Commands\CommandRequester.cs" />
     <Compile Include="Network\Commands\Command_Add.cs" />
     <Compile Include="Network\Commands\Command.cs" />
     <Compile Include="Network\Commands\Command_Cancel.cs" />

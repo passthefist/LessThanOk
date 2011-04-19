@@ -19,8 +19,9 @@ namespace LessThanOk.UI
         private GlobalEvent _CreateGame;
         private GlobalEvent _StartGame;
         private GlobalEvent _EndGame;
+        private CommandEvent _AddEvent;
 
-        public UIEventListener(List<GlobalEvent> events)
+        public UIEventListener(List<GlobalEvent> events, List<CommandEvent> cevents)
         {
             RightClickEvent = UIManager.RightClickEvent;
             LeftClickEvent = UIManager.LeftClickEvent;
@@ -43,6 +44,17 @@ namespace LessThanOk.UI
                         break;
                     case GlobalEvent.EVENTNAME.ENDGAME:
                         _EndGame = e;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            foreach (CommandEvent e in cevents)
+            {
+                switch (e.Name)
+                {
+                    case CommandEvent.EVENTNAME.ADD:
+                        _AddEvent = e;
                         break;
                     default:
                         break;
@@ -93,6 +105,9 @@ namespace LessThanOk.UI
                 }
                 else if (element.Name == "add")
                 {
+                    _AddEvent.trigger();
+
+                    /*
                     if (NetworkManager.Session.IsHost)
                     {
                         UInt16 builder = InputManager.Selected.ID;
@@ -101,6 +116,7 @@ namespace LessThanOk.UI
                         Command_Add cmd = new Command_Add(builder, 0, type, new TimeSpan());
                         RequestQueue_Server.The.push(cmd);
                     }
+                     */
                 }
             }
             else

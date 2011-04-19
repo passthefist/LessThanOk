@@ -43,7 +43,7 @@ namespace LessThanOk.GameData.GameWorld
 
         override public void update(TimeSpan gameTime)
         {
-            Queue<Command> commands = RequestQueue_Server.The.Requests;
+            Queue<Command> commands = GlobalRequestQueue.The.Requests;
             foreach (Command cmd in commands)
             {
                 switch (cmd.getCommandType())

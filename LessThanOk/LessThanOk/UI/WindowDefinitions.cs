@@ -46,7 +46,7 @@ namespace LessThanOk.UI
             UIElement eEnd = new UIElement("end", end, new Vector2(0, 400));
             UIElement eHome = new UIElement("home", home, new Vector2(0, 0));
             UIElement eAdd = new UIElement("add", add, new Vector2(400, 400));
-            LobbyList eLobby = new LobbyList("lobbyList", new Vector2(0, 0), lobbyText);
+            //LobbyList eLobby = new LobbyList("lobbyList", new Vector2(0, 0), lobbyText);
 
 
             fhome.addElement(eCreate);
@@ -54,10 +54,10 @@ namespace LessThanOk.UI
 
             fhostlobby.addElement(eReady);
             fhostlobby.addElement(eStart);
-            fhostlobby.addElement(eLobby);
+            //fhostlobby.addElement(eLobby);
 
             fclientlobby.addElement(eReady);
-            fclientlobby.addElement(eLobby);
+            //fclientlobby.addElement(eLobby);
 
             fgame.addElement(eEnd);
             fgame.addElement(eAdd);
