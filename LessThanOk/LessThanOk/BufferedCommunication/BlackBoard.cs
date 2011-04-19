@@ -9,7 +9,10 @@ namespace LessThanOk.BufferedCommunication
     class BlackBoard
     {
         static readonly BlackBoard the = new BlackBoard();
-        static BlackBoard() { }
+        static BlackBoard() 
+        {
+            _map = new TileMap();
+        }
         public static BlackBoard The { get { return the; } }
 
         private static TileMap _map;

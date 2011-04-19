@@ -17,8 +17,6 @@ using LessThanOk.GameData;
 using LessThanOk.UI;
 using LessThanOk.Sprites;
 using LessThanOk.GameData.GameObjects;
-using LessThanOk.GameData.GameObjects.Units;
-
 using LessThanOk.GameData.GameWorld;
 using LessThanOk.GameData.GameObjects.Tiles;
 
@@ -27,14 +25,16 @@ namespace LessThanOk
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Microsoft.Xna.Framework.Game
+    public class Game1 : Microsoft.Xna.Framework.Game, GlobalEventSubscriber
     {
         const int SCREEN_WIDTH = 1000;
         const int SCREEN_HEIGHT = 600;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        MasterGameWorld masterGame;
+        GameWorld gameWorld;
+        UIEventListener GameController;
+        List<GlobalEvent> globalEvents;
 
         public Game1()
         {
@@ -44,6 +44,15 @@ namespace LessThanOk
 
             Content.RootDirectory = "Content";
             base.Components.Add(new GamerServicesComponent(this));
+
+            globalEvents = new List<GlobalEvent>();
+            globalEvents.Add(new GlobalEvent(GlobalEvent.EVENTNAME.CREATEGAME));
+            globalEvents.Add(new GlobalEvent(GlobalEvent.EVENTNAME.JOINGAME));
+            globalEvents.Add(new GlobalEvent(GlobalEvent.EVENTNAME.STARTGAME));
+            globalEvents.Add(new GlobalEvent(GlobalEvent.EVENTNAME.ENDGAME));
+            GameController = new UIEventListener(globalEvents);
+            subscribe(globalEvents);
+
 
         }
         /// <summary>
@@ -65,9 +74,12 @@ namespace LessThanOk
             
             UIManager.The.init(Content);
             InputManager.The.init();
+            
+            NetworkManager.The.subscribe(globalEvents);
+            UIManager.The.subscribe(globalEvents);
+    
             GameObjectFactory.The.loadXmlData(null);
-            masterGame = new MasterGameWorld();
-            masterGame.update(new TimeSpan());
+
         }
 
         /// <summary>
@@ -110,14 +122,19 @@ namespace LessThanOk
             if (NetworkManager.Session != null)
             {
                 NetworkManager.The.update(gameTime);
+
                 if (NetworkManager.Session.IsHost)
                 {
                     NetworkManager.The.serverReadPackets();
-                    masterGame.update(gameTime.ElapsedGameTime);
+                    if(NetworkManager.Session.SessionState == NetworkSessionState.Playing)
+                        gameWorld.update(gameTime.ElapsedGameTime);
+                    NetworkManager.The.serverWritePackets();
                 }
                 else
                 {
                     NetworkManager.The.clientReadPackets();
+                    if (NetworkManager.Session.SessionState == NetworkSessionState.Playing)
+                        gameWorld.update(gameTime.ElapsedGameTime);
                 }
             }
            
@@ -138,5 +155,65 @@ namespace LessThanOk
 
             base.Draw(gameTime);
         }
+
+        void GameStartedEventHandler(object sender, GameStartedEventArgs args)
+        {
+            if (NetworkManager.Session.IsHost)
+                gameWorld = new MasterGameWorld();
+            else
+                gameWorld = new ClientGameWorld();
+            gameWorld.update(new TimeSpan());
+            UIManager.The.update(new GameTime());
+        }
+
+        #region GlobalEventSubscriber Members
+
+        public void JoinSessionHandler(object sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        public void CreateSessionHandler(object sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        public void StartGameHandler(object sender, EventArgs e)
+        {
+            if (NetworkManager.Session.IsHost)
+                gameWorld = new MasterGameWorld();
+            else
+                gameWorld = new ClientGameWorld();
+        }
+
+        public void EndGameHandler(object sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        public void subscribe(List<GlobalEvent> events)
+        {
+            foreach (GlobalEvent e in globalEvents)
+            {
+                switch (e.Name)
+                {
+                    case GlobalEvent.EVENTNAME.JOINGAME:
+                        e.Handler += JoinSessionHandler;
+                        break;
+                    case GlobalEvent.EVENTNAME.CREATEGAME:
+                        e.Handler += CreateSessionHandler;
+                        break;
+                    case GlobalEvent.EVENTNAME.STARTGAME:
+                        e.Handler += StartGameHandler;
+                        break;
+                    case GlobalEvent.EVENTNAME.ENDGAME:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        #endregion
     }
 }

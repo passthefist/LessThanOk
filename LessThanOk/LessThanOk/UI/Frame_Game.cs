@@ -26,6 +26,7 @@ namespace LessThanOk.UI
         }
         public override void draw(SpriteBatch spriteBatch)
         {
+            Boolean success = BlackBoard.getTileMap(out _map);
             foreach (UIElement e in Elements.Values)
                 e.draw(spriteBatch);
             foreach (Tile t in _map.getTilesInRect(_view))
@@ -37,7 +38,7 @@ namespace LessThanOk.UI
         public override void update(GameTime gameTime)
         {
             bool success;
-            success = BlackBoard.getTileMap(out _map);
+            //success = BlackBoard.getTileMap(out _map);
         }
         public ActiveGameObject getObjectAt(Vector2 pos)
         {

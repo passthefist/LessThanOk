@@ -11,7 +11,7 @@ using LessThanOk.Network.Commands;
 
 namespace LessThanOk.Network
 {
-    public sealed class NetworkManager
+    public sealed class NetworkManager : GlobalEventSubscriber
     {
         private static NetworkSession _session;
         private static PacketReader _reader;
@@ -19,7 +19,7 @@ namespace LessThanOk.Network
         private static int _maxGamers;
         private static int _maxLocalGamers;
 
-        public static NetworkSession Session { get { return _session; } }
+        public static NetworkSession Session { get { return _session; } set { _session = value; } }
 
 
         static readonly NetworkManager the = new NetworkManager();
@@ -120,24 +120,34 @@ namespace LessThanOk.Network
             }
         }
 
-        public void startSession()
+
+        #region GlobalEventSubscriber Members
+
+
+        public void CreateSessionHandler(object sender, EventArgs e)
         {
             try
             {
                 _session = NetworkSession.Create(NetworkSessionType.SystemLink,
                                                        _maxLocalGamers, _maxGamers);
 
-                _session.GamerJoined += GamerJoinedEventHandler;
-                _session.GamerLeft += GamerLeftEventHandler;
-                _session.GameEnded += SessionEndedEventHandler;
-                _session.GameStarted += SessionStartedEventHandler;
+                //_session.GamerJoined += GamerJoinedEventHandler;
+                //_session.GamerLeft += GamerLeftEventHandler;
+                //_session.GameEnded += SessionEndedEventHandler;
+                //_session.GameStarted += SessionStartedEventHandler;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
+                Console.WriteLine(ex);
             }
         }
-        public void joinSession()
+
+        public void StartGameHandler(object sender, EventArgs e)
+        {
+            _session.StartGame();
+        }
+
+        public void JoinSessionHandler(object sender, EventArgs e)
         {
             try
             {
@@ -154,35 +164,46 @@ namespace LessThanOk.Network
                     // Join the first session we found.
                     _session = NetworkSession.Join(availableSessions[0]);
 
-                    _session.GamerJoined += GamerJoinedEventHandler;
-                    _session.GamerLeft += GamerLeftEventHandler;
-                    _session.GameEnded += SessionEndedEventHandler;
-                    _session.GameStarted += SessionStartedEventHandler;
+                    //_session.GamerJoined += GamerJoinedEventHandler;
+                    //_session.GamerLeft += GamerLeftEventHandler;
+                    //_session.GameEnded += SessionEndedEventHandler;
+                    //_session.GameStarted += SessionStartedEventHandler;
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
+               
             }
         }
-        void GamerJoinedEventHandler(object sender, GamerJoinedEventArgs e)
-        {
-            
-        }
-        void GamerLeftEventHandler(object sender, GamerLeftEventArgs e)
-        {
 
-        }
-        void SessionStartedEventHandler(object sender, GameStartedEventArgs e)
+        public void EndGameHandler(object sender, EventArgs e)
         {
+            throw new NotImplementedException();
+        }
 
-        }
-        void SessionEndedEventHandler(object sender, GameEndedEventArgs e)
+        public void subscribe(List<GlobalEvent> events)
         {
-        
+            foreach(GlobalEvent e in events)
+            {
+                switch (e.Name)
+                {
+                    case GlobalEvent.EVENTNAME.JOINGAME:
+                        e.Handler += JoinSessionHandler;
+                        break;
+                    case GlobalEvent.EVENTNAME.CREATEGAME:
+                        e.Handler += CreateSessionHandler;
+                        break;
+                    case GlobalEvent.EVENTNAME.STARTGAME:
+                        e.Handler += StartGameHandler;
+                        break;
+                    case GlobalEvent.EVENTNAME.ENDGAME:
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
-        
-        
-        
+
+        #endregion
     }
 }

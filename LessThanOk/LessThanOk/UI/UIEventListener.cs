@@ -15,8 +15,12 @@ namespace LessThanOk.UI
     {
         private RightClick RightClickEvent;
         private LeftClick LeftClickEvent;
+        private GlobalEvent _JoinGame;
+        private GlobalEvent _CreateGame;
+        private GlobalEvent _StartGame;
+        private GlobalEvent _EndGame;
 
-        public UIEventListener()
+        public UIEventListener(List<GlobalEvent> events)
         {
             RightClickEvent = UIManager.RightClickEvent;
             LeftClickEvent = UIManager.LeftClickEvent;
@@ -24,6 +28,26 @@ namespace LessThanOk.UI
             RightClickEvent.Handler += new UIEventHandler(RightClickHandler);
             LeftClickEvent.Handler += new UIEventHandler(LeftClickHandler);
 
+            foreach (GlobalEvent e in events)
+            {
+                switch (e.Name)
+                {
+                    case GlobalEvent.EVENTNAME.JOINGAME:
+                        _JoinGame = e;
+                        break;
+                    case GlobalEvent.EVENTNAME.CREATEGAME:
+                        _CreateGame = e;
+                        break;
+                    case GlobalEvent.EVENTNAME.STARTGAME:
+                        _StartGame = e;
+                        break;
+                    case GlobalEvent.EVENTNAME.ENDGAME:
+                        _EndGame = e;
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
         private void RightClickHandler(object sender, EventArgs e)
         {
@@ -43,28 +67,25 @@ namespace LessThanOk.UI
                 UIElement element = (UIElement)sender;
                 if (element.Name == "home")
                 {
-                    UIManager.The.switchFrame("home");
+                    //UIManager.The.switchFrame("home");
                 }
                 else if (element.Name == "end")
                 {
-                    UIManager.The.switchFrame("postgame");
+                    _EndGame.trigger();
                 }
                 else if (element.Name == "join")
                 {
                     Console.WriteLine("Joining Session...");
-                    NetworkManager.The.joinSession();
-                    UIManager.The.switchFrame("clientlobby");
+                    _JoinGame.trigger();
                 }
                 else if (element.Name == "create")
                 {
                     Console.WriteLine("Creating Session...");
-                    NetworkManager.The.startSession();
-                    UIManager.The.switchFrame("hostlobby");
+                    _CreateGame.trigger();
                 }
                 else if (element.Name == "start")
                 {
-
-                    UIManager.The.switchFrame("game");
+                    _StartGame.trigger();
                 }
                 else if (element.Name == "ready")
                 {

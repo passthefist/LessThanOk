@@ -33,6 +33,8 @@ namespace LessThanOk.GameData.GameWorld
             tstamp = time;
             added = child;
             adder = parent;
+            // TODO: Fix
+            type = ((Unit)child).Type;
         }
         public AdditionChange(TimeSpan time, GameObject child, GameObject parent, GameObjectType ntype)
         {
