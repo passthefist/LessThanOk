@@ -170,7 +170,7 @@ namespace LessThanOk
 
         public void JoinSessionHandler(object sender, EventArgs e)
         {
-            //throw new NotImplementedException();
+            NetworkManager.Session.GameStarted += StartGameHandler;
         }
 
         public void CreateSessionHandler(object sender, EventArgs e)
