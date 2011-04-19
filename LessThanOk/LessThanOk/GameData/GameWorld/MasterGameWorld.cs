@@ -98,7 +98,7 @@ namespace LessThanOk.GameData.GameWorld
 
                 setField = unit.Target.getFieldID("health");
                 
-                (unit.Target as Unit).health -= 5;
+                (unit.Target as Unit).health--;
 
                 if ((unit.Target as Unit).health < 0)
                 {

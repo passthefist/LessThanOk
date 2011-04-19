@@ -12,6 +12,7 @@ namespace LessThanOk.GameData.GameWorld
     public class ClientGameWorld : GameWorld
     {
         public List<Command> Commands;
+        public List<Command_Add> toAdds;
 
         public ClientGameWorld() : base ()
         {
@@ -19,23 +20,29 @@ namespace LessThanOk.GameData.GameWorld
 
         override public void update(TimeSpan elps)
         {
-            Commands.AddRange(RequestQueue_Client.The.Requests);
-            foreach (Command cmd in Commands)
+
+            ExicutionQueue.The.getAdds(out toAdds);
+
+            foreach (Command_Add cmd in Commands)
             {
-                switch (cmd.getCommandType())
+                Command_Add cAdd = (Command_Add)cmd;
+                Unit newUnit = (Unit)fact.resurrectGameObject(cAdd.getType(), cAdd.getBuilt());
+                GameObject builder = fact.getGameObject(cAdd.getBuilder());
+
+                if (builder.GetType() == typeof(Unit))
+                {
+                    newUnit._Position = ((Unit)builder)._Position;
+                }
+
+                units.Add(newUnit);
+            }
+
+            /*
+             *switch (cmd.getCommandType())
                 {
                     case Command.T_COMMAND.ADD:
 
-                        Command_Add cAdd = (Command_Add)cmd;
-                        Unit newUnit = (Unit)fact.resurrectGameObject(cAdd.getType(),cAdd.getBuilt());
-                        GameObject builder = fact.getGameObject(cAdd.getBuilder());
-
-                        if (builder.GetType() == typeof(Unit))
-                        {
-                            newUnit._Position = ((Unit)builder)._Position;
-                        }
-
-                        units.Add(newUnit);
+                        
 
                         break;
                     case Command.T_COMMAND.CANCEL:
@@ -50,8 +57,8 @@ namespace LessThanOk.GameData.GameWorld
                         break;
                     default:
                         break;
-                }
-            }
+                } 
+             */
 
             map.clear();
 
@@ -60,6 +67,8 @@ namespace LessThanOk.GameData.GameWorld
                 map.placeUnit(unit);
 //				unit.addCommand();
             }
+
+            ConstructTileMap();
         }
     }
 }
