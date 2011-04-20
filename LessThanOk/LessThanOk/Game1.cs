@@ -130,6 +130,7 @@ namespace LessThanOk
             if (session != null)
             {
                 session.Update();
+
                 if (session.IsHost)
                 {
                     NetworkManager.The.serverReadPackets();
@@ -169,7 +170,8 @@ namespace LessThanOk
 
         public void StartGameHandler(object sender, EventArgs args)
         {
-            session.StartGame();
+            if(session.IsEveryoneReady)
+                session.StartGame();
         }
         public void JoinSessionHandler(object sender, EventArgs e)
         {
@@ -179,6 +181,8 @@ namespace LessThanOk
             {
                 session = NetworkSession.Join(sessions[0]);
                 session.GameStarted += GameSessionStartedHandler;
+                foreach (LocalNetworkGamer g in session.LocalGamers)
+                    g.IsReady = true;
             }
             else
             {
@@ -190,6 +194,8 @@ namespace LessThanOk
         {
             session = NetworkSession.Create(NetworkSessionType.SystemLink, 2, 2);
             session.GameStarted += GameSessionStartedHandler;
+            foreach (LocalNetworkGamer g in session.LocalGamers)
+                g.IsReady = true;
         }
 
 
@@ -231,6 +237,7 @@ namespace LessThanOk
                 gameWorld = new MasterGameWorld();
             else
                 gameWorld = new ClientGameWorld();
+
         }
 
         #endregion

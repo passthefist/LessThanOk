@@ -22,19 +22,21 @@ namespace LessThanOk.GameData.GameWorld
         {
 
             ExicutionQueue.The.getAdds(out toAdds);
-
-            foreach (Command_Add cmd in Commands)
+            if (toAdds != null)
             {
-                Command_Add cAdd = (Command_Add)cmd;
-                Unit newUnit = (Unit)fact.resurrectGameObject(cAdd.getType(), cAdd.getBuilt());
-                GameObject builder = fact.getGameObject(cAdd.getBuilder());
-
-                if (builder.GetType() == typeof(Unit))
+                foreach (Command_Add cmd in toAdds)
                 {
-                    newUnit._Position = ((Unit)builder)._Position;
-                }
+                    Command_Add cAdd = (Command_Add)cmd;
+                    Unit newUnit = (Unit)fact.resurrectGameObject(cAdd.getType(), cAdd.getBuilt());
+                    GameObject builder = fact.getGameObject(cAdd.getBuilder());
 
-                units.Add(newUnit);
+                    if (builder.GetType() == typeof(Unit))
+                    {
+                        newUnit._Position = ((Unit)builder)._Position;
+                    }
+
+                    units.Add(newUnit);
+                }
             }
 
             /*
