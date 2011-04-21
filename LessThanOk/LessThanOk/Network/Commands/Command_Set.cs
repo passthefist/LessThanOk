@@ -46,7 +46,13 @@ namespace LessThanOk.Network.Commands
             command[0] |= (UInt64)key << 32;
             command[0] |= (UInt64)value;
         }
-
+        public Command_Set(UInt64[] ndata)
+        {
+            if (ndata.Length != 2)
+                throw new Exception();
+            command[0] = ndata[0];
+            command[1] = ndata[1];
+        }
         public UInt16 getID() { return (UInt16)(command[0] >> 40); }
 
         public byte getKey() { return (byte)(command[0] >> 32); }

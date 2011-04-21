@@ -15,7 +15,13 @@ namespace LessThanOk.Network.Commands
             command[0] |= (UInt64)T_COMMAND.ERROR << 56;
             command[0] |= (UInt64)id << 40;
         }
-
+        public Command_Cancel(UInt64[] ndata)
+        {
+            if (ndata.Length != 2)
+                throw new Exception();
+            command[0] = ndata[0];
+            command[1] = ndata[1];
+        }
          public UInt16 getID() { return (UInt16)(command[0] >> 40); }
 
          public override string ToString()

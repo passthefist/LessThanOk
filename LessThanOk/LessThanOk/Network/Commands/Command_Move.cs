@@ -62,6 +62,13 @@ namespace LessThanOk.Network.Commands
             command[0] |= (UInt64)y;
             command[0] |= (UInt64)T_COMMAND.MOVE << 56;
         }
+        public Command_Move(UInt64[] ndata)
+        {
+            if (ndata.Length != 2)
+                throw new Exception();
+            command[0] = ndata[0];
+            command[1] = ndata[1];
+        }
         public UInt16 getTarget() { return (UInt16)(command[0] >> 32); }
 
         public UInt16 getX() { return (UInt16)(command[0] >> 16); }

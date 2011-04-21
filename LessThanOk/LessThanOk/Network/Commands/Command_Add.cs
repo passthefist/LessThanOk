@@ -65,6 +65,13 @@ namespace LessThanOk.Network.Commands
             command[0] |= (UInt64)type << 40;
             command[0] |= (UInt64)T_COMMAND.ADD << 56;
         }
+        public Command_Add(UInt64[] ndata)
+        {
+            if (ndata.Length != 2)
+                throw new Exception();
+            command[0] = ndata[0];
+            command[1] = ndata[1];
+        }
         public UInt16 getBuilt() { return (UInt16)(command[0] >> 24); }
 
         public UInt16 getBuilder() { return (UInt16)(command[0] >> 8); }
