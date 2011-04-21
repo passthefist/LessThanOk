@@ -90,8 +90,7 @@
     <Compile Include="BufferedCommunication\ChangeList.cs" />
     <Compile Include="BufferedCommunication\ExicutionQueue.cs" />
     <Compile Include="BufferedCommunication\RequestQueue.cs" />
-    <Compile Include="BufferedCommunication\RequestList_Client.cs" />
-    <Compile Include="BufferedCommunication\RequestList_Server.cs" />
+    <Compile Include="BufferedCommunication\GlobalRequstQueue.cs" />
     <Compile Include="Debug\Logging.cs" />
     <Compile Include="Events\CommandChangedEventArgs.cs" />
     <Compile Include="GameData\GameObjects\ActiveGameObject.cs" />

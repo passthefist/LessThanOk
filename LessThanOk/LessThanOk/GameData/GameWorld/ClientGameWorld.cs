@@ -21,24 +21,17 @@ namespace LessThanOk.GameData.GameWorld
         override public void update(GameTime elps)
         {
             gameTime = elps;
-
-            ExicutionQueue.The.getAdds(out toAdds);
-            if (toAdds != null)
+            Command_Add cmd;
+            while((cmd = ExicutionQueue.The.pollAdd()) != null)
             {
-                foreach (Command_Add cmd in toAdds)
-                {
-                    Command_Add cAdd = (Command_Add)cmd;
-                    Unit newUnit = (Unit)fact.resurrectGameObject(cAdd.getType(), cAdd.getBuilt());
-                    GameObject builder = fact.getGameObject(cAdd.getBuilder());
+                Unit newUnit = (Unit)fact.resurrectGameObject(cmd.getBuilt(), cmd.getType());
+                ActiveGameObject builder = (ActiveGameObject)fact.getGameObject(cmd.getBuilder());
 
-                    if (builder.GetType() == typeof(Unit))
-                    {
-                        newUnit._Position = ((Unit)builder)._Position;
-                    }
+                newUnit._Position = builder._Position;
 
-                    units.Add(newUnit);
-                }
+                units.Add(newUnit);
             }
+            
 
             /*
              *switch (cmd.getCommandType())

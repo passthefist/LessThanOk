@@ -88,7 +88,25 @@ namespace LessThanOk.Network
 
                     data[0] = (UInt64)_reader.ReadInt64();
                     data[1] = (UInt64)_reader.ReadInt64();
-                    GlobalRequestQueue.The.push(new Command(data));
+                    Command command = new Command(data);
+                    switch (command.getCommandType())
+                    {
+                        case Command.T_COMMAND.MOVE:
+                            break;
+                        case Command.T_COMMAND.ADD:
+                            GlobalRequestQueue.The.push(new Command_Add(data));
+                            break;
+                        case Command.T_COMMAND.REMOVE:
+                            break;
+                        case Command.T_COMMAND.SET:
+                            break;
+                        case Command.T_COMMAND.ERROR:
+                            break;
+                        case Command.T_COMMAND.CANCEL:
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         }
@@ -129,12 +147,12 @@ namespace LessThanOk.Network
                     if (command.getCommandType() == Command.T_COMMAND.ADD)
                     {
                         Command_Add toadd = new Command_Add(data);
-                        ExicutionQueue.The.addAdd(ref toadd);
+                        ExicutionQueue.The.addAdd(toadd);
                     }
                     else if (command.getCommandType() == Command.T_COMMAND.SET)
                     {
                         Command_Set toset = (Command_Set)command;
-                        ExicutionQueue.The.addSet(ref toset);
+                        ExicutionQueue.The.addSet(toset);
                     }
                 }
             }

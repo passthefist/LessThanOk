@@ -8,47 +8,37 @@ namespace LessThanOk.BufferedCommunication
 {
     public sealed class ExicutionQueue
     {
-        private static List<Command_Add> _adds;
-        private static List<Command_Set> _sets;
+        private static Queue<Command_Add> _adds;
+        private static Queue<Command_Set> _sets;
 
         public static ExicutionQueue The { get { return the; } }
         static readonly ExicutionQueue the = new ExicutionQueue();
         static ExicutionQueue()
         {
-            _adds = new List<Command_Add>();
-            _sets = new List<Command_Set>();
+            _adds = new Queue<Command_Add>();
+            _sets = new Queue<Command_Set>();
         }
-
-        public Boolean getAdds(out List<Command_Add> adds)
+        
+        public Command_Add pollAdd()
         {
-            if (_adds.Count == 0)
-            {
-                adds = null;
-                return false;
-            }
-            adds = new List<Command_Add>(_adds);
+            if (_adds.Count > 0)
+                return _adds.Dequeue();
+            return null;
+        }
+        public Command_Set poolSet()
+        {
+            if (_sets.Count > 0)
+                return _sets.Dequeue();
+            return null;
+        }
+        public Boolean addAdd(Command_Add add)
+        {
+            _adds.Enqueue(add);
             return true;
         }
-        public Boolean getSets(out List<Command_Set> sets)
+        public Boolean addSet(Command_Set set)
         {
-            if (_sets.Count == 0)
-            {
-                sets = null;
-                return false;
-            }
-            sets = new List<Command_Set>(_sets);
-            return true;
-        }
-        public Boolean addAdd(ref Command_Add add)
-        {
-            _adds.Add(add);
-            add = null;
-            return true;
-        }
-        public Boolean addSet(ref Command_Set set)
-        {
-            _sets.Add(set);
-            set = null;
+            _sets.Enqueue(set);
             return true;
         }
     }
