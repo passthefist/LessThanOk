@@ -12,12 +12,14 @@ namespace LessThanOk.BufferedCommunication
 
         public Queue<Command> Requests
         {
+            /*
             get
             {
                 Queue<Command> retval = new Queue<Command>(requests);
                 requests.Clear();
                 return retval;
             }
+            */
             set
             {
                 requests = value;
@@ -27,6 +29,14 @@ namespace LessThanOk.BufferedCommunication
         public void push(Command command)
         {
             requests.Enqueue(command);
+        }
+
+        public Command poll()
+        {
+            if (requests.Count == 0)
+                return null;
+            Command retval = requests.Dequeue();
+            return retval;
         }
 
         public RequestQueue()

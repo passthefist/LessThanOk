@@ -31,7 +31,6 @@ namespace LessThanOk
         private NetworkSession Session;
         private CommandRequester CMDRequester;
         private GameWorld Game;
-
         private event EventHandler<GameStateEventArgs> test;
 
         public LTO_Engine()
@@ -69,12 +68,22 @@ namespace LessThanOk
                 if(Session.IsHost)
                 {
                     if(Game != null)
+                    {
+                        GamerCollection<LocalNetworkGamer> gamers = Session.LocalGamers;
+                        NetworkController.serverReadPackets(gamers);
                         Game.update(time);
+                        NetworkController.serverWritePackets(gamers);
+                    }
                 }
                 else
                 {
                     if (Game != null)
+                    {
+                        GamerCollection<LocalNetworkGamer> gamers = Session.LocalGamers;
+                        NetworkController.clientReadPackets(gamers);
                         Game.update(time);
+                        NetworkController.clientWritePackets(gamers);
+                    }
                 }
             }
 
@@ -102,8 +111,8 @@ namespace LessThanOk
             }
             else if (args.Element.Name == "join")
             {
-                JoingGame();
-                StateChangeEvents.The.TiggerLobbyState(sender, new LobbyStateEventArgs(false));
+                if(JoingGame())
+                    StateChangeEvents.The.TiggerLobbyState(sender, new LobbyStateEventArgs(false));
             }
             else if (args.Element.Name == "ready")
             {
@@ -114,6 +123,7 @@ namespace LessThanOk
         private void StartGame()
         {
             Game = new MasterGameWorld();
+            Session.StartGame();
         }
 
         private void Ready()
@@ -140,7 +150,7 @@ namespace LessThanOk
             }
         }
 
-        private void JoingGame()
+        private Boolean JoingGame()
         {
             try
             {
@@ -155,11 +165,15 @@ namespace LessThanOk
                     Session.HostChanged += HostChangedHandler;
                     Session.SessionEnded += SessionEndedHandler;
                 }
+                else
+                    throw new Exception();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                return false;
             }
+            return true;
         }
 
         #endregion
@@ -180,8 +194,11 @@ namespace LessThanOk
         }
         public void GameStartedHandler(object sender, GameStartedEventArgs args)
         {
-            Game = new ClientGameWorld();
-            StateChangeEvents.The.TiggerGameState(sender, new GameStateEventArgs());
+            if (!Session.IsHost)
+            {
+                Game = new ClientGameWorld();
+                StateChangeEvents.The.TiggerGameState(sender, new GameStateEventArgs());
+            }
         }
         public void HostChangedHandler(object sender, HostChangedEventArgs args)
         {

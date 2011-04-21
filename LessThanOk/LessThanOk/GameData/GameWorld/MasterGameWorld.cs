@@ -63,8 +63,8 @@ namespace LessThanOk.GameData.GameWorld
         {
             gameTime = elps;
 
-            Queue<Command> commands = GlobalRequestQueue.The.Requests;
-            foreach (Command cmd in commands)
+            Command cmd;
+            while((cmd = GlobalRequestQueue.The.poll()) != null)
             {
                 switch (cmd.getCommandType())
                 {
