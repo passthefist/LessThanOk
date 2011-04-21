@@ -39,13 +39,13 @@ namespace LessThanOk.UI
             Sprite_Text lobbyText = SpriteBin.The.AddTextSprite(font, "", "lobbyText");
             Sprite_Text add = SpriteBin.The.AddTextSprite(font, "Add", "add");
 
-            UIElement eStart = new UIElement("start", start, new Vector2(0, 400));
-            UIElement eReady = new UIElement("ready", ready, new Vector2(400, 400));
-            UIElement eJoin = new UIElement("join", join, new Vector2(0, 0));
-            UIElement eCreate = new UIElement("create", create, new Vector2(400, 0));
-            UIElement eEnd = new UIElement("end", end, new Vector2(0, 400));
-            UIElement eHome = new UIElement("home", home, new Vector2(0, 0));
-            UIElement eAdd = new UIElement("add", add, new Vector2(400, 400));
+            UIElement eStart = new UIElement("start", start, 0, 400);
+            UIElement eReady = new UIElement("ready", ready, 400, 400);
+            UIElement eJoin = new UIElement("join", join, 0, 0);
+            UIElement eCreate = new UIElement("create", create, 400, 0);
+            UIElement eEnd = new UIElement("end", end, 0, 400);
+            UIElement eHome = new UIElement("home", home, 0, 0);
+            UIElement eAdd = new UIElement("add", add, 400, 400);
             //LobbyList eLobby = new LobbyList("lobbyList", new Vector2(0, 0), lobbyText);
 
 

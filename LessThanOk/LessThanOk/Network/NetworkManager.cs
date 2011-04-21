@@ -11,22 +11,20 @@ using LessThanOk.Network.Commands;
 
 namespace LessThanOk.Network
 {
-    public sealed class NetworkManager
+    public class NetworkManager
     {
-        private static PacketReader _reader;
-        private static PacketWriter _writer;
-        private static int _maxGamers;
-        private static int _maxLocalGamers;
+        private PacketReader _reader;
+        private PacketWriter _writer;
+        private int _maxGamers;
+        private int _maxLocalGamers;
 
-        static readonly NetworkManager the = new NetworkManager();
-        static NetworkManager() 
+        public NetworkManager() 
         {
             _maxGamers = 3;
             _maxLocalGamers = 2;
             _reader = new PacketReader();
             _writer = new PacketWriter();
         }
-        public static NetworkManager The { get { return the; } }
 
         public void serverWritePackets()
         {

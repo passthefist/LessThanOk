@@ -120,9 +120,11 @@
     <Compile Include="GameData\GameWorld\TileMap.cs" />
     <Compile Include="GlobalEvent.cs" />
     <Compile Include="GlobalEventSubscriber.cs" />
+    <Compile Include="Input\Events\Args\KeyBoardEventArgs.cs" />
+    <Compile Include="States\Events\StateChangeEvents.cs" />
     <Compile Include="LessThanMath.cs" />
+    <Compile Include="LTO_Engine.cs" />
     <Compile Include="Network\Commands\CommandEvent.cs" />
-    <Compile Include="Network\Commands\CommandEventSubscriber.cs" />
     <Compile Include="Network\Commands\CommandRequester.cs" />
     <Compile Include="Network\Commands\Command_Add.cs" />
     <Compile Include="Network\Commands\Command.cs" />
@@ -139,15 +141,20 @@
     <Compile Include="Sprites\SpriteBin.cs" />
     <Compile Include="Sprites\Sprite_2D.cs" />
     <Compile Include="Sprites\Sprite_Text.cs" />
-    <Compile Include="UI\Frame.cs" />
-    <Compile Include="UI\Frame_Game.cs" />
-    <Compile Include="UI\InputManager.cs" />
-    <Compile Include="UI\Events\LeftClick.cs" />
-    <Compile Include="UI\LobbyList.cs" />
-    <Compile Include="UI\Events\RightClick.cs" />
-    <Compile Include="UI\UIElement.cs" />
-    <Compile Include="UI\UIEventListener.cs" />
-    <Compile Include="UI\UIManager.cs" />
+    <Compile Include="States\Events\Args\GameStateEventArgs.cs" />
+    <Compile Include="States\Events\Args\HomeStateEventArgs.cs" />
+    <Compile Include="States\Events\Args\LobbyStateEventArgs.cs" />
+    <Compile Include="States\Events\Args\PostGameStateEventArgs.cs" />
+    <Compile Include="UI\Events\Args\ButtonEventArgs.cs" />
+    <Compile Include="Input\Events\Args\MouseEventArgs.cs" />
+    <Compile Include="UI\Events\UIElementEvents.cs" />
+    <Compile Include="UI\Frames\Frame.cs" />
+    <Compile Include="UI\Frames\Frame_Game.cs" />
+    <Compile Include="Input\Events\InputEvents.cs" />
+    <Compile Include="Input\InputManager.cs" />
+    <Compile Include="UI\Frames\UIElements\LobbyList.cs" />
+    <Compile Include="UI\Frames\UIElements\UIElement.cs" />
+    <Compile Include="UI\MenuManager.cs" />
     <Compile Include="UI\WindowDefinitions.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -25,44 +25,23 @@ namespace LessThanOk
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Microsoft.Xna.Framework.Game, GlobalEventSubscriber
+    public class Game1 : Microsoft.Xna.Framework.Game
     {
         const int SCREEN_WIDTH = 1000;
         const int SCREEN_HEIGHT = 600;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        GameWorld gameWorld;
-        UIEventListener GameController;
-        List<GlobalEvent> globalEvents;
-        NetworkSession session;
-        CommandRequester commandRequester;
+        LTO_Engine Engine;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = SCREEN_WIDTH;
             graphics.PreferredBackBufferHeight = SCREEN_HEIGHT;
-
+            Engine = new LTO_Engine();
             Content.RootDirectory = "Content";
             base.Components.Add(new GamerServicesComponent(this));
-
-            globalEvents = new List<GlobalEvent>();
-            globalEvents.Add(new GlobalEvent(GlobalEvent.EVENTNAME.CREATEGAME));
-            globalEvents.Add(new GlobalEvent(GlobalEvent.EVENTNAME.JOINGAME));
-            globalEvents.Add(new GlobalEvent(GlobalEvent.EVENTNAME.STARTGAME));
-            globalEvents.Add(new GlobalEvent(GlobalEvent.EVENTNAME.ENDGAME));
-
-            List<CommandEvent> commandEvents = new List<CommandEvent>();
-            commandEvents.Add(new CommandEvent(CommandEvent.EVENTNAME.ADD));
-
-            GameController = new UIEventListener(globalEvents, commandEvents);
-            commandRequester = new CommandRequester();
-            
-            commandRequester.subscribe(commandEvents);
-            subscribe(globalEvents);
-
-
         }
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -74,20 +53,6 @@ namespace LessThanOk
         {
             base.Initialize();
             this.IsMouseVisible = true;
-
-            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Bitmap1"), new Vector2(), "PersonSprite");
-            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Bitmap2"), new Vector2(), "GunSprite");
-
-            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Tile"), new Vector2(20,20), "grassTile");
-            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("tile2"), new Vector2(20,20), "yellowTile");
-            
-            UIManager.The.init(Content);
-            InputManager.The.init();
-     
-            UIManager.The.subscribe(globalEvents);
-    
-            GameObjectFactory.The.loadXmlData(null);
-
         }
 
         /// <summary>
@@ -98,6 +63,7 @@ namespace LessThanOk
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            Engine.init(Content);
         }
 
         /// <summary>
@@ -124,25 +90,7 @@ namespace LessThanOk
             }
             else
             {
-                UIManager.The.update(gameTime);
-                InputManager.The.update(gameTime);
-            }
-            if (session != null)
-            {
-                session.Update();
-                if (session.IsHost)
-                {
-                    NetworkManager.The.serverReadPackets();
-                    if(session.SessionState == NetworkSessionState.Playing)
-                        gameWorld.update(gameTime);
-                    NetworkManager.The.serverWritePackets();
-                }
-                else
-                {
-                    NetworkManager.The.clientReadPackets();
-                    if (session.SessionState == NetworkSessionState.Playing)
-                        gameWorld.update(gameTime);
-                }
+                Engine.update(gameTime);
             }
            
             base.Update(gameTime);
@@ -157,87 +105,10 @@ namespace LessThanOk
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            UIManager.The.draw(spriteBatch);
+            Engine.draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
         }
-
-        
-
-        #region GlobalEventSubscriber Members
-
-        public void StartGameHandler(object sender, EventArgs args)
-        {
-            if (session.IsEveryoneReady)
-                session.StartGame();
-            else
-                Console.WriteLine("Not ready;");
-        }
-        public void JoinSessionHandler(object sender, EventArgs e)
-        {
-            AvailableNetworkSessionCollection sessions;
-            sessions = NetworkSession.Find(NetworkSessionType.SystemLink, 2, null);
-            if (sessions.Count > 0)
-            {
-                session = NetworkSession.Join(sessions[0]);
-                session.GameStarted += GameSessionStartedHandler;
-            }
-            else
-            {
-                throw new Exception();
-            }
-        }
-
-        public void CreateSessionHandler(object sender, EventArgs e)
-        {
-            session = NetworkSession.Create(NetworkSessionType.SystemLink, 2, 2);
-            session.GameStarted += GameSessionStartedHandler;
-            foreach (LocalNetworkGamer g in session.LocalGamers)
-                g.IsReady = true;
-        }
-
-
-        public void EndGameHandler(object sender, EventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
-
-        public void subscribe(List<GlobalEvent> events)
-        {
-            foreach (GlobalEvent e in globalEvents)
-            {
-                switch (e.Name)
-                {
-                    case GlobalEvent.EVENTNAME.JOINGAME:
-                        e.Handler += JoinSessionHandler;
-                        break;
-                    case GlobalEvent.EVENTNAME.CREATEGAME:
-                        e.Handler += CreateSessionHandler;
-                        break;
-                    case GlobalEvent.EVENTNAME.STARTGAME:
-                        e.Handler += StartGameHandler;
-                        break;
-                    case GlobalEvent.EVENTNAME.ENDGAME:
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
-        #endregion
-
-        #region SessionEventHandlers
-        
-        public void GameSessionStartedHandler(object sender, EventArgs e)
-        {
-            if (session.IsHost)
-                gameWorld = new MasterGameWorld();
-            else
-                gameWorld = new ClientGameWorld();
-        }
-
-        #endregion
     }
 }

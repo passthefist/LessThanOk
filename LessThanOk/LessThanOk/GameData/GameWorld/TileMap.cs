@@ -25,7 +25,7 @@ namespace LessThanOk.GameData.GameWorld
         public TileMap()
         {
             width = 800 / 20;
-            height = 600 / 20;
+            height = 400 / 20;
             tileSize = 20;
 
             tileMap = new Tile[width, height];
