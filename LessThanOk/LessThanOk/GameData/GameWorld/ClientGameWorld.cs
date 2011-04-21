@@ -18,8 +18,9 @@ namespace LessThanOk.GameData.GameWorld
         {
         }
 
-        override public void update(TimeSpan elps)
+        override public void update(GameTime elps)
         {
+            gameTime = elps;
 
             ExicutionQueue.The.getAdds(out toAdds);
             if (toAdds != null)
@@ -62,7 +63,7 @@ namespace LessThanOk.GameData.GameWorld
                 } 
              */
 
-            map.clear();
+            UpdateUnits();
 
             ConstructTileMap();
         }

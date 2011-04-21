@@ -36,6 +36,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.Xna.Framework;
 using LessThanOk.Sprites;
+using LessThanOk.Network.Commands;
 
 namespace LessThanOk.GameData.GameObjects
 {
@@ -54,8 +55,8 @@ namespace LessThanOk.GameData.GameObjects
         public Vector2 _Position
         {
             get { return position; }
-            set 
-            { 
+            set
+            {
                 position = value;
             }
         }

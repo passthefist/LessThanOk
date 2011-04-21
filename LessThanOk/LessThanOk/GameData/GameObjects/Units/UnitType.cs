@@ -46,6 +46,12 @@ namespace LessThanOk.GameData.GameObjects.Units
         private List<WeaponType> weapons;
         private ArmorType armor;
         private EngineType engine;
+
+        public EngineType Engine
+        {
+            get { return engine; }
+        }
+
         private Sprite image;
         private int maxHp;
 
@@ -96,20 +102,6 @@ namespace LessThanOk.GameData.GameObjects.Units
             armor = a;
             engine = e;
             image = s;
-
-            //TODO: I really hate this. Find a way to not allocate directly?
-            //		even though create() allocates?
-
-            List<Weapon> w = new List<Weapon>(1);
-
-            foreach (WeaponType t in weapons)
-            {
-                w.Add((Weapon)t.create());
-            }
-
-            Armor arm = (Armor)armor.create();
-            Engine eng = (Engine)engine.create();
-
             protoType = new Unit(this);
         }
 

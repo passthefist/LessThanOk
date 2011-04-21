@@ -15,20 +15,27 @@ namespace LessThanOk.GameData.GameWorld
 		
 		protected List<Unit>   units;
 //		protected List<Command>cmdBuffer;
-		protected TimeSpan     gameTime;
+        protected GameTime gameTime;
 		protected TileMap      map;
 
         public GameWorld()
         {
             units = new List<Unit>(12);
-            gameTime = new TimeSpan();
+            gameTime = new GameTime();
             map = new TileMap();
             fact = GameObjectFactory.The;
-            update(new TimeSpan());
         }
 		
 		public void setGameTime(TimeSpan time){}
-		public abstract void update(TimeSpan elps);
+		public abstract void update(GameTime elps);
+
+        protected void UpdateUnits()
+        {
+            foreach(Unit u in units)
+            {
+                u.update(gameTime);
+            }
+        }
 
         protected void ConstructTileMap()
         {

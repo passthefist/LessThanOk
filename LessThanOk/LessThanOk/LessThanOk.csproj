@@ -93,6 +93,7 @@
     <Compile Include="BufferedCommunication\RequestList_Client.cs" />
     <Compile Include="BufferedCommunication\RequestList_Server.cs" />
     <Compile Include="Debug\Logging.cs" />
+    <Compile Include="Events\CommandChangedEventArgs.cs" />
     <Compile Include="GameData\GameObjects\ActiveGameObject.cs" />
     <Compile Include="GameData\AgnosticObject.cs" />
     <Compile Include="GameData\GameObjects\Tiles\Tile.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="Network\Commands\Command_Note.cs" />
     <Compile Include="Network\Commands\Command_Set.cs" />
     <Compile Include="GameData\GameWorld\Monirator.cs" />
+    <Compile Include="Network\Commands\Command_Move.cs" />
     <Compile Include="Network\NetworkManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />

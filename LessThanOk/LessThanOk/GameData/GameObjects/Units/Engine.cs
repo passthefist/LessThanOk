@@ -58,6 +58,18 @@ namespace LessThanOk.GameData.GameObjects.Units
             AgnosticObject.initFieldMaps(typeof(Engine));
         }
 
+        private Vector2 velocity;
+        private Vector2 accel;
+        private Vector2 position;
+        private Vector2 target;
+
+        private enum State
+        {
+            IDLE,
+            INTERPOLATE
+        };
+
+        State state;
 
         protected Engine() : base() { }
 
@@ -70,11 +82,74 @@ namespace LessThanOk.GameData.GameObjects.Units
         public Engine(Engine e)
         {
             this.type = e.type;
+            init();
         }
 
         internal Engine(EngineType t)
         {
             type = t;
+        }
+
+        private void init()
+        {
+            velocity = new Vector2();
+            position = new Vector2();
+            target = new Vector2();
+            accel = new Vector2();
+            state = State.IDLE;
+        }
+
+        public Vector2 getPosition()
+        {
+            return position;
+        }
+
+        public void setStartPosition(Vector2 p)
+        {
+            position = p;
+        }
+
+        public void setTargetPosition(Vector2 t)
+        {
+            target = t;
+            velocity = target - position;
+            velocity.Normalize();
+            velocity = velocity * type.MaxSpeed;
+            state = State.INTERPOLATE;
+        }
+
+        public void update(GameTime elps)
+        {
+            switch (state)
+            {
+                case State.IDLE:
+                    break;
+                case State.INTERPOLATE:
+                    position += velocity * (float)elps.ElapsedGameTime.TotalSeconds;
+                    break;
+            }
+        }
+
+        public float distanceToFinish()
+        {
+            return distToReach(target);
+        }
+
+        public float timeToFinish()
+        {
+            return timeToReach(target);
+        }
+
+        public float distToReach(Vector2 pos)
+        {
+            Vector2 diff = position - pos;
+            return diff.Length();
+        }
+
+        public float timeToReach(Vector2 pos)
+        {
+            float dist = distToReach(pos);
+            return dist / type.MaxSpeed;
         }
     }
 }

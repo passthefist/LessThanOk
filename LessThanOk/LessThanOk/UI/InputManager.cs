@@ -91,8 +91,6 @@ namespace LessThanOk.UI
                     }
                 }
             }
-
-
         }
 
         private void setHover(UIElement curElement, ActiveGameObject curObject)

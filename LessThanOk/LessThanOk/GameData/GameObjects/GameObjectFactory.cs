@@ -97,7 +97,7 @@ namespace LessThanOk.GameData.GameObjects
         public void loadXmlData(XmlDocument xml)
         {
             Units.ArmorType armor = new Units.ArmorType(10, 5);
-            Units.EngineType engine = new Units.EngineType(0.0f, 0.0f, 0.0f);
+            Units.EngineType engine = new Units.EngineType(15.0f, 3.0f, 2.0f);
             Units.ProjectileType proj = new Units.ProjectileType(false, 0.0f, 0.0f, 0.0f);
             Units.WarheadType warhead = new Units.WarheadType(5, 5, Units.WarheadType.Types.BALlISTIC);
             Units.WeaponType weapon = new Units.WeaponType(warhead, proj);

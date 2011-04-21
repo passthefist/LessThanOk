@@ -40,6 +40,7 @@ using LessThanOk.Network.Commands;
 using LessThanOk.GameData.GameObjects;
 using LessThanOk.Sprites;
 using Microsoft.Xna.Framework.Graphics;
+using LessThanOk.Events;
 
 [assembly: InternalsVisibleTo("UnitType")]
 
@@ -50,10 +51,24 @@ namespace LessThanOk.GameData.GameObjects.Units
     /// </summary>
     public class Unit : ActiveGameObject
     {
+        public event EventHandler<CommandChangedEventArgs> CommandStarted;
+        public event EventHandler<CommandChangedEventArgs> CommandFinished;
         public event EventHandler unitKilled;
         public event EventHandler unitHealthChange;
         public event EventHandler unitWeaponFired;
         public event EventHandler unitUsedAbility;
+
+        /// <summary>
+        /// The position of this object
+        /// </summary>
+        public Vector2 _Position
+        {
+            get { return engine.getPosition(); }
+            set
+            {
+                engine.setStartPosition(value);
+            }
+        }
 
         private UnitType type;
 
@@ -66,9 +81,16 @@ namespace LessThanOk.GameData.GameObjects.Units
             private set { type = value; }
         }
 
-        private Vector3 velocity;
+        private Vector2 velocity;
 
         private UInt32 hp;
+
+        private Engine engine;
+
+        public Engine Engine
+        {
+            get { return engine; }
+        }
 
         /// <summary>
         /// How much health this unti has.
@@ -90,7 +112,8 @@ namespace LessThanOk.GameData.GameObjects.Units
         private bool aggressive;
         private bool pursue;
 
-        private Queue<Command> commands;
+        private Command activeCommand;
+        private Queue<Command> commands;//Needed? 
 
         static Unit()
         {
@@ -114,18 +137,20 @@ namespace LessThanOk.GameData.GameObjects.Units
         public Unit(Unit u)
             : base()
         {
-            init();
-
             this.type = u.type;
+            init();
         }
 
         private void init()
         {
-            velocity = new Vector3();
+            velocity = new Vector2();
             target = null;
+            activeCommand = null;
             commands = new Queue<Command>();
             aggressive = false;
             pursue = false;
+
+            engine = (Engine)type.Engine.create();
         }
 
         /// <summary>
@@ -136,20 +161,63 @@ namespace LessThanOk.GameData.GameObjects.Units
         /// </param>
         override public void update(GameTime elps)
         {
-            switch (commands.Peek().getCommandType())
+            float del = (float)elps.ElapsedGameTime.TotalSeconds;
+
+            if (activeCommand == null && commands.Count > 0)
             {
-                case Command.T_COMMAND.MOVE:
-                    break;
-                //case Command.T_COMMAND.USEABILITY:
-                //    break;
-                default:
-                    break;
+                activeCommand = commands.Dequeue();
+
+                CommandStarted.Invoke(this, new CommandChangedEventArgs(activeCommand));
+
+                switch (activeCommand.getCommandType())
+                {
+                    case Command.T_COMMAND.MOVE:
+                        Command_Move cMov = (Command_Move)activeCommand;
+                        ushort x = cMov.getX();
+                        ushort y = cMov.getY();
+
+                        Vector2 finalPosition = new Vector2((float)x, (float)y);
+                        engine.setTargetPosition(finalPosition);
+                        break;
+                }
+            }
+
+            if (activeCommand != null)
+            {
+                switch (activeCommand.getCommandType())
+                {
+                    case Command.T_COMMAND.MOVE:
+                        engine.update(elps);
+                        break;
+                    //case Command.T_COMMAND.USEABILITY:
+                    //    break;
+                    default:
+                        break;
+                }
+
+                if (activeCommand.getTimeStamp() <= elps.TotalGameTime.Ticks)
+                {
+                    switch (activeCommand.getCommandType())
+                    {
+                        case Command.T_COMMAND.MOVE:
+                            break;
+                    }
+
+                    CommandFinished.Invoke(this, new CommandChangedEventArgs(activeCommand));
+                    activeCommand = null;
+                }
             }
         }
 
         public void draw(SpriteBatch batch)
         {
-            batch.Draw(((Sprite_2D)type.getImage()).Texture, this.position, Color.White);
+            batch.Draw(((Sprite_2D)type.getImage()).Texture, _Position, Color.White);
+        }
+
+        public void clearCommands()
+        {
+            commands.Clear();
+            activeCommand = null;
         }
 
         public void addCommand(Command newCommand)
