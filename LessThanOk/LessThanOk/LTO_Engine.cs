@@ -72,7 +72,7 @@ namespace LessThanOk
                         GamerCollection<LocalNetworkGamer> gamers = Session.LocalGamers;
                         NetworkController.serverReadPackets(gamers);
                         Game.update(time);
-                        NetworkController.serverWritePackets(gamers);
+                        NetworkController.serverWritePackets(gamers, Session.Host);
                     }
                 }
                 else
@@ -82,7 +82,7 @@ namespace LessThanOk
                         GamerCollection<LocalNetworkGamer> gamers = Session.LocalGamers;
                         NetworkController.clientReadPackets(gamers);
                         Game.update(time);
-                        NetworkController.clientWritePackets(gamers);
+                        NetworkController.clientWritePackets(gamers, Session.Host);
                     }
                 }
             }

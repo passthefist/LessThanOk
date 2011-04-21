@@ -27,7 +27,7 @@ namespace LessThanOk.Network
             _writer = new PacketWriter();
         }
 
-        public void serverWritePackets(GamerCollection<LocalNetworkGamer> gamers)
+        public void serverWritePackets(GamerCollection<LocalNetworkGamer> gamers, NetworkGamer host)
         {
             List<AdditionChange> additions;
             List<RemovalChange> removals;
@@ -68,7 +68,8 @@ namespace LessThanOk.Network
 
                     }
                 }
-                gamer.SendData(_writer, SendDataOptions.ReliableInOrder);
+                if(_writer.Length > 0)
+                    gamer.SendData(_writer, SendDataOptions.ReliableInOrder, host);
             }
         }
         public void serverReadPackets(GamerCollection<LocalNetworkGamer> gamers)
@@ -91,7 +92,7 @@ namespace LessThanOk.Network
                 }
             }
         }
-        public void clientWritePackets(GamerCollection<LocalNetworkGamer> gamers)
+        public void clientWritePackets(GamerCollection<LocalNetworkGamer> gamers, NetworkGamer host)
         {
             Command cmd;
             foreach (LocalNetworkGamer gamer in gamers)
@@ -101,7 +102,8 @@ namespace LessThanOk.Network
                     _writer.Write(cmd.CMD[0]);
                     _writer.Write(cmd.CMD[1]);
                 }
-                gamer.SendData(_writer, SendDataOptions.ReliableInOrder);
+                if(_writer.Length > 0)
+                    gamer.SendData(_writer, SendDataOptions.ReliableInOrder, host);
             }
         }
         public void clientReadPackets(GamerCollection<LocalNetworkGamer> gamers)
