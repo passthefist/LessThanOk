@@ -39,6 +39,16 @@ namespace LessThanOk.BufferedCommunication
             return retval;
         }
 
+        public bool hasItems()
+        {
+            return requests.Count > 0;
+        }
+
+        public Command pull()
+        {
+            return requests.Dequeue();
+        }
+
         public RequestQueue()
         {
             requests = new Queue<Command>();

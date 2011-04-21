@@ -63,9 +63,9 @@ namespace LessThanOk.GameData.GameWorld
         {
             gameTime = elps;
 
-            Command cmd;
-            while((cmd = GlobalRequestQueue.The.poll()) != null)
+            while (GlobalRequestQueue.The.hasItems())
             {
+                Command cmd = GlobalRequestQueue.The.pull();
                 switch (cmd.getCommandType())
                 {
                     case Command.T_COMMAND.ADD:
