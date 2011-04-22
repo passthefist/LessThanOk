@@ -22,9 +22,9 @@ namespace LessThanOk.GameData.GameWorld
         {
             gameTime = elps;
             Command cmd;
-            while((cmd = ExicutionQueue.The.pollAdd()) != null)
+            while(ExicutionQueue.The.pullAdd(out cmd))
             {
-                Unit newUnit = (Unit)fact.resurrectGameObject(cmd.ChildID, cmd.Type);
+                Unit newUnit = (Unit)fact.resurrectGameObject(cmd.UnitID, cmd.Type);
                 ActiveGameObject builder = (ActiveGameObject)fact.getGameObject(cmd.ParentID);
 
                 newUnit._Position = builder._Position;

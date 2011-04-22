@@ -19,7 +19,7 @@ namespace LessThanOk.Network.Commands.Decorators
         }
         public override UInt16 ParentID { get { return (UInt16)(_command[0] >> 24); } }
 
-        public override UInt16 ChildID { get { return (UInt16)(_command[0] >> 8); } }
+        public override UInt16 UnitID { get { return (UInt16)(_command[0] >> 8); } }
 
         public override UInt16 Type { get { return (UInt16)(_command[0] >> 40); } }
     }

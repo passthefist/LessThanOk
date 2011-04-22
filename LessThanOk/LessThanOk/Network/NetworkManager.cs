@@ -115,7 +115,7 @@ namespace LessThanOk.Network
             Command cmd;
             foreach (LocalNetworkGamer gamer in gamers)
             {
-                while ((cmd = GlobalRequestQueue.The.poll()) != null)
+                while (GlobalRequestQueue.The.pull(out cmd))
                 {
                     _writer.Write(cmd.Cmd[0]);
                     _writer.Write(cmd.Cmd[1]);
@@ -147,7 +147,7 @@ namespace LessThanOk.Network
                     if (command.CmdType == Command.T_COMMAND.ADD)
                     {
                         Command toadd = new AddDecorator(new Command(data));
-                        ExicutionQueue.The.addAdd(toadd);
+                        ExicutionQueue.The.pushAdd(toadd);
                     }
                     else if (command.CmdType == Command.T_COMMAND.SET)
                     {

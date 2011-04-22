@@ -88,7 +88,7 @@ namespace LessThanOk.Network.Commands
 
         #region Functionality to be add by the decorator
         public virtual UInt16 ParentID { get { throw new NotImplementedException(); } }
-        public virtual UInt16 ChildID { get { throw new NotImplementedException(); } }
+        public virtual UInt16 UnitID { get { throw new NotImplementedException(); } }
         public virtual UInt16 Type { get { throw new NotImplementedException(); } }
         public virtual UInt16 Target { get { throw new NotImplementedException(); } }
         public virtual UInt16 X { get { throw new NotImplementedException(); } }

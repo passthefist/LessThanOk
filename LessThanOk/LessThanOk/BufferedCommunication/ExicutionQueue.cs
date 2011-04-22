@@ -19,24 +19,34 @@ namespace LessThanOk.BufferedCommunication
             _sets = new Queue<Command>();
         }
         
-        public Command pollAdd()
+        public Boolean pullAdd(out Command val)
         {
-            if (_adds.Count > 0)
-                return _adds.Dequeue();
-            return null;
+            if (_adds.Count == 0)
+            {
+                val = null;
+                return false;
+            }
+                
+            val = _adds.Dequeue();
+            return true;
         }
-        public Command poolSet()
+        public Boolean pullSet(out Command val)
         {
-            if (_sets.Count > 0)
-                return _sets.Dequeue();
-            return null;
+            if (_sets.Count == 0)
+            {
+                val = null;
+                return false;
+            }
+
+            val = _sets.Dequeue();
+            return true;
         }
-        public Boolean addAdd(Command add)
+        public Boolean pushAdd(Command add)
         {
             _adds.Enqueue(add);
             return true;
         }
-        public Boolean addSet(Command set)
+        public Boolean pushSet(Command set)
         {
             _sets.Enqueue(set);
             return true;

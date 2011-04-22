@@ -22,27 +22,26 @@ namespace LessThanOk.BufferedCommunication
             }
         }
 
-        public void push(Command command)
+        public Boolean push(Command command)
         {
             requests.Enqueue(command);
+            return true;
         }
 
-        public Command poll()
+        public Boolean pull(out Command val)
         {
             if (requests.Count == 0)
-                return null;
-            Command retval = requests.Dequeue();
-            return retval;
+            {
+                val = null;
+                return false;
+            }
+            val = requests.Dequeue();
+            return true;
         }
 
         public bool hasItems()
         {
             return requests.Count > 0;
-        }
-
-        public Command pull()
-        {
-            return requests.Dequeue();
         }
 
         public GlobalRequestQueue()

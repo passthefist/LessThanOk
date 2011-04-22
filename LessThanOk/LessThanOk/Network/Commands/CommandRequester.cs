@@ -46,12 +46,18 @@ namespace LessThanOk.Network.Commands
         }
         private void RightClickHandler(object sender, MouseEventArgs args)
         {
+            if (_selectedObject == null)
+                return;
             if (BlackBoard.getTileMap(out _map))
             {
-                ActiveGameObject element = _map.getObjectAtPoint(new Vector2(args.MouseState.X, args.MouseState.Y));
+                int x = args.MouseState.X;
+                int y = args.MouseState.Y;
+                ActiveGameObject element = _map.getObjectAtPoint(new Vector2(x, y));
                 if (element == null)
                     return;
-                //TODO: set agressive and issue move command.
+                Command command;
+                command = new MoveDecorator(_selectedObject.ID, element.ID, (ushort)x, (ushort)y, new TimeSpan(), new Command());
+                GlobalRequestQueue.The.push(command);
             }
         }
         private void MouseMovedHandler(object sender, MouseEventArgs args)

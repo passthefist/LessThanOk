@@ -25,7 +25,7 @@ namespace LessThanOk.GameData.GameWorld
 
 			units.Add(newUnit);
 		}
-
+        /*
         private void moveUnitTo(Unit u, Vector2 position)
         {
             float finishTimeInMillis = u.Engine.timeToReach(position)*1000;
@@ -35,10 +35,10 @@ namespace LessThanOk.GameData.GameWorld
 
             Console.WriteLine(finish);
 
-            Command m = new MoveDecorator( u.ID, (ushort)position.X, (ushort)position.Y, finish, new Command());
+            Command m = new MoveDecorator( u.ID,  (ushort)position.X, (ushort)position.Y, finish, new Command());
             u.addCommand(m);
         }
-		
+		*/
 		private void removeUnit(Unit deadUnit)
 		{
             RemovalChange rem = new RemovalChange(gameTime.TotalGameTime, deadUnit);
@@ -63,10 +63,9 @@ namespace LessThanOk.GameData.GameWorld
         override public void update(GameTime elps)
         {
             gameTime = elps;
-
-            while (GlobalRequestQueue.The.hasItems())
+            Command cmd;
+            while (GlobalRequestQueue.The.pull(out cmd))
             {
-                Command cmd = GlobalRequestQueue.The.pull();
                 switch (cmd.CmdType)
                 {
                     case Command.T_COMMAND.ADD:
@@ -79,9 +78,9 @@ namespace LessThanOk.GameData.GameWorld
 
                         addUnit(newUnit, builder);
 
-                        Vector2 point = new Vector2((float)LessThanMath.random(100, 500), (float)LessThanMath.random(100, 300));
+                        //Vector2 point = new Vector2((float)LessThanMath.random(100, 500), (float)LessThanMath.random(100, 300));
 
-                        moveUnitTo(newUnit, point);
+                        //moveUnitTo(newUnit, point);
 
                         break;
                     case Command.T_COMMAND.CANCEL:
