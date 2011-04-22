@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------*\
  *                         LessThanOK Engine                                 *
  *                                                                           *
- *          Copyright (C) 2011-2012 by Robert Goetz, Anthony Lobono          *
+ *          Copyright (C) 2011-2012 by Robert Goetz,                         *
  *                                                                           *
  *   authors:  Robert Goetz (rdgoetz@iastate.edu)                            *
  *                                                                           *

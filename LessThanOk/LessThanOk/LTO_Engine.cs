@@ -40,8 +40,8 @@ namespace LessThanOk
 
         public void init(ContentManager Content)
         {
-            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Bitmap1"), new Vector2(), "PersonSprite");
-            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Bitmap2"), new Vector2(), "GunSprite");
+            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Bitmap1"), new Vector2(48,48), "PersonSprite");
+            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Bitmap2"), new Vector2(48, 48), "GunSprite");
 
             SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Tile"), new Vector2(20, 20), "grassTile");
             SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("tile2"), new Vector2(20, 20), "yellowTile");

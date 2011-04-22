@@ -109,7 +109,74 @@ namespace LessThanOk.GameData.GameWorld
             }
             else
             {
-                return tile;
+                //tileMap[x / tileSize, y / tileSize]
+
+                for (int i = 3; i < 15; i += 2)
+                {
+                    for (int j = -i/2; j < i; j++)
+                    {
+                        int x1 = (int)(x) - j;
+                        int y1 = (int)(y) - i / 2;
+                        if (x1 < 0 || x1 > width || y1 < 0 || y1 > height)
+                        {
+                            continue;
+                        }
+
+                        tile = tileMap[x1, y1];
+                        if (tile.HasUnits)
+                        {
+                            Unit u = tile.InternalUnits[0];
+                            if (point.X > u._Position.X && point.X < u._Position.X + u.Type.getImage().Size.X)
+                            {
+                                if (point.Y > u._Position.Y && point.Y < u._Position.Y + u.Type.getImage().Size.Y)
+                                {
+                                    return u;
+                                }
+                            }
+                        }
+                    }
+                    for (int j = -i / 2; j < i; j++)
+                    {
+                        int y1 = (int)(y) - j;
+                        int x1 = (int)(x) - i / 2;
+                        int x2 = (int)(x) + i / 2;
+                        if (x1 < 0 || x1 > width || y1 < 0 || y1 > height)
+                        {
+                            continue;
+                        }
+                        tile = tileMap[x1, y1];
+                        if (tile.HasUnits)
+                        {
+                            Unit u = tile.InternalUnits[0];
+                            if (point.X > u._Position.X && point.X < u._Position.X + u.Type.getImage().Size.X)
+                            {
+                                if (point.Y > u._Position.Y && point.Y < u._Position.Y + u.Type.getImage().Size.Y)
+                                {
+                                    return u;
+                                }
+                            }
+                        }
+                        if (x2 < 0 || x2 > width || y1 < 0 || y1 > height)
+                        {
+                            continue;
+                        }
+                        tile = tileMap[x2, y1];
+                        if (tile.HasUnits)
+                        {
+                            Unit u = tile.InternalUnits[0];
+                            if (point.X > u._Position.X && point.X < u._Position.X + u.Type.getImage().Size.X)
+                            {
+                                if (point.Y > u._Position.Y && point.Y < u._Position.Y + u.Type.getImage().Size.Y)
+                                {
+                                    return u;
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+
+                return tileMap[x, y];
             }
         }
 

@@ -92,6 +92,7 @@
     <Compile Include="BufferedCommunication\GlobalRequstQueue.cs" />
     <Compile Include="Debug\Logging.cs" />
     <Compile Include="Events\CommandChangedEventArgs.cs" />
+    <Compile Include="GameData\Player.cs" />
     <Compile Include="GameData\GameObjects\ActiveGameObject.cs" />
     <Compile Include="GameData\AgnosticObject.cs" />
     <Compile Include="GameData\GameObjects\Tiles\Tile.cs" />

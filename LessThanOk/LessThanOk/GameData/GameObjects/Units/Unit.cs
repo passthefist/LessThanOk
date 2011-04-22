@@ -71,6 +71,14 @@ namespace LessThanOk.GameData.GameObjects.Units
             }
         }
 
+        private Player owner;
+
+        public Player Owner
+        {
+            get { return owner; }
+            set { owner = value; }
+        }
+
         private UnitType type;
 
         /// <summary>
