@@ -14,8 +14,11 @@ namespace LessThanOk.Input.Events
     public sealed class InputEvents
     {
         public event EventHandler<MouseEventArgs> MouseMoved;
-        public event EventHandler<MouseEventArgs> LeftClickEvent;
-        public event EventHandler<MouseEventArgs> RightClickEvent;
+        public event EventHandler<MouseEventArgs> LeftMouseUpEvent;
+        public event EventHandler<MouseEventArgs> RightMouseUpEvent;
+        public event EventHandler<MouseEventArgs> LeftMouseDownEvent;
+        public event EventHandler<MouseEventArgs> RightMouseDownEvent;
+
         public event EventHandler<KeyBoardEventArgs> KeyStrokeEvent;
 
         public static InputEvents The { get { return the; } }
@@ -28,11 +31,11 @@ namespace LessThanOk.Input.Events
         }
         public void TriggerLeftClick(object sender, MouseEventArgs args)
         {
-            LeftClickEvent.Invoke(sender, args);
+            LeftMouseUpEvent.Invoke(sender, args);
         }
         public void TriggerRightClick(object sender, MouseEventArgs args)
         {
-            RightClickEvent.Invoke(sender, args);
+            RightMouseUpEvent.Invoke(sender, args);
         }
         public void TriggerKeyStroke(object sender, KeyBoardEventArgs args)
         {

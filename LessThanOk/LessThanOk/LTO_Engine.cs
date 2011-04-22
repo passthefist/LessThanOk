@@ -15,6 +15,7 @@ using LessThanOk.Sprites;
 using LessThanOk.UI;
 using LessThanOk.UI.Events;
 using LessThanOk.UI.Events.Args;
+using LessThanOk.Selecter;
 using LessThanOk.States.Events;
 using LessThanOk.States.Events.Args;
 using LessThanOk.Input;
@@ -31,6 +32,7 @@ namespace LessThanOk
         private NetworkSession Session;
         private CommandRequester CMDRequester;
         private GameWorld Game;
+        private ObjectSelector AGOSelecter;
         private event EventHandler<GameStateEventArgs> test;
 
         public LTO_Engine()
@@ -40,7 +42,7 @@ namespace LessThanOk
 
         public void init(ContentManager Content)
         {
-            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Bitmap1"), new Vector2(48,48), "PersonSprite");
+            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Bitmap1"), new Vector2(48, 48), "PersonSprite");
             SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Bitmap2"), new Vector2(48, 48), "GunSprite");
 
             SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Tile"), new Vector2(20, 20), "grassTile");
@@ -49,7 +51,6 @@ namespace LessThanOk
             MenuController = new MenuManager(Content);
             NetworkController = new NetworkManager();
             InputController = new InputManager();
-            CMDRequester = new CommandRequester();
 
             GameObjectFactory.The.loadXmlData(null);
         }
@@ -123,6 +124,8 @@ namespace LessThanOk
         private void StartGame()
         {
             Game = new MasterGameWorld();
+            CMDRequester = new CommandRequester();
+            AGOSelecter = new ObjectSelector();
             Session.StartGame();
         }
 
@@ -197,6 +200,8 @@ namespace LessThanOk
             if (!Session.IsHost)
             {
                 Game = new ClientGameWorld();
+                CMDRequester = new CommandRequester();
+                AGOSelecter = new ObjectSelector();
                 StateChangeEvents.The.TiggerGameState(sender, new GameStateEventArgs());
             }
         }

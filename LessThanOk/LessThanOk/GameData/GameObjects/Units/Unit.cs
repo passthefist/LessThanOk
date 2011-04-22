@@ -70,7 +70,7 @@ namespace LessThanOk.GameData.GameObjects.Units
                 engine.setStartPosition(value);
             }
         }
-
+        /*
         private Player owner;
 
         public Player Owner
@@ -78,7 +78,7 @@ namespace LessThanOk.GameData.GameObjects.Units
             get { return owner; }
             set { owner = value; }
         }
-
+        */
         private UnitType type;
 
         /// <summary>

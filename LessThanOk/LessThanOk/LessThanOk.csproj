@@ -92,7 +92,6 @@
     <Compile Include="BufferedCommunication\GlobalRequstQueue.cs" />
     <Compile Include="Debug\Logging.cs" />
     <Compile Include="Events\CommandChangedEventArgs.cs" />
-    <Compile Include="GameData\Player.cs" />
     <Compile Include="GameData\GameObjects\ActiveGameObject.cs" />
     <Compile Include="GameData\AgnosticObject.cs" />
     <Compile Include="GameData\GameObjects\Tiles\Tile.cs" />
@@ -120,6 +119,9 @@
     <Compile Include="GlobalEvent.cs" />
     <Compile Include="GlobalEventSubscriber.cs" />
     <Compile Include="Input\Events\Args\KeyBoardEventArgs.cs" />
+    <Compile Include="Selecter\Events\Args\SelectedEventArgs.cs" />
+    <Compile Include="Selecter\Events\SelectedEvents.cs" />
+    <Compile Include="Selecter\ObjetctSelecter.cs" />
     <Compile Include="Network\Commands\Decorators\AddDecorator.cs" />
     <Compile Include="Network\Commands\Decorators\CommandDecorator.cs" />
     <Compile Include="Network\Commands\Decorators\MoveDecorator.cs" />
@@ -149,6 +151,7 @@
     <Compile Include="Input\Events\InputEvents.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="UI\Frames\UIElements\LobbyList.cs" />
+    <Compile Include="UI\Frames\UIElements\StatPanel.cs" />
     <Compile Include="UI\Frames\UIElements\UIElement.cs" />
     <Compile Include="UI\MenuManager.cs" />
     <Compile Include="UI\WindowDefinitions.cs" />

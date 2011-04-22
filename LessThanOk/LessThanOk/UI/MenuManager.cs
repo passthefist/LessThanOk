@@ -25,8 +25,8 @@ namespace LessThanOk.UI
         public MenuManager(ContentManager Content)
         {
             // Subscribe to input events
-            InputEvents.The.LeftClickEvent += new EventHandler<MouseEventArgs>(this.LeftClickHandler);
-            InputEvents.The.RightClickEvent += new EventHandler<MouseEventArgs>(this.RightClickHandler);
+            InputEvents.The.LeftMouseUpEvent += new EventHandler<MouseEventArgs>(this.LeftClickHandler);
+            InputEvents.The.RightMouseUpEvent += new EventHandler<MouseEventArgs>(this.RightClickHandler);
             InputEvents.The.MouseMoved += new EventHandler<MouseEventArgs>(this.MouseMovementHandler);
 
             // Subscribe to state change events
