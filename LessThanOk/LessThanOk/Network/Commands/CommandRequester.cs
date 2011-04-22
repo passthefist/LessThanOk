@@ -13,6 +13,7 @@ using LessThanOk.UI.Events.Args;
 using LessThanOk.GameData.GameObjects;
 using LessThanOk.GameData.GameWorld;
 using LessThanOk.UI;
+using LessThanOk.Network.Commands.Decorators;
 
 
 namespace LessThanOk.Network.Commands
@@ -65,7 +66,7 @@ namespace LessThanOk.Network.Commands
                 {
                     Command command;
                     GameObjectType type = GameObjectFactory.The.getType("TestUnit");
-                    command = new Command_Add(_selectedObject.ID, 0, type.ID, new TimeSpan());
+                    command = new AddDecorator(_selectedObject.ID, 0, type.ID, new TimeSpan(), new Command());
                     GlobalRequestQueue.The.push(command);
                 }
             }

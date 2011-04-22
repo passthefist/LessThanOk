@@ -6,6 +6,7 @@ using LessThanOk.GameData.GameObjects.Units;
 using LessThanOk.GameData.GameObjects;
 using LessThanOk.BufferedCommunication;
 using LessThanOk.Events;
+using LessThanOk.Network.Commands.Decorators;
 
 namespace LessThanOk.GameData.GameWorld
 {
@@ -34,7 +35,7 @@ namespace LessThanOk.GameData.GameWorld
 
             Console.WriteLine(finish);
 
-            Command_Move m = new Command_Move(u.ID, (ushort)position.X, (ushort)position.Y, finish);
+            Command m = new MoveDecorator( u.ID, (ushort)position.X, (ushort)position.Y, finish, new Command());
             u.addCommand(m);
         }
 		
@@ -66,13 +67,13 @@ namespace LessThanOk.GameData.GameWorld
             while (GlobalRequestQueue.The.hasItems())
             {
                 Command cmd = GlobalRequestQueue.The.pull();
-                switch (cmd.getCommandType())
+                switch (cmd.CmdType)
                 {
                     case Command.T_COMMAND.ADD:
-                        Command_Add cAdd = (Command_Add)cmd;
+                        Command cAdd = new AddDecorator(cmd);
                         //consult monirator
-                        Unit newUnit = (Unit)fact.createGameObject(cAdd.getType());
-                        ActiveGameObject builder = (ActiveGameObject)fact.getGameObject(cAdd.getBuilder());
+                        Unit newUnit = (Unit)fact.createGameObject(cAdd.Type);
+                        ActiveGameObject builder = (ActiveGameObject)fact.getGameObject(cAdd.ParentID);
 
                         newUnit._Position = builder._Position;
 
@@ -84,10 +85,9 @@ namespace LessThanOk.GameData.GameWorld
 
                         break;
                     case Command.T_COMMAND.CANCEL:
-                        Command_Cancel cCan = (Command_Cancel)cmd;
-
-                        Unit u = (Unit)fact.getGameObject(cCan.getID());
-                        u.clearCommands();
+                        //Command_Cancel cCan = (Command_Cancel)cmd;
+                        //Unit u = (Unit)fact.getGameObject(cCan.getID());
+                        //u.clearCommands();
                         break;
                     case Command.T_COMMAND.REMOVE:
                         break;

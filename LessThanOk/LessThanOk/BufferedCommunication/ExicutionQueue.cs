@@ -8,35 +8,35 @@ namespace LessThanOk.BufferedCommunication
 {
     public sealed class ExicutionQueue
     {
-        private static Queue<Command_Add> _adds;
-        private static Queue<Command_Set> _sets;
+        private static Queue<Command> _adds;
+        private static Queue<Command> _sets;
 
         public static ExicutionQueue The { get { return the; } }
         static readonly ExicutionQueue the = new ExicutionQueue();
         static ExicutionQueue()
         {
-            _adds = new Queue<Command_Add>();
-            _sets = new Queue<Command_Set>();
+            _adds = new Queue<Command>();
+            _sets = new Queue<Command>();
         }
         
-        public Command_Add pollAdd()
+        public Command pollAdd()
         {
             if (_adds.Count > 0)
                 return _adds.Dequeue();
             return null;
         }
-        public Command_Set poolSet()
+        public Command poolSet()
         {
             if (_sets.Count > 0)
                 return _sets.Dequeue();
             return null;
         }
-        public Boolean addAdd(Command_Add add)
+        public Boolean addAdd(Command add)
         {
             _adds.Enqueue(add);
             return true;
         }
-        public Boolean addSet(Command_Set set)
+        public Boolean addSet(Command set)
         {
             _sets.Enqueue(set);
             return true;

@@ -9,6 +9,7 @@ using LessThanOk.GameData.GameWorld;
 using LessThanOk.BufferedCommunication;
 using LessThanOk.GameData.GameObjects.Units;
 using LessThanOk.Network.Commands;
+using LessThanOk.Network.Commands.Decorators;
 
 namespace LessThanOk.Network
 {
@@ -48,10 +49,9 @@ namespace LessThanOk.Network
                 {
                     foreach (AdditionChange c in additions)
                     {
-                        write = new Command_Add(c.ParentObject.ID, c.AddedObject.ID, c.Type.ID,
-                            c.TimeStamp);
-                        _writer.Write(write.CMD[0]);
-                        _writer.Write(write.CMD[1]);
+                        write = new AddDecorator(c.ParentObject.ID, c.AddedObject.ID, c.Type.ID, c.TimeStamp, new Command());
+                        _writer.Write(write.Cmd[0]);
+                        _writer.Write(write.Cmd[1]);
                     }
                 }
                 if (remove)
@@ -89,12 +89,12 @@ namespace LessThanOk.Network
                     data[0] = (UInt64)_reader.ReadInt64();
                     data[1] = (UInt64)_reader.ReadInt64();
                     Command command = new Command(data);
-                    switch (command.getCommandType())
+                    switch (command.CmdType)
                     {
                         case Command.T_COMMAND.MOVE:
                             break;
                         case Command.T_COMMAND.ADD:
-                            GlobalRequestQueue.The.push(new Command_Add(data));
+                            GlobalRequestQueue.The.push(new AddDecorator(new Command(data)));
                             break;
                         case Command.T_COMMAND.REMOVE:
                             break;
@@ -117,8 +117,8 @@ namespace LessThanOk.Network
             {
                 while ((cmd = GlobalRequestQueue.The.poll()) != null)
                 {
-                    _writer.Write(cmd.CMD[0]);
-                    _writer.Write(cmd.CMD[1]);
+                    _writer.Write(cmd.Cmd[0]);
+                    _writer.Write(cmd.Cmd[1]);
                 }
                 if(_writer.Length > 0)
                     gamer.SendData(_writer, SendDataOptions.ReliableInOrder, host);
@@ -144,15 +144,15 @@ namespace LessThanOk.Network
                     data[1] = (UInt64)_reader.ReadInt64();
 
                     command = new Command(data);
-                    if (command.getCommandType() == Command.T_COMMAND.ADD)
+                    if (command.CmdType == Command.T_COMMAND.ADD)
                     {
-                        Command_Add toadd = new Command_Add(data);
+                        Command toadd = new AddDecorator(new Command(data));
                         ExicutionQueue.The.addAdd(toadd);
                     }
-                    else if (command.getCommandType() == Command.T_COMMAND.SET)
+                    else if (command.CmdType == Command.T_COMMAND.SET)
                     {
-                        Command_Set toset = (Command_Set)command;
-                        ExicutionQueue.The.addSet(toset);
+                        //Command_Set toset = (Command_Set)command;
+                        //ExicutionQueue.The.addSet(toset);
                     }
                 }
             }

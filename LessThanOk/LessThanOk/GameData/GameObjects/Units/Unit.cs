@@ -41,6 +41,7 @@ using LessThanOk.GameData.GameObjects;
 using LessThanOk.Sprites;
 using Microsoft.Xna.Framework.Graphics;
 using LessThanOk.Events;
+using LessThanOk.Network.Commands.Decorators;
 
 [assembly: InternalsVisibleTo("UnitType")]
 
@@ -169,12 +170,12 @@ namespace LessThanOk.GameData.GameObjects.Units
 
                 CommandStarted.Invoke(this, new CommandChangedEventArgs(activeCommand));
 
-                switch (activeCommand.getCommandType())
+                switch (activeCommand.CmdType)
                 {
                     case Command.T_COMMAND.MOVE:
-                        Command_Move cMov = (Command_Move)activeCommand;
-                        ushort x = cMov.getX();
-                        ushort y = cMov.getY();
+                        Command cMov = new MoveDecorator(activeCommand);
+                        ushort x = cMov.X;
+                        ushort y = cMov.Y;
 
                         Vector2 finalPosition = new Vector2((float)x, (float)y);
                         engine.setTargetPosition(finalPosition);
@@ -184,7 +185,7 @@ namespace LessThanOk.GameData.GameObjects.Units
 
             if (activeCommand != null)
             {
-                switch (activeCommand.getCommandType())
+                switch (activeCommand.CmdType)
                 {
                     case Command.T_COMMAND.MOVE:
                         engine.update(elps);
@@ -195,9 +196,9 @@ namespace LessThanOk.GameData.GameObjects.Units
                         break;
                 }
 
-                if (activeCommand.getTimeStamp() <= elps.TotalGameTime.Ticks)
+                if (activeCommand.TimeStamp <= elps.TotalGameTime.Ticks)
                 {
-                    switch (activeCommand.getCommandType())
+                    switch (activeCommand.CmdType)
                     {
                         case Command.T_COMMAND.MOVE:
                             break;
@@ -222,7 +223,7 @@ namespace LessThanOk.GameData.GameObjects.Units
 
         public void addCommand(Command newCommand)
         {
-            if (newCommand.getCommandType() == Command.T_COMMAND.CANCEL)
+            if (newCommand.CmdType == Command.T_COMMAND.CANCEL)
             {
                 commands.Clear();
             }

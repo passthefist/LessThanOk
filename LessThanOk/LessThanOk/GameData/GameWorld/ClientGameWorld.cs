@@ -12,7 +12,7 @@ namespace LessThanOk.GameData.GameWorld
     public class ClientGameWorld : GameWorld
     {
         public List<Command> Commands;
-        public List<Command_Add> toAdds;
+        public List<Command> toAdds;
 
         public ClientGameWorld() : base ()
         {
@@ -21,11 +21,11 @@ namespace LessThanOk.GameData.GameWorld
         override public void update(GameTime elps)
         {
             gameTime = elps;
-            Command_Add cmd;
+            Command cmd;
             while((cmd = ExicutionQueue.The.pollAdd()) != null)
             {
-                Unit newUnit = (Unit)fact.resurrectGameObject(cmd.getBuilt(), cmd.getType());
-                ActiveGameObject builder = (ActiveGameObject)fact.getGameObject(cmd.getBuilder());
+                Unit newUnit = (Unit)fact.resurrectGameObject(cmd.ChildID, cmd.Type);
+                ActiveGameObject builder = (ActiveGameObject)fact.getGameObject(cmd.ParentID);
 
                 newUnit._Position = builder._Position;
 
