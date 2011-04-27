@@ -126,9 +126,9 @@ namespace LessThanOk.GameData.GameWorld
                         if (tile.HasUnits)
                         {
                             Unit u = tile.InternalUnits[0];
-                            if (point.X > u._Position.X && point.X < u._Position.X + u.Type.getImage().Size.X)
+                            if (point.X > u._Position.X && point.X < u._Position.X + u.Type.getImage().Width)
                             {
-                                if (point.Y > u._Position.Y && point.Y < u._Position.Y + u.Type.getImage().Size.Y)
+                                if (point.Y > u._Position.Y && point.Y < u._Position.Y + u.Type.getImage().Height)
                                 {
                                     return u;
                                 }
@@ -148,9 +148,9 @@ namespace LessThanOk.GameData.GameWorld
                         if (tile.HasUnits)
                         {
                             Unit u = tile.InternalUnits[0];
-                            if (point.X > u._Position.X && point.X < u._Position.X + u.Type.getImage().Size.X)
+                            if (point.X > u._Position.X && point.X < u._Position.X + u.Type.getImage().Width)
                             {
-                                if (point.Y > u._Position.Y && point.Y < u._Position.Y + u.Type.getImage().Size.Y)
+                                if (point.Y > u._Position.Y && point.Y < u._Position.Y + u.Type.getImage().Height)
                                 {
                                     return u;
                                 }
@@ -164,9 +164,9 @@ namespace LessThanOk.GameData.GameWorld
                         if (tile.HasUnits)
                         {
                             Unit u = tile.InternalUnits[0];
-                            if (point.X > u._Position.X && point.X < u._Position.X + u.Type.getImage().Size.X)
+                            if (point.X > u._Position.X && point.X < u._Position.X + u.Type.getImage().Width)
                             {
-                                if (point.Y > u._Position.Y && point.Y < u._Position.Y + u.Type.getImage().Size.Y)
+                                if (point.Y > u._Position.Y && point.Y < u._Position.Y + u.Type.getImage().Height)
                                 {
                                     return u;
                                 }

@@ -36,7 +36,7 @@ namespace LessThanOk.Network.Commands
    
     public class Command
     {
-        protected UInt64[] _command;
+        private UInt64[] _command;
         public Command()
         {
             _command = new UInt64[2];
@@ -75,6 +75,21 @@ namespace LessThanOk.Network.Commands
                     return 0;
             }
         }
+        public UInt16 Actor
+        {
+            get
+            {
+                switch (this.CmdType)
+                {
+                    case T_COMMAND.MOVE:
+                        return (UInt16)(_command[0] >> 48);
+                        break;
+                    case T_COMMAND.ADD:
+                        return (UInt16)(_command[0] >> 24);
+                        break;
+                }
+            }
+        }
         public enum T_COMMAND
         {
             MOVE = 1,
@@ -82,6 +97,7 @@ namespace LessThanOk.Network.Commands
             REMOVE,
             SET,
             ERROR,
+            ATTACK,
             CANCEL
         }
         #endregion

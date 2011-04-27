@@ -12,43 +12,37 @@ namespace LessThanOk.Sprites
 {
     public class Sprite_2D: Sprite
     {
-        private Texture2D _texture;
-        private Rectangle _sourceRect;
-        private Vector2 _size;
-
         public override float Scale { get; set; }
-        public override Vector2 Position { get; set; }
-        public override Vector2 Size { get { return _size; } }
         public override float Rotation { get; set; }
         public override Color Color { get; set; }
         public override float Alpha { get; set; }
         public override bool Centered { get; set; }
-        public override bool Hover { get; set; }
-        public Texture2D Texture { get { return _texture; } }
+        public override int Height { get { return Texture.Height; } set { throw new NotImplementedException(); } }
+        public override int Width { get { return Texture.Width; } set { throw new NotImplementedException(); } }
+        public Texture2D Texture { get; set; }
+        public Rectangle Source { get; set; }
         
-        internal Sprite_2D(Texture2D texture, Vector2 size)
+        internal Sprite_2D(Texture2D texture, Rectangle source)
         {
-            _texture = texture;
-            _size = size;
-            _sourceRect = new Rectangle(0, 0, (int)Size.X, (int)Size.Y);
+            Texture = texture;
             Color = Color.White;
             Scale = 1;
             Alpha = 255;
+            Source = source;
         }
         internal Sprite_2D(Sprite_2D sprite)
         {
-            this._sourceRect = sprite._sourceRect;
-            this._texture = sprite._texture;
-            this._size = sprite.Size;
+            this.Source = new Rectangle(sprite.Source.X, sprite.Source.Y, sprite.Source.Width, sprite.Source.Height) ;
+            this.Texture = sprite.Texture;
             this.Color = sprite.Color;
             this.Scale = sprite.Scale;
             this.Alpha = sprite.Alpha;
             this.Centered = sprite.Centered;
             this.Rotation = sprite.Rotation;
         }
-        public override void draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch batch, int x, int y)
         {
-            spriteBatch.Draw(_texture, Position, _sourceRect, Color); 
+            batch.Draw(Texture, new Vector2((float)x, (float)y), Source, Color);
         }
     }
 }

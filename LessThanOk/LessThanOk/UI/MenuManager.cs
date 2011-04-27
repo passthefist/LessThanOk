@@ -11,16 +11,14 @@ using LessThanOk.Input.Events;
 using LessThanOk.Input.Events.Args;
 using LessThanOk.States.Events;
 using LessThanOk.States.Events.Args;
+using LessThanOk.UI.Frames.UIElements;
 
 namespace LessThanOk.UI
 {
     public class MenuManager
     {
-        public Frame Root { get { return _root; } }
-
-        private WindowDefinitions windows;
+        private WindowDefinitions _windows;
         private Frame _root;
-        private UIElement hover;
 
         public MenuManager(ContentManager Content)
         {
@@ -30,89 +28,70 @@ namespace LessThanOk.UI
             InputEvents.The.MouseMoved += new EventHandler<MouseEventArgs>(this.MouseMovementHandler);
 
             // Subscribe to state change events
-            StateChangeEvents.The.GameState += new EventHandler<GameStateEventArgs>(this.ChangeState);
-            StateChangeEvents.The.HomeState += new EventHandler<HomeStateEventArgs>(this.ChangeState);
-            StateChangeEvents.The.LobbyState += new EventHandler<LobbyStateEventArgs>(this.ChangeState);
-            StateChangeEvents.The.PostGameState += new EventHandler<PostGameStateEventArgs>(this.ChangeState);
+            StateChangeEvents.The.GameState += new EventHandler<GameStateEventArgs>(this.ChangeStateHandler);
+            StateChangeEvents.The.HomeState += new EventHandler<HomeStateEventArgs>(this.ChangeStateHandler);
+            StateChangeEvents.The.LobbyState += new EventHandler<LobbyStateEventArgs>(this.ChangeStateHandler);
+            StateChangeEvents.The.PostGameState += new EventHandler<PostGameStateEventArgs>(this.ChangeStateHandler);
 
 
-            windows = new WindowDefinitions(Content);
-            _root = windows.Frames["home"];
+            _windows = new WindowDefinitions(Content);
+            if (!_windows.Frames.TryGetValue(WindowDefinitions.FRAME.HOME, out _root))
+                throw new Exception();
+            
         }
 
         private void RightClickHandler(object sender, MouseEventArgs args)
         {
-            UIElement element = _root.getElementAt(args.MouseState.X, args.MouseState.Y);
+            Button element = _root.getElementAt(args.MouseState.X, args.MouseState.Y);
             if (element == null)
                 return;
         }
         private void LeftClickHandler(object sender, MouseEventArgs args)
         {
-            UIElement element = _root.getElementAt(args.MouseState.X, args.MouseState.Y);
+            Button element = _root.getElementAt(args.MouseState.X, args.MouseState.Y);
             if (element == null)
                 return;
-            UIElementEvents.The.TriggerButtonPress(this, new ButtonEventArgs(element));
+            element.Click();
         }
 
         private void MouseMovementHandler(object sender, MouseEventArgs args)
         {
-            UIElement element = _root.getElementAt(args.MouseState.X, args.MouseState.Y);
-            setHover(element);
-
             //TODO: handle screen movement
         }
 
-        public void ChangeState(object sender, EventArgs args)
+        public void ChangeStateHandler(object sender, EventArgs args)
         {
             if (args is HomeStateEventArgs)
             {
-                switchFrame("home");
+                switchFrame(WindowDefinitions.FRAME.HOME);
             }
             else if (args is LobbyStateEventArgs)
             {
                 LobbyStateEventArgs a = (LobbyStateEventArgs)args;
                 if (a.IsHost)
-                    switchFrame("hostlobby");
+                    switchFrame(WindowDefinitions.FRAME.HOSTLOBBY);
                 else
-                    switchFrame("clientlobby");
+                    switchFrame(WindowDefinitions.FRAME.CLIENTLOBBY);
             }
             else if (args is GameStateEventArgs)
             {
-                switchFrame("game");
+                switchFrame(WindowDefinitions.FRAME.GAME);
             }
             else if (args is PostGameStateEventArgs)
             {
-                switchFrame("postgame");
+                switchFrame(WindowDefinitions.FRAME.POSTGAME);
             }
         }
 
-        private void setHover(UIElement element)
+        public bool AttachHandlerTo(WindowDefinitions.FRAME frame, WindowDefinitions.BUTTON element, EventHandler<ButtonEventArgs> handle)
         {
-            if (hover == null && element == null)
-                return;
-            else if (hover == null)
-            {
-                hover = element;
-                hover.Hover = true;
-            }
-            else if (element == null)
-            {
-                hover.Hover = false;
-            }
-            else if (element.Equals(hover))
-            {
-                hover.Hover = true;
-            }
-            else
-            {
-                hover = element;
-                hover.Hover = true;
-            }
+            return _windows.AttachHandlerTo(frame, element, handle);
         }
 
-        private void switchFrame(String frame)
+        private void switchFrame(WindowDefinitions.FRAME frame)
         {
-            _root = windows.Frames[frame];
+            if (!_windows.Frames.TryGetValue(frame, out _root))
+                throw new Exception();
         }
         public void draw(SpriteBatch spriteBatch)
         {
@@ -120,7 +99,7 @@ namespace LessThanOk.UI
         }
         public void update(GameTime gameTime)
         {
-            Root.update(gameTime);
+            _root.update(gameTime);
         }
     }
 }

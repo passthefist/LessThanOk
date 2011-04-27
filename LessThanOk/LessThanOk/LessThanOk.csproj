@@ -115,6 +115,10 @@
     <Compile Include="GameData\GameObjects\Units\WarheadType.cs" />
     <Compile Include="GameData\GameObjects\Units\Weapon.cs" />
     <Compile Include="GameData\GameObjects\Units\WeaponType.cs" />
+    <Compile Include="GameData\GameWorld\Monirator\CommandEvaluator.cs" />
+    <Compile Include="GameData\GameWorld\Monirator\CommandSchedule.cs" />
+    <Compile Include="GameData\GameWorld\Monirator\Events\RequestDeniedEventArgs.cs" />
+    <Compile Include="GameData\GameWorld\Monirator\RuleBook.cs" />
     <Compile Include="GameData\GameWorld\TileMap.cs" />
     <Compile Include="GlobalEvent.cs" />
     <Compile Include="GlobalEventSubscriber.cs" />
@@ -130,7 +134,7 @@
     <Compile Include="LTO_Engine.cs" />
     <Compile Include="Network\Commands\CommandRequester.cs" />
     <Compile Include="Network\Commands\Command.cs" />
-    <Compile Include="GameData\GameWorld\Monirator.cs" />
+    <Compile Include="GameData\GameWorld\Monirator\Monirator.cs" />
     <Compile Include="Network\NetworkManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
@@ -145,13 +149,14 @@
     <Compile Include="States\Events\Args\PostGameStateEventArgs.cs" />
     <Compile Include="UI\Events\Args\ButtonEventArgs.cs" />
     <Compile Include="Input\Events\Args\MouseEventArgs.cs" />
-    <Compile Include="UI\Events\UIElementEvents.cs" />
     <Compile Include="UI\Frames\Frame.cs" />
     <Compile Include="UI\Frames\Frame_Game.cs" />
     <Compile Include="Input\Events\InputEvents.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="UI\Frames\UIElements\LobbyList.cs" />
     <Compile Include="UI\Frames\UIElements\StatPanel.cs" />
+    <Compile Include="UI\Frames\UIElements\ToggleButton.cs" />
+    <Compile Include="UI\Frames\UIElements\Button.cs" />
     <Compile Include="UI\Frames\UIElements\UIElement.cs" />
     <Compile Include="UI\MenuManager.cs" />
     <Compile Include="UI\WindowDefinitions.cs" />

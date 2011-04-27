@@ -65,7 +65,7 @@ namespace LessThanOk.GameData.GameObjects.Tiles
             this.internalUnits = new List<Unit> (unit);
             this.type = tType;
             this.image = (Sprite_2D)tType.getImage();
-            this.image.Position = this.position;
+            //this.image.Position = this.position;
         }
 
         override public void update(GameTime gameTime)

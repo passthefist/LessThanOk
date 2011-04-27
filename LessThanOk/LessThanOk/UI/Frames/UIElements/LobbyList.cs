@@ -10,15 +10,14 @@ using LessThanOk.Sprites;
 
 namespace LessThanOk.UI
 {
-    class LobbyList : UIElement
+    class LobbyList : Button
     {
-        public LobbyList(String name, int x, int y, Sprite_Text image)
+        public LobbyList(LessThanOk.UI.WindowDefinitions.BUTTON name, int x, int y, Sprite_Text image)
         {
             _name = name;
             _posx = x;
             _posy = y;
             _image = image;
-            _size = _image.Size;
         }
 
         public override void update(GameTime gameTime)
@@ -37,7 +36,7 @@ namespace LessThanOk.UI
         }
         public override void draw(SpriteBatch spriteBatch)
         {
-            _image.draw(spriteBatch);
+            _image.Draw(spriteBatch, _posx, _posy);
         }
     }
 }

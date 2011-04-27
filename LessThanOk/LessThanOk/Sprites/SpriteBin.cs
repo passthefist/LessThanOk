@@ -59,9 +59,9 @@ namespace LessThanOk.Sprites
             _sprites.Add(key, s);
             return s;
         }
-        public Sprite_2D Add2DSprite(Texture2D texture, Vector2 size, String key)
+        public Sprite_2D Add2DSprite(Texture2D texture, Rectangle source, String key)
         {
-            Sprite_2D s = new Sprite_2D(texture, size);
+            Sprite_2D s = new Sprite_2D(texture, source);
             _sprites.Add(key, s);
             return s;
         }

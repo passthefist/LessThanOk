@@ -39,39 +39,56 @@ using Microsoft.Xna.Framework;
 using LessThanOk.Network.Commands;
 using LessThanOk.GameData;
 using LessThanOk.GameData.GameWorld;
+using LessThanOk.GameData.GameWorld.Monirator.Events;
 
-namespace LessThanOk.GameData.GameWorld
+namespace LessThanOk.GameData.GameWorld.Monirator
 {
-    public sealed class Monirator
+    public class Monirator
     {
-        static readonly Monirator the = new Monirator();
-      
-        // Explicit static constructor to tell C# compiler
-        // not to mark type as beforefieldinit
-        static Monirator(){}
+        public event EventHandler<RequestDeniedEventArgs> RequestDenied; 
 
-        public static Monirator The { get { return the; } }
+        private CommandEvaluator _cmdEval;
+        private RuleBook _rulebook;
+        private CommandSchedule _schedule;
+        private Queue<Command> _ScheduledCommands;
 
-        private Queue<Command> grants;
-        private Queue<Command> requests;
-        /// <summary>
-        /// Default constructor that sets the queue lengths to 100
-        /// </summary>
-        public Monirator()
+        public Monirator(RuleBook rules)
         {
-            grants = new Queue<Command>(100);
-            requests = new Queue<Command>(100);
+            _ScheduledCommands = new Queue<Command>();
+            _cmdEval = new CommandEvaluator();
+            _schedule = new CommandSchedule();
+            _rulebook = rules;
         }
-        /// <summary>
-        /// Tests if a command is valid.
-        /// </summary>
-        /// <param name="req"></param>
-        /// <param name="board"></param>
-        /// <returns></returns>
-        public Boolean validate(Command req, TileMap board)
+        
+        public void EvaluateCommand(Command req)
         {
-            // TODO: Validation Logic
+            Queue<Command> EvaluationResults = new Queue<Command>();
+            EvaluationResults = _cmdEval.EvaluateCommand(req, _rulebook);
+            if (EvaluationResults.Count == 1)
+            {
+                if (EvaluationResults.Peek().CmdType == Command.T_COMMAND.ERROR && RequestDenied != null)
+                    RequestDenied.Invoke(this, new RequestDeniedEventArgs());
+            }
+            else
+            {
+                _schedule.Schedule(EvaluationResults);
+            }
+        }
+
+        public void SetState(TileMap map) { _cmdEval.Map = map; }
+
+        public void UpdateSchedule(GameTime time) 
+        { 
+            _schedule.step(time, out _ScheduledCommands);
+        }
+
+        public bool GetNextScheduledCommand(out Command cmd)
+        {
+            if (_ScheduledCommands.Count <= 0)
+                return false;
+            cmd = _ScheduledCommands.Dequeue();
             return true;
         }
+
     }
 }

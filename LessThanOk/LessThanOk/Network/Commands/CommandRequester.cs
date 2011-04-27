@@ -26,15 +26,14 @@ namespace LessThanOk.Network.Commands
         private List<ActiveGameObject> _selectedObjects;
         private HashSet<Keys> _hotKeys;
 
-        public CommandRequester()
+        public CommandRequester(MenuManager manager)
         {
             InputEvents.The.LeftMouseUpEvent += new EventHandler<MouseEventArgs>(this.LeftClickHandler);
             InputEvents.The.MouseMoved += new EventHandler<MouseEventArgs>(this.MouseMovedHandler);
             InputEvents.The.RightMouseUpEvent += new EventHandler<MouseEventArgs>(this.RightClickHandler);
             InputEvents.The.KeyStrokeEvent += new EventHandler<KeyBoardEventArgs>(this.KeyStrokeHandler);
-            UIElementEvents.ButtonPress += new EventHandler<ButtonEventArgs>(this.ButtonPressedHandler);
             SelectedEvents.The.GameObjectsSelected += new EventHandler<SelectedEventArgs>(this.GameObjectsSeleted);
-
+            manager.AttachHandlerTo(WindowDefinitions.FRAME.GAME, WindowDefinitions.BUTTON.ADD, AddHandler);
             _hotKeys = new HashSet<Keys>();
         }
 
@@ -72,23 +71,17 @@ namespace LessThanOk.Network.Commands
         {
 
         }
-        private void ButtonPressedHandler(object sender, ButtonEventArgs args)
+        private void AddHandler(object sender, ButtonEventArgs args)
         {
-            if (args.Element.Name == "add")
+            Command command;
+            GameObjectType type = GameObjectFactory.The.getType("TestUnit");
+            foreach (ActiveGameObject o in _selectedObjects)
             {
-                if (_selectedObjects != null)
-                {
-                    Command command;
-                    GameObjectType type = GameObjectFactory.The.getType("TestUnit");
-                    foreach (ActiveGameObject o in _selectedObjects)
-                    {
-                        command = new AddDecorator(o.ID, 0, type.ID, new TimeSpan(), new Command());
-                        GlobalRequestQueue.The.push(command);
-                    }
-                }
+                command = new AddDecorator(o.ID, 0, type.ID, new TimeSpan(), new Command());
+                GlobalRequestQueue.The.push(command);
             }
         }
-        private void KeyStrokeHandler(object sender, KeyBoardEventArgs args)
+        public void KeyStrokeHandler(object sender, KeyBoardEventArgs args)
         {
             if (_hotKeys.Contains(args.Key))
                 _hotKeys.Remove(args.Key);

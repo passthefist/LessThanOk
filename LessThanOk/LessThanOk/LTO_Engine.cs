@@ -25,6 +25,21 @@ namespace LessThanOk
 {
     class LTO_Engine
     {
+        #region lets make some #DEFINES
+        WindowDefinitions.BUTTON ADD = WindowDefinitions.BUTTON.ADD;
+        WindowDefinitions.BUTTON CREATE = WindowDefinitions.BUTTON.CREATE_GAME;
+        WindowDefinitions.BUTTON END = WindowDefinitions.BUTTON.END_GAME;
+        WindowDefinitions.BUTTON ENDSESSION = WindowDefinitions.BUTTON.END_SESSION;
+        WindowDefinitions.BUTTON JOIN = WindowDefinitions.BUTTON.JOIN_GAME;
+        WindowDefinitions.BUTTON READY = WindowDefinitions.BUTTON.READY;
+        WindowDefinitions.BUTTON START = WindowDefinitions.BUTTON.START_GAME;
+
+        WindowDefinitions.FRAME CLIENTLOBBY = WindowDefinitions.FRAME.CLIENTLOBBY;
+        WindowDefinitions.FRAME GAME = WindowDefinitions.FRAME.GAME;
+        WindowDefinitions.FRAME HOME = WindowDefinitions.FRAME.HOME;
+        WindowDefinitions.FRAME HOSTLOBBY = WindowDefinitions.FRAME.HOSTLOBBY;
+        WindowDefinitions.FRAME POSTGAME = WindowDefinitions.FRAME.POSTGAME;
+        #endregion
 
         private MenuManager MenuController;
         private NetworkManager NetworkController;
@@ -35,24 +50,34 @@ namespace LessThanOk
         private ObjectSelector AGOSelecter;
         private event EventHandler<GameStateEventArgs> test;
 
-        public LTO_Engine()
-        {
-            UIElementEvents.ButtonPress += new EventHandler<ButtonEventArgs>(this.ButtonPressed);
-        }
+        public LTO_Engine() { }
 
         public void init(ContentManager Content)
         {
-            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Bitmap1"), new Vector2(48, 48), "PersonSprite");
-            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Bitmap2"), new Vector2(48, 48), "GunSprite");
+            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Bitmap1"), new Rectangle(0,0,48, 48), "PersonSprite");
+            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Bitmap2"), new Rectangle(0,0,48, 48), "GunSprite");
 
-            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Tile"), new Vector2(20, 20), "grassTile");
-            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("tile2"), new Vector2(20, 20), "yellowTile");
-
+            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("Tile"), new Rectangle(0, 0, 48, 48), "grassTile");
+            SpriteBin.The.Add2DSprite(Content.Load<Texture2D>("tile2"), new Rectangle(0, 0, 48, 48), "yellowTile");
+            
             MenuController = new MenuManager(Content);
             NetworkController = new NetworkManager();
             InputController = new InputManager();
 
+            AttachHandlers();
+
             GameObjectFactory.The.loadXmlData(null);
+        }
+
+        private void AttachHandlers()
+        {
+            // Magic... I know. Just check the top region "Lets make some #DEFINES."
+
+            MenuController.AttachHandlerTo(HOME, CREATE, CreateGame);
+            MenuController.AttachHandlerTo(HOME, JOIN, JoinGame);
+            MenuController.AttachHandlerTo(CLIENTLOBBY, READY, Ready);
+            MenuController.AttachHandlerTo(HOSTLOBBY, START, StartGame);
+            MenuController.AttachHandlerTo(HOSTLOBBY, READY, Ready);
         }
 
         public void update(GameTime time)
@@ -98,44 +123,22 @@ namespace LessThanOk
 
         #region User Interface Event Handlers
 
-        private void ButtonPressed(object sender, ButtonEventArgs args)
-        {
-            if (args.Element.Name == "start")
-            {
-                StartGame();
-                StateChangeEvents.The.TiggerGameState(sender, new GameStateEventArgs());
-            }
-            else if (args.Element.Name == "create")
-            {
-                CreateGame();
-                StateChangeEvents.The.TiggerLobbyState(sender, new LobbyStateEventArgs(true));
-            }
-            else if (args.Element.Name == "join")
-            {
-                if(JoingGame())
-                    StateChangeEvents.The.TiggerLobbyState(sender, new LobbyStateEventArgs(false));
-            }
-            else if (args.Element.Name == "ready")
-            {
-                Ready();
-            }
-        }
-
-        private void StartGame()
+        private void StartGame(object sender, ButtonEventArgs args)
         {
             Game = new MasterGameWorld();
-            CMDRequester = new CommandRequester();
+            CMDRequester = new CommandRequester(MenuController);
             AGOSelecter = new ObjectSelector();
             Session.StartGame();
+            StateChangeEvents.The.TiggerGameState(this, new GameStateEventArgs());
         }
 
-        private void Ready()
+        private void Ready(object sender, ButtonEventArgs args)
         {
             foreach (LocalNetworkGamer g in Session.LocalGamers)
-                g.IsReady = true;
+                g.IsReady = (args.State == ButtonEventArgs.STATE.DOWN);
         }
 
-        private void CreateGame()
+        private void CreateGame(object sender, ButtonEventArgs args)
         {
             try
             {
@@ -146,6 +149,7 @@ namespace LessThanOk
                 Session.GameStarted += GameStartedHandler;
                 Session.HostChanged += HostChangedHandler;
                 Session.SessionEnded += SessionEndedHandler;
+                StateChangeEvents.The.TiggerLobbyState(sender, new LobbyStateEventArgs(true));
             }
             catch (Exception e)
             {
@@ -153,7 +157,7 @@ namespace LessThanOk
             }
         }
 
-        private Boolean JoingGame()
+        private void JoinGame(object sender, ButtonEventArgs args)
         {
             try
             {
@@ -167,6 +171,7 @@ namespace LessThanOk
                     Session.GameStarted += GameStartedHandler;
                     Session.HostChanged += HostChangedHandler;
                     Session.SessionEnded += SessionEndedHandler;
+                    StateChangeEvents.The.TiggerLobbyState(sender, new LobbyStateEventArgs(false));
                 }
                 else
                     throw new Exception();
@@ -174,9 +179,7 @@ namespace LessThanOk
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return false;
             }
-            return true;
         }
 
         #endregion
@@ -200,8 +203,12 @@ namespace LessThanOk
             if (!Session.IsHost)
             {
                 Game = new ClientGameWorld();
-                CMDRequester = new CommandRequester();
                 AGOSelecter = new ObjectSelector();
+
+                CMDRequester = new CommandRequester(MenuController);
+                
+                // TODO: Hook InputEvents
+                // TODO: Hook InputEvents
                 StateChangeEvents.The.TiggerGameState(sender, new GameStateEventArgs());
             }
         }

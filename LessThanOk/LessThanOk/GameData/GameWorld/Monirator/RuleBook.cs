@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LessThanOk.UI.Frames.UIElements
+namespace LessThanOk.GameData.GameWorld.Monirator
 {
-    class UIElement
+    class RuleBook
     {
+
     }
 }

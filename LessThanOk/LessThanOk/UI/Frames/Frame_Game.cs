@@ -22,12 +22,12 @@ namespace LessThanOk.UI
             _width = width;
             _height = height;
             _view = new Rectangle(0, 0, 800, 400);
-            _elements = new List<UIElement>();
+            _elements = new Dictionary<LessThanOk.UI.WindowDefinitions.BUTTON, Button>();
         }
         public override void draw(SpriteBatch spriteBatch)
         {
             Boolean success = BlackBoard.getTileMap(out _map);
-            foreach (UIElement e in Elements)
+            foreach (Button e in _elements.Values)
                 e.draw(spriteBatch);
             foreach (Tile t in _map.getTilesInRect(_view))
                 t.draw(spriteBatch);
