@@ -36,7 +36,7 @@ namespace LessThanOk.Network.Commands
    
     public class Command
     {
-        private UInt64[] _command;
+        protected UInt64[] _command;
         public Command()
         {
             _command = new UInt64[2];
@@ -88,6 +88,7 @@ namespace LessThanOk.Network.Commands
                         return (UInt16)(_command[0] >> 24);
                         break;
                 }
+                return 0;
             }
         }
         public enum T_COMMAND

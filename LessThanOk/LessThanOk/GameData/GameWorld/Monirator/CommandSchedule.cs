@@ -26,7 +26,7 @@ namespace LessThanOk.GameData.GameWorld.Monirator
                 key = cmd.Actor;
                 if (_unitQueues.ContainsKey(key))
                 {
-                    if (_unitQueues.TryGetValue(key, actorsQueue))
+                    if (_unitQueues.TryGetValue(key, out actorsQueue))
                     {
                         actorsQueue.Enqueue(cmd);
                     }
@@ -42,12 +42,9 @@ namespace LessThanOk.GameData.GameWorld.Monirator
 
         internal void step(GameTime time, out Queue<Command> ScheduledCommands)
         {
-            if(_ScheduledCommands == null)
-                _ScheduledCommands = new Queue<Command>();
-            else
-                _ScheduledCommands.Clear();
+            ScheduledCommands = new Queue<Command>();
          
-            foreach (Queue<Command> q in _unitQueues)
+            foreach (Queue<Command> q in _unitQueues.Values)
             {
                 foreach (Command cmd in q)
                 {

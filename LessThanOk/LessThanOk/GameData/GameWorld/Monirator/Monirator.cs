@@ -82,7 +82,7 @@ namespace LessThanOk.GameData.GameWorld.Monirator
             _schedule.step(time, out _ScheduledCommands);
         }
 
-        public bool GetNextScheduledCommand(out Command cmd)
+        public bool GetNextScheduledCommand(ref Command cmd)
         {
             if (_ScheduledCommands.Count <= 0)
                 return false;

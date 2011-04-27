@@ -5,8 +5,7 @@ using System.Text;
 
 namespace LessThanOk.GameData.GameWorld.Monirator
 {
-    public class RuleBook
+    class PathFinder
     {
-
     }
 }

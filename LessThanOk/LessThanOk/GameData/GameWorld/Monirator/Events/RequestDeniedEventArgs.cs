@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LessThanOk.GameData.GameWorld.Monirator.Events
 {
-    class RequestDeniedEventArgs
+    public class RequestDeniedEventArgs : EventArgs
     {
 
     }

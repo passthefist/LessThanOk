@@ -118,6 +118,7 @@
     <Compile Include="GameData\GameWorld\Monirator\CommandEvaluator.cs" />
     <Compile Include="GameData\GameWorld\Monirator\CommandSchedule.cs" />
     <Compile Include="GameData\GameWorld\Monirator\Events\RequestDeniedEventArgs.cs" />
+    <Compile Include="GameData\GameWorld\Monirator\PathFinder.cs" />
     <Compile Include="GameData\GameWorld\Monirator\RuleBook.cs" />
     <Compile Include="GameData\GameWorld\TileMap.cs" />
     <Compile Include="GlobalEvent.cs" />

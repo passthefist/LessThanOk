@@ -38,6 +38,7 @@ namespace LessThanOk.GameData.GameWorld.Monirator
                 default:
                     break;
             }
+            return retval;
         }
 
         private Queue<Command> evaluateMove(Command req, RuleBook rules)
@@ -65,7 +66,7 @@ namespace LessThanOk.GameData.GameWorld.Monirator
             throw new NotImplementedException();
         }
 
-        private Queue<Command> evaluateMove(Command req, RuleBook rules)
+        private Queue<Command> evaluateCancel(Command req, RuleBook rules)
         {
             throw new NotImplementedException();
         }
