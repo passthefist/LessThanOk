@@ -16,27 +16,27 @@ namespace LessThanOk.UI
     {
         static WindowDefinitions()
         {
-            TOWERTYPE = new UInt16[6];
-            UNITTYPE = new UInt16[3];
+            TOWERTYPE = new String[6];
+            UNITTYPE = new String[3];
 
-            TOWERTYPE[0] = 1;
-            TOWERTYPE[1] = 2;
-            TOWERTYPE[2] = 3;
-            TOWERTYPE[3] = 4;
-            TOWERTYPE[4] = 5;
-            TOWERTYPE[5] = 6;
+            TOWERTYPE[0] = "tower1";
+            TOWERTYPE[1] = "tower2";
+            TOWERTYPE[2] = "tower3";
+            TOWERTYPE[3] = "tower4";
+            TOWERTYPE[4] = "tower5";
+            TOWERTYPE[5] = "tower6";
 
-            UNITTYPE[0] = 7;
-            UNITTYPE[0] = 8;
-            UNITTYPE[0] = 9;
+            UNITTYPE[0] = "unit1";
+            UNITTYPE[0] = "unit2";
+            UNITTYPE[0] = "unit3";
         }
 
         private readonly WindowDefinitions the = new WindowDefinitions();
         public WindowDefinitions The { get { return the; } }
 
         // Used for Demo.  Not enough time to impliment using xml.....
-        private static UInt16[] TOWERTYPE;
-        private static UInt16[] UNITTYPE;
+        private static String[] TOWERTYPE;
+        private static String[] UNITTYPE;
 
         public static Frame_Home BuildHomeFrame(ContentManager Content)
         {
@@ -83,27 +83,27 @@ namespace LessThanOk.UI
         {
             SpriteFont font = Content.Load<SpriteFont>("Kootenay");
             Frame_Game fgame = new Frame_Game(800, 500);
-            Sprite_Text add0 = SpriteBin.The.AddTextSprite(font, "Tower 1", "add");
-            Sprite_Text add1 = SpriteBin.The.AddTextSprite(font, "Tower 2", "add");
-            Sprite_Text add2 = SpriteBin.The.AddTextSprite(font, "Tower 3", "add");
-            Sprite_Text add3 = SpriteBin.The.AddTextSprite(font, "Tower 4", "add");
-            Sprite_Text add4 = SpriteBin.The.AddTextSprite(font, "Tower 5", "add");
-            Sprite_Text add5 = SpriteBin.The.AddTextSprite(font, "Tower 6", "add");
-            Sprite_Text add6 = SpriteBin.The.AddTextSprite(font, "Unit 1", "add");
-            Sprite_Text add7 = SpriteBin.The.AddTextSprite(font, "Unit 2", "add");
-            Sprite_Text add8 = SpriteBin.The.AddTextSprite(font, "Unit 3", "add");
+            Sprite_Text add0 = SpriteBin.The.AddTextSprite(font, "Tower 1", "add0");
+            Sprite_Text add1 = SpriteBin.The.AddTextSprite(font, "Tower 2", "add1");
+            Sprite_Text add2 = SpriteBin.The.AddTextSprite(font, "Tower 3", "add2");
+            Sprite_Text add3 = SpriteBin.The.AddTextSprite(font, "Tower 4", "add3");
+            Sprite_Text add4 = SpriteBin.The.AddTextSprite(font, "Tower 5", "add4");
+            Sprite_Text add5 = SpriteBin.The.AddTextSprite(font, "Tower 6", "add5");
+            Sprite_Text add6 = SpriteBin.The.AddTextSprite(font, "Unit 1", "add6");
+            Sprite_Text add7 = SpriteBin.The.AddTextSprite(font, "Unit 2", "add7");
+            Sprite_Text add8 = SpriteBin.The.AddTextSprite(font, "Unit 3", "add8");
 
 
             Button eAdd0 = new AddButton("add", add0, 200, 400, 0xffff, TOWERTYPE[0]);
-            Button eAdd1 = new AddButton("add", add0, 300, 400, 0xffff, TOWERTYPE[1]);
-            Button eAdd2 = new AddButton("add", add0, 400, 400, 0xffff, TOWERTYPE[2]);
-            Button eAdd3 = new AddButton("add", add0, 200, 450, 0xffff, TOWERTYPE[3]);
-            Button eAdd4 = new AddButton("add", add0, 300, 450, 0xffff, TOWERTYPE[4]);
-            Button eAdd5 = new AddButton("add", add0, 400, 450, 0xffff, TOWERTYPE[5]);
+            Button eAdd1 = new AddButton("add", add1, 300, 400, 0xffff, TOWERTYPE[1]);
+            Button eAdd2 = new AddButton("add", add2, 400, 400, 0xffff, TOWERTYPE[2]);
+            Button eAdd3 = new AddButton("add", add3, 200, 450, 0xffff, TOWERTYPE[3]);
+            Button eAdd4 = new AddButton("add", add4, 300, 450, 0xffff, TOWERTYPE[4]);
+            Button eAdd5 = new AddButton("add", add5, 400, 450, 0xffff, TOWERTYPE[5]);
 
-            Button eAdd6 = new AddButton("add", add0, 0, 400, 0, TOWERTYPE[0]);
-            Button eAdd7 = new AddButton("add", add0, 100, 400, 0, TOWERTYPE[1]);
-            Button eAdd8 = new AddButton("add", add0, 0, 450, 0, TOWERTYPE[2]);
+            Button eAdd6 = new AddButton("add", add6, 0, 400, 0, TOWERTYPE[0]);
+            Button eAdd7 = new AddButton("add", add7, 100, 400, 0, TOWERTYPE[1]);
+            Button eAdd8 = new AddButton("add", add8, 0, 450, 0, TOWERTYPE[2]);
 
             fgame.addElement(eAdd0);
             fgame.addElement(eAdd1);

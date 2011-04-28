@@ -32,6 +32,8 @@ namespace LessThanOk.Network.Commands
             InputManager.RightMouseUpEvent += new EventHandler<MouseEventArgs>(RightClickHandler);
             InputManager.KeyStrokeEvent += new EventHandler<KeyBoardEventArgs>(KeyStrokeHandler);
             ObjectSelector.ObjectSelectedEvent += new EventHandler<SelectedEventArgs>(GameObjectsSeleted);
+
+
             _hotKeys = new HashSet<Keys>();
         }
 

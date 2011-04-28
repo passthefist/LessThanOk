@@ -28,9 +28,9 @@ namespace LessThanOk.GameData.GameWorld.GameSimulator
 		//Changes to be done
 		protected List<AdditionChange> addChanges;
 		protected List<RemovalChange> removeChanges;
-        protected List<IdleChange> idleChanges;
-        protected List<MoveChange> moveChanges;
-        protected List<AttackChange> attackChanges;
+        //protected List<IdleChange> idleChanges;
+        //protected List<MoveChange> moveChanges;
+        //protected List<AttackChange> attackChanges;
 		
 		//History of set values
         protected Dictionary<KeyValuePair<UInt16,UInt16>, UInt32> setChanges;
@@ -47,60 +47,19 @@ namespace LessThanOk.GameData.GameWorld.GameSimulator
 
         public GameSimulator(TileMap tiles)
 		{
-			units = new List<Unit>();
-
-			//commands to be executed
-			instantCmds = new Queue<Command>();
-			blockingCmds =  new Queue<Command>();
-			
-			//spatial organizing structures
-			//gameSpace = new QuadTree<ActiveGameObject>();
-			map = tiles;
-		
-			//Changes to be done
-			addChanges = new List<AdditionChange>();
-			removeChanges = new List<RemovalChange>();
-		
-			//History of set values steppced
-            setChanges = new Dictionary<KeyValuePair<UInt16, UInt16>, UInt32>();
-		
-			//Set value for health, efficient damage calc.
-			battleChanges = new Dictionary<Unit,ushort>();
+            throw new NotImplementedException();
 		}
 
 		public void dispatchCommands(Queue<Command> commandSet)
         {
-            foreach (Command c in commandSet)
-            {
-                if (c.isBlocking())
-                {
-					blockingCmds.Enqueue(c);
-                }
-                else
-                {
-                    instantCmds.Enqueue(c);
-                }
-            }
-
-            addChanges.Clear();
-            removeChanges.Clear();
-            setChanges.Clear();
-            battleChanges.Clear();
+            throw new NotImplementedException();
         }
 		
         public void step(GameTime elps)
         {
-            gameTime = elps.TotalGameTime.Ticks;
-
-            doInstantCommands(elps);
-			
-			updateUnits(elps);
-			
-			doBattle(elps);
-
-            pruneDeadUnits();
+            throw new NotImplementedException();
         }
-		
+		/*
 		public List<AdditionChange> collectAddChanges()
         {
             return addChanges;
@@ -135,44 +94,25 @@ namespace LessThanOk.GameData.GameWorld.GameSimulator
         {
             return idleChanges;
         }
-
+        */
 		public bool isPointInMap(Vector2 point)
 		{
-            return map.isPointInMap(point);
+            return true;
 		}
 		
 		public Tile getTileAtPoint(Vector2 point)
 		{
-			return map.getTileAtPoint(point);
+            throw new NotImplementedException();
 		}
 
 		public Unit getUnitAtPoint(Vector2 point)
 		{
-			foreach(Unit u in units)
-			{
-				if(Vector2.Distance(point, u.getPosition()) < (u.Sprite.Width))
-				{
-					return u;
-				}
-			}
-			
-			return null;
+            throw new NotImplementedException();
 		}
 		
 		public List<Unit> getUnitsInRect(Rectangle rect)
 		{
-			Vector2 pos;
-			List<Unit> found = new List<Unit>(rect.Width);
-			foreach(Unit u in units)
-			{
-				pos = u.getPosition();
-				if(pos.X >= rect.X && pos.Y >= rect.Y && pos.X + u.Sprite.Width < rect.X+rect.Width && pos.Y + 2*u.Sprite.Height < rect.Y + rect.Height)
-				{
-					found.Add(u);
-				}
-			}
-			
-			return found;
+            throw new NotImplementedException();
 		}
 		
 		public List<Tile> getTilesInRect(Rectangle rect)
@@ -182,91 +122,17 @@ namespace LessThanOk.GameData.GameWorld.GameSimulator
 		
 		private void doInstantCommands(GameTime elps)
 		{
-            Command cmd;
-            while (instantCmds.Count > 0)
-            {
-				cmd = instantCmds.Dequeue();
-                switch (cmd.CmdType)
-                {
-                    case Command.T_COMMAND.ADD:
-                        handleAddUnitCommand(cmd);
-
-                        break;
-                    case Command.T_COMMAND.CANCEL:
-                        //Command_Cancel cCan = (Command_Cancel)cmd;
-                        //Unit u = (Unit)fact.getGameObject(cCan.getID());
-                        //u.clearCommands();
-                        break;
-                    case Command.T_COMMAND.REMOVE:
-                        break;
-                    case Command.T_COMMAND.SET:
-                        break;
-                    case Command.T_COMMAND.ERROR:
-                        break;
-                    case Command.T_COMMAND.MOVE:
-                        /* Command_Move cMove = (Command_Mov)cmd;
-                         *
-                         * Unit u = (Unit)fact.getGameObject(cMove.getID());
-                         * u.addCommand(cMove);
-                         */
-                        break;
-                    default:
-                        break;
-                }
-            }
+            throw new NotImplementedException();
 		}
 		
 		private void updateUnits(GameTime elps)
 		{
-			Unit u;
-            Command cmd;
-			while(blockingCmds.Count > 0)
-			{
-				cmd = instantCmds.Dequeue();
-				u = (Unit)GameObjectFactory.The.getGameObject(cmd.UnitID);
-                switch (cmd.CmdType)
-                {
-                    case Command.T_COMMAND.MOVE:
-                        break;
-                    case Command.T_COMMAND.ATTACK:
-                        break;
-                    case Command.T_COMMAND.ADD:
-                        break;
-                }
-			}
-			
-            foreach(Unit unit in units)
-            {
-                unit.update(elps);
-            }
+            throw new NotImplementedException();
 		}
 		
 		protected virtual void doBattle(GameTime elps)
 		{
-			foreach(Unit u in units)
-			{
-                if (u.isAggressive())
-                {
-                    if (u.Target == null)
-                    {
-                        u.setTarget(aquireTarget(u.getPosition()));
-                        if (u.Target == null)
-                        {
-                            continue;
-                        }
-                    }
-                    if (u.Target.Health > 0)
-                    {
-                        if (u.MainWeapon.canFireOn(u.Target))
-                        {
-                        }
-                    }
-                    else
-                    {
-                        u.idle();
-                    }
-                }
-			}
+            throw new NotImplementedException();
 		}
 
         protected virtual void pruneDeadUnits()
@@ -275,19 +141,12 @@ namespace LessThanOk.GameData.GameWorld.GameSimulator
 
         protected virtual void handleAddUnitCommand(Command addCommand)
         {
-            AddDecorator cmd = new AddDecorator(addCommand);
-            Unit u = (Unit)GameObjectFactory.The.createGameObject(cmd.Type);
-            Unit parent = (Unit)GameObjectFactory.The.getGameObject(cmd.ParentID);
-
-            u.setPosition(parent.getPosition());
-            //addCommand.get intended owner
-
-            addChanges.Add(new AdditionChange(addCommand.TimeStamp, u, parent, parent.Owner));
+            throw new NotImplementedException();
         }
 
         protected virtual void addObjectToWorld(ActiveGameObject toAdd, ActiveGameObject adder)
         {
-
+            throw new NotImplementedException();
         }
 
         protected virtual ActiveGameObject aquireTarget(Vector2 point)
@@ -297,53 +156,27 @@ namespace LessThanOk.GameData.GameWorld.GameSimulator
 
         protected virtual void handleMoveCommand(Command moveCommand)
         {
-            MoveDecorator mov = new MoveDecorator(moveCommand);
-            Vector2 position = new Vector2((float)mov.X, (float)mov.Y);
-
-            Unit u = (Unit)GameObjectFactory.The.getGameObject(mov.UnitID);
-
-            u.forceFinishAction();
-            u.moveTo(position);
-
-            moveChanges.Add(new MoveChange(moveCommand.TimeStamp, u, position));
+            throw new NotImplementedException();
         }
 
         protected virtual void unitAttackObject(Unit u, ActiveGameObject target)
         {
-            u.setTarget(target);
-            attackChanges.Add(new AttackChange(gameTime, u, target));
+            throw new NotImplementedException();
         }
 
         protected virtual void removeUnit(Unit deadUnit)
 		{
-			//gameSpace.Remove(deadUnit);
-			units.Remove(deadUnit);
-            removeChanges.Add(new RemovalChange(gameTime, deadUnit));
+            throw new NotImplementedException();
 		}
 
         protected virtual void makeUnitIdle(Unit u)
         {
-            u.forceFinishAction();
-            u.idle();
-            idleChanges.Add(new IdleChange(gameTime, u));
+            throw new NotImplementedException();
         }
 
         protected virtual void setValue(GameObject targetObject, UInt16 key, UInt32 newValue)
 		{
-            targetObject.setField(key, newValue);
-
-            KeyValuePair<UInt16, UInt16> entry = new KeyValuePair<ushort, ushort>(targetObject.ID, key);
-            uint value;
-
-            if (setChanges.TryGetValue(entry,out value))
-            {
-                setChanges.Remove(entry);
-                setChanges.Add(entry, newValue);
-            }
-            else
-            {
-                setChanges.Add(entry, newValue);
-            }
+            throw new NotImplementedException();
 		}
     }
 }

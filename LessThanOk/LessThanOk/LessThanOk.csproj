@@ -99,25 +99,29 @@
     <Compile Include="GameData\GameObjects\GameObject.cs" />
     <Compile Include="GameData\GameObjects\GameObjectFactory.cs" />
     <Compile Include="GameData\GameObjects\GameObjectType.cs" />
+    <Compile Include="GameData\GameWorld\Change.cs" />
+    <Compile Include="GameData\GameWorld\ClientGameWorld.cs" />
     <Compile Include="GameData\GameWorld\Events\UnitBuiltEventArgs.cs" />
-    <Compile Include="GameData\GameWorld\GameSimulator\Change.cs" />
     <Compile Include="GameData\GameWorld\GameSimulator\GameSimulator.cs" />
+    <Compile Include="GameData\GameWorld\GameWorld.cs" />
+    <Compile Include="GameData\GameWorld\GameWorldController.cs" />
+    <Compile Include="GameData\GameWorld\MasterGameWorld.cs" />
+    <Compile Include="GameData\GameObjects\Units\Projectile.cs" />
+    <Compile Include="GameData\GameObjects\Units\ProjectileType.cs" />
     <Compile Include="GameData\GameObjects\Units\Unit.cs" />
     <Compile Include="GameData\GameObjects\Units\UnitType.cs" />
     <Compile Include="GameData\GameObjects\Units\Warhead.cs" />
     <Compile Include="GameData\GameObjects\Units\WarheadType.cs" />
     <Compile Include="GameData\GameObjects\Units\Weapon.cs" />
     <Compile Include="GameData\GameObjects\Units\WeaponType.cs" />
-    <Compile Include="GameData\GameWorld\GameWorldController.cs" />
     <Compile Include="GameData\GameWorld\Monirator\CommandEvaluator.cs" />
     <Compile Include="GameData\GameWorld\Monirator\CommandSchedule.cs" />
+    <Compile Include="GameData\GameWorld\Monirator\Expression.cs" />
     <Compile Include="GameData\GameWorld\Monirator\Events\RequestDeniedEventArgs.cs" />
     <Compile Include="GameData\GameWorld\Monirator\PathFinder.cs" />
     <Compile Include="GameData\GameWorld\Monirator\RuleBook.cs" />
-    <Compile Include="GameData\GameWorld\GameSimulator\TileMap.cs" />
-    <Compile Include="GameData\IQuadObject.cs" />
-    <Compile Include="GameData\Player.cs" />
-    <Compile Include="GameData\QuadTree.cs" />
+    <Compile Include="GameData\GameWorld\Monirator\UnitEvaluation.cs" />
+    <Compile Include="GameData\GameWorld\TileMap.cs" />
     <Compile Include="GlobalEvent.cs" />
     <Compile Include="GlobalEventSubscriber.cs" />
     <Compile Include="Input\Events\KeyBoardEventArgs.cs" />
@@ -202,6 +206,18 @@
       <ProductName>Microsoft XNA Framework Redistributable 3.0</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GameData\GameWorld\Events\.svn\all-wcprops" />
+    <None Include="GameData\GameWorld\Events\.svn\entries" />
+    <None Include="GameData\GameWorld\Events\.svn\text-base\UnitBuiltEventArgs.cs.svn-base" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="GameData\GameWorld\Events\.svn\prop-base\" />
+    <Folder Include="GameData\GameWorld\Events\.svn\props\" />
+    <Folder Include="GameData\GameWorld\Events\.svn\tmp\prop-base\" />
+    <Folder Include="GameData\GameWorld\Events\.svn\tmp\props\" />
+    <Folder Include="GameData\GameWorld\Events\.svn\tmp\text-base\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

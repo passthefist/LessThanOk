@@ -9,12 +9,12 @@ namespace LessThanOk.UI.Frames.UIElements
     class AddButton : Button
     {
         public UInt16 Parent { get { return _parent; } }
-        public UInt16 Type { get { return _type; } }
+        public String Type { get { return _type; } }
 
-        private UInt16 _type;
+        private String _type;
         private UInt16 _parent;
 
-        public AddButton(String name, Sprite image, int x, int y, UInt16 parent, UInt16 type)
+        public AddButton(String name, Sprite image, int x, int y, UInt16 parent, String type)
             : base("add", image, x, y)
         {
             _type = type;

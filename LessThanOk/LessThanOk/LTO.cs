@@ -116,6 +116,8 @@ namespace LessThanOk
                 InputManager.update(gameTime);
                 CurrentFrame.update(gameTime);
                 GlobalState.Update(gameTime);
+                if (Session != null)
+                    Session.Update();
             }
            
             base.Update(gameTime);
@@ -151,6 +153,9 @@ namespace LessThanOk
                 Session.HostChanged += new EventHandler<HostChangedEventArgs>(SessionHostChangedHandler);
                 Session.SessionEnded += new EventHandler<NetworkSessionEndedEventArgs>(SessionEndedHandler);
 
+                ((Frame_Home)CurrentFrame).JoinGame -= JoinGameHandler;
+                ((Frame_Home)CurrentFrame).CreateGame -= CreateGameHandler;
+
                 Frame_HostLobby temp = WindowDefinitions.BuildHostLobbyFrame(Content);
                 temp.PlayerNotReady += new EventHandler(PlayerNotReadyHandler);
                 temp.PlayerReady += new EventHandler(PlayerReadyHandler);
@@ -165,11 +170,23 @@ namespace LessThanOk
             try
             {
                 Session = NetworkSession.Create(NetworkSessionType.SystemLink, 2, 2);
+
+                ((Frame_Home)CurrentFrame).JoinGame -= JoinGameHandler;
+                ((Frame_Home)CurrentFrame).CreateGame -= CreateGameHandler;
+
                 Frame_HostLobby temp = WindowDefinitions.BuildHostLobbyFrame(Content);
                 temp.PlayerNotReady += new EventHandler(PlayerNotReadyHandler);
                 temp.PlayerReady += new EventHandler(PlayerReadyHandler);
                 temp.StartGame += new EventHandler(StartGameHandler);
+
                 CurrentFrame = temp;
+
+                Session.GameEnded += new EventHandler<GameEndedEventArgs>(SessionGameEndedHandler);
+                Session.GamerJoined += new EventHandler<GamerJoinedEventArgs>(SessionGamerJoinedHandler);
+                Session.GamerLeft += new EventHandler<GamerLeftEventArgs>(SessionGamerLeftHandler);
+                Session.GameStarted += new EventHandler<GameStartedEventArgs>(SessionGameStartedHandler);
+                Session.HostChanged += new EventHandler<HostChangedEventArgs>(SessionHostChangedHandler);
+                Session.SessionEnded += new EventHandler<NetworkSessionEndedEventArgs>(SessionEndedHandler);
 
             }
             catch (Exception exception)
@@ -214,9 +231,16 @@ namespace LessThanOk
 
         void SessionGameStartedHandler(object sender, GameStartedEventArgs e)
         {
+            ((Frame_HostLobby)CurrentFrame).PlayerNotReady -= PlayerNotReadyHandler;
+            ((Frame_HostLobby)CurrentFrame).PlayerReady -= PlayerReadyHandler;
+            ((Frame_HostLobby)CurrentFrame).StartGame -= StartGameHandler;
+            Frame_Game temp = WindowDefinitions.BuildGameFrame(Content);
+            temp.QuitEvent += new EventHandler(QuitGameEventHandler);
+            CurrentFrame = temp;
+
             if (Session.IsHost)
             {
-               
+             
             }
             else
             {
@@ -226,16 +250,28 @@ namespace LessThanOk
 
         void SessionGamerJoinedHandler(object sender, GamerJoinedEventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
         void SessionGamerLeftHandler(object sender, GamerLeftEventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         void SessionGameEndedHandler(object sender, GameEndedEventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+        }
+        #endregion
+
+        #region GameState Event Handlers
+        void QuitGameEventHandler(object sender, EventArgs e)
+        {
+            ((Frame_Game)CurrentFrame).QuitEvent -= QuitGameEventHandler;
+            Frame_Home temp = WindowDefinitions.BuildHomeFrame(Content);
+            temp.JoinGame += new EventHandler(JoinGameHandler);
+            temp.CreateGame += new EventHandler(CreateGameHandler);
+            CurrentFrame = temp;
+            Session.Dispose();
         }
         #endregion
     }

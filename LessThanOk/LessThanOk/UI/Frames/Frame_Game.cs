@@ -30,20 +30,12 @@ namespace LessThanOk.UI
         }
         public override void draw(SpriteBatch spriteBatch)
         {
-            /*
-            Boolean success = BlackBoard.getTileMap(out _map);
-            foreach (Button e in _elements.Values)
+            foreach (UIElement e in _elements)
                 e.draw(spriteBatch);
-            foreach (Tile t in _map.getTilesInRect(_view))
-                t.draw(spriteBatch);
-            foreach (Tile t in _map.getTilesInRect(_view))
-                foreach (Unit u in t.InternalUnits)
-                    u.draw(spriteBatch);
-             */
         }
         public override void update(GameTime gameTime)
         {
- 
+            base.update(gameTime);
         }
         public override void addElement(UIElement element)
         {

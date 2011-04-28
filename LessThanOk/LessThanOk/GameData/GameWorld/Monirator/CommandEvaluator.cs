@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LessThanOk.Network.Commands;
+using LessThanOk.Network.Commands.Decorators;
+using LessThanOk.GameData.GameObjects;
 
 namespace LessThanOk.GameData.GameWorld.Monirator
 {
@@ -63,6 +65,9 @@ namespace LessThanOk.GameData.GameWorld.Monirator
 
         private Queue<Command> evaluateAdd(Command req, RuleBook rules)
         {
+            Command add = new AddDecorator(req);
+            String name = GameObjectFactory.The.getType(add.Type).Name;
+            //Dependency dep = rules.getDependancy(name);
             throw new NotImplementedException();
         }
 
