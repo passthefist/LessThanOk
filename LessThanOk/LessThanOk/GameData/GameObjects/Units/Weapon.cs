@@ -9,14 +9,6 @@ namespace LessThanOk.GameData.GameObjects.Units
 {
     public class Weapon : GameObject
     {
-        private WeaponType type;
-
-        public WeaponType Type
-        {
-            get { return type; }
-            private set { type = value; }
-        }
-
         static Weapon()
         {
             AgnosticObject.initFieldMaps(typeof(Weapon));
@@ -27,13 +19,18 @@ namespace LessThanOk.GameData.GameObjects.Units
         internal Weapon(WeaponType t)
             : base()
         {
-            type = t;
+            Type = t;
         }
 
         public Weapon(Weapon w)
             : base()
         {
-            this.type = w.Type;
+            this.Type = w.Type;
+        }
+
+        public bool canFireOn(ActiveGameObject target)
+        {
+            return false;
         }
 
         /*

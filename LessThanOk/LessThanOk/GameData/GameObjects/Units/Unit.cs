@@ -50,7 +50,7 @@ namespace LessThanOk.GameData.GameObjects.Units
     /// <summary>
     /// A unit. Units have armor, weapons, and engines that allow them to move.
     /// </summary>
-    public class Unit : ActiveGameObject
+    public class   Unit: ActiveGameObject
     {
         public event EventHandler<CommandChangedEventArgs> CommandStarted;
         public event EventHandler<CommandChangedEventArgs> CommandFinished;
@@ -59,35 +59,27 @@ namespace LessThanOk.GameData.GameObjects.Units
         public event EventHandler unitWeaponFired;
         public event EventHandler unitUsedAbility;
 
+        public enum UnitState
+        {
+            IDLE,
+            MOVE,
+            BUILD,
+            CAST
+        }
+
+        UnitState state;
+
         /// <summary>
         /// The position of this object
         /// </summary>
-        public Vector2 _Position
+        public override Vector2 getPosition()
         {
-            get { return engine.getPosition(); }
-            set
-            {
-                engine.setStartPosition(value);
-            }
+            return engine.getPosition();
         }
-        /*
-        private Player owner;
-
-        public Player Owner
+        
+        protected override void setNewPosition(Vector2 pos)
         {
-            get { return owner; }
-            set { owner = value; }
-        }
-        */
-        private UnitType type;
-
-        /// <summary>
-        /// The type of this unit
-        /// </summary>
-        public UnitType Type
-        {
-            get { return type; }
-            private set { type = value; }
+            engine.setStartPosition(pos);
         }
 
         private Vector2 velocity;
@@ -101,28 +93,24 @@ namespace LessThanOk.GameData.GameObjects.Units
             get { return engine; }
         }
 
-        /// <summary>
-        /// How much health this unti has.
-        /// </summary>
-        public UInt32 health
-        {
-            get { return hp; }
-            set { hp = value; }
-        }
-
         private ActiveGameObject target;
 
         public ActiveGameObject Target
         {
             get { return target; }
-            set { target = value; }
+        }
+
+        private Weapon weapon;
+
+        public Weapon MainWeapon
+        {
+            get { return weapon; }
         }
 
         private bool aggressive;
         private bool pursue;
 
-        private Command activeCommand;
-        private Queue<Command> commands;//Needed? 
+        private Command activeCommand; 
 
         static Unit()
         {
@@ -134,7 +122,7 @@ namespace LessThanOk.GameData.GameObjects.Units
         internal Unit(UnitType t)
             : base()
         {
-            type = t;
+            Type = t;
         }
 
         /// <summary>
@@ -146,7 +134,7 @@ namespace LessThanOk.GameData.GameObjects.Units
         public Unit(Unit u)
             : base()
         {
-            this.type = u.type;
+            this.Type = u.Type;
             init();
         }
 
@@ -155,12 +143,57 @@ namespace LessThanOk.GameData.GameObjects.Units
             velocity = new Vector2();
             target = null;
             activeCommand = null;
-            commands = new Queue<Command>();
             aggressive = false;
             pursue = false;
 
-            engine = (Engine)type.Engine.create();
+            engine = (Engine)((UnitType)Type).Engine.create();
         }
+
+        public void moveTo(Vector2 position)
+        {
+            engine.setTargetPosition(position);
+            state = UnitState.MOVE;
+        }
+
+        public void idle()
+        {
+            target = null;
+            state = UnitState.IDLE;
+        }
+
+        public bool isAggressive()
+        {
+            return aggressive;
+        }
+
+        public bool isPursuing()
+        {
+            return pursue;
+        }
+
+        public void setTarget(ActiveGameObject targ)
+        {
+            target = targ;
+            aggressive = true;
+        }
+
+        public void forceFinishAction()
+        {
+            switch (state)
+            {
+                case UnitState.MOVE:
+                    setPosition(engine.getFinalPosition());
+                    break;
+                case UnitState.BUILD:
+                case UnitState.CAST:
+                case UnitState.IDLE:
+                    break;
+            }
+
+            state = UnitState.IDLE;
+        }
+
+        //public void assist(ActiveGameObject targ)
 
         /// <summary>
         /// Update the unit.
@@ -170,77 +203,26 @@ namespace LessThanOk.GameData.GameObjects.Units
         /// </param>
         override public void update(GameTime elps)
         {
-            float del = (float)elps.ElapsedGameTime.TotalSeconds;
-
-            if (activeCommand == null && commands.Count > 0)
+            switch (state)
             {
-                activeCommand = commands.Dequeue();
-
-                CommandStarted.Invoke(this, new CommandChangedEventArgs(activeCommand));
-
-                switch (activeCommand.CmdType)
-                {
-                    case Command.T_COMMAND.MOVE:
-                        Command cMov = new MoveDecorator(activeCommand);
-                        ushort x = cMov.X;
-                        ushort y = cMov.Y;
-
-                        Vector2 finalPosition = new Vector2((float)x, (float)y);
-                        engine.setTargetPosition(finalPosition);
-                        break;
-                }
-            }
-
-            if (activeCommand != null)
-            {
-                switch (activeCommand.CmdType)
-                {
-                    case Command.T_COMMAND.MOVE:
-                        engine.update(elps);
-                        break;
-                    //case Command.T_COMMAND.USEABILITY:
-                    //    break;
-                    default:
-                        break;
-                }
-
-                if (activeCommand.TimeStamp <= elps.TotalGameTime.Ticks)
-                {
-                    switch (activeCommand.CmdType)
-                    {
-                        case Command.T_COMMAND.MOVE:
-                            break;
-                    }
-
-                    CommandFinished.Invoke(this, new CommandChangedEventArgs(activeCommand));
-                    activeCommand = null;
-                }
+                case UnitState.MOVE:
+                    engine.update(elps);
+                    break;
+                case UnitState.BUILD:
+                    //do build animation
+                case UnitState.CAST:
+                    //do cast animation
+                case UnitState.IDLE:
+                    //do idle animation
+                    break;
             }
         }
 
         public void draw(SpriteBatch batch)
         {
-            batch.Draw(((Sprite_2D)type.getImage()).Texture, _Position, Color.White);
+            batch.Draw(Sprite.Texture, getPosition(), Color.White);
         }
 
-        public void clearCommands()
-        {
-            commands.Clear();
-            activeCommand = null;
-        }
-
-        public void addCommand(Command newCommand)
-        {
-            if (newCommand.CmdType == Command.T_COMMAND.CANCEL)
-            {
-                commands.Clear();
-            }
-            else
-            {
-                commands.Enqueue(newCommand);
-            }
-        }
-
-        //	public WeaponFire fireWeapon()
+        //	public Weapon fireWeapon()
     }
 }

@@ -95,14 +95,14 @@ namespace LessThanOk.GameData.GameObjects
         /// </summary>
         /// <param name="xml">The xml document to read from.</param>
         public void loadXmlData(XmlDocument xml)
-        {/*
+        {
             Units.ArmorType armor = new Units.ArmorType(10, 5);
             Units.EngineType engine = new Units.EngineType(15.0f, 3.0f, 2.0f);
             Units.WarheadType warhead = new Units.WarheadType(5, 5, Units.WarheadType.Types.BALlISTIC);
-            //Units.WeaponType weapon = new Units.WeaponType(warhead);
+            Units.WeaponType weapon = new Units.WeaponType(warhead);
 
-            //Units.UnitType unit1 = new Units.UnitType(weapon, armor, engine, Sprites.SpriteBin.The.getSprite("PersonSprite")) ;
-            //Units.UnitType unit2 = new Units.UnitType(weapon, armor, engine, Sprites.SpriteBin.The.getSprite("GunSprite"));
+            Units.UnitType unit1 = new Units.UnitType(weapon, armor, engine, Sprites.SpriteBin.The.getSprite("PersonSprite")) ;
+            Units.UnitType unit2 = new Units.UnitType(weapon, armor, engine, Sprites.SpriteBin.The.getSprite("GunSprite"));
 
             addType("BasicArmor", armor);
             addType("BasicEngine", engine);
@@ -115,7 +115,6 @@ namespace LessThanOk.GameData.GameObjects
             Tiles.TileType secondTile = new LessThanOk.GameData.GameObjects.Tiles.TileType(Sprites.SpriteBin.The.getSprite("yellowTile"));
             addType("grassTile", firstTile);
             addType("yellowTile", secondTile);
-          * */
         }
 
         public void freeID(UInt16 id)

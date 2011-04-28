@@ -91,7 +91,7 @@ namespace LessThanOk.GameData.GameObjects.Units
             init(weps,a,e,s);
         }
 
-        public Sprite getImage()
+        public Sprite getSprite()
         {
             return image;
         }

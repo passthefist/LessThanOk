@@ -46,17 +46,6 @@ namespace LessThanOk.GameData.GameObjects.Units
     /// </summary>
     public class Armor : GameObject
     {
-        private ArmorType type;
-
-        /// <summary>
-        /// The type of armor.
-        /// </summary>
-        public ArmorType Type
-        {
-            get { return type; }
-            private set { type = value; }
-        }
-
         private int strength;
 
         static Armor()
@@ -72,7 +61,7 @@ namespace LessThanOk.GameData.GameObjects.Units
         internal Armor(ArmorType t)
             : base()
         {
-            type = t;
+            Type = t;
             strength = t.Strength;
         }
 
@@ -84,8 +73,8 @@ namespace LessThanOk.GameData.GameObjects.Units
         /// </param>
         public Armor(Armor a)
         {
-            this.type = a.type;
-            strength = a.type.Strength;
+            this.Type = (ArmorType)a.Type;
+            strength = ((ArmorType)a.Type).Strength;
         }
 
         /// <summary>
@@ -100,7 +89,7 @@ namespace LessThanOk.GameData.GameObjects.Units
         /// </returns>
         public byte applyDamage(Warhead w)
         {
-            return w.Type.Damage;
+            return ((WarheadType)w.Type).Damage;
         }
     }
 }

@@ -52,6 +52,16 @@ namespace LessThanOk.Network.Commands
             _command[0] = command[0];
         }
 
+        public void makeBlocking()
+        {
+            _command[1] |= 0x1000000000000000;
+        }
+
+        public bool isBlocking()
+        {
+            return (_command[1] & 0x1000000000000000) == 0x1000000000000000;
+        }
+        
         #region Shared By All Commands
         public virtual UInt64[] Cmd { get { return _command; } }
         public virtual long TimeStamp { get { return (long)_command[1]; } }

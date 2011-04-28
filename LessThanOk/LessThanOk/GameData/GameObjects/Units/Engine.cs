@@ -45,13 +45,6 @@ namespace LessThanOk.GameData.GameObjects.Units
     /// </summary>
     public class Engine : GameObject
     {
-        private EngineType type;
-
-        public EngineType Type
-        {
-            get { return type; }
-            private set { type = value; }
-        }
 
         static Engine()
         {
@@ -81,13 +74,13 @@ namespace LessThanOk.GameData.GameObjects.Units
         /// </param>
         public Engine(Engine e)
         {
-            this.type = e.type;
+            this.Type = e.Type;
             init();
         }
 
         internal Engine(EngineType t)
         {
-            type = t;
+            Type = t;
         }
 
         private void init()
@@ -104,6 +97,11 @@ namespace LessThanOk.GameData.GameObjects.Units
             return position;
         }
 
+        public Vector2 getFinalPosition()
+        {
+            return target;
+        }
+
         public void setStartPosition(Vector2 p)
         {
             position = p;
@@ -114,7 +112,7 @@ namespace LessThanOk.GameData.GameObjects.Units
             target = t;
             velocity = target - position;
             velocity.Normalize();
-            velocity = velocity * type.MaxSpeed;
+            velocity = velocity * ((EngineType)Type).MaxSpeed;
             state = State.INTERPOLATE;
         }
 
@@ -149,7 +147,7 @@ namespace LessThanOk.GameData.GameObjects.Units
         public float timeToReach(Vector2 pos)
         {
             float dist = distToReach(pos);
-            return dist / type.MaxSpeed;
+            return dist / ((EngineType)Type).MaxSpeed;
         }
     }
 }

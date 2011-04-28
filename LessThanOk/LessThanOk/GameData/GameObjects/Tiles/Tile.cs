@@ -13,33 +13,30 @@ namespace LessThanOk.GameData.GameObjects.Tiles
 {
     public class Tile : ActiveGameObject
     {
-        private List<Unit> internalUnits;
 
-        public List<Unit> InternalUnits 
-        { 
-            get { return internalUnits; } 
-            private set { internalUnits = value; } 
+        private bool isWalkable;
+
+        public bool Walkable
+        {
+            get { return isWalkable; }
+            private set { isWalkable = value; }
         }
 
-        private bool hasUnits;
+        private Vector2 position;
 
-        public bool HasUnits
+        public override Vector2 getPosition()
         {
-            get { return hasUnits; }
-            private set { hasUnits = value; }
+            return position;
         }
 
-        private TileType type;
-
-        public TileType Type
+        protected override void setNewPosition(Vector2 pos)
         {
-            get { return type; }
-            private set { type = value; }
+            position = pos;
         }
 
         static Tile()
         {
-            AgnosticObject.initFieldMaps(typeof(AgnosticObject));
+            AgnosticObject.initFieldMaps(typeof(Tile));
         }
 
         private Tile()
@@ -49,22 +46,20 @@ namespace LessThanOk.GameData.GameObjects.Tiles
 
         public Tile(TileType type)
         {
-            initTile(new List<Unit>(), false, type);
+            initTile(type);
         }
 
         internal Tile(Tile src)
         {
             this.position = src.position;
             this.ID = src.ID;
-            initTile(src.internalUnits, src.hasUnits, src.type);
+            initTile((TileType)src.Type);
         }
 
-        private void initTile(List<Unit> unit, bool has, TileType tType)
+        private void initTile(TileType tType)
         {
-            this.hasUnits = has;
-            this.internalUnits = new List<Unit> (unit);
-            this.type = tType;
             this.image = (Sprite_2D)tType.getImage();
+            Type = tType;
             //this.image.Position = this.position;
         }
 
@@ -75,20 +70,7 @@ namespace LessThanOk.GameData.GameObjects.Tiles
 
         public void draw(SpriteBatch batch)
         {
-            batch.Draw(((Sprite_2D)type.getImage()).Texture, this.position, Color.White);
+            batch.Draw(image.Texture, this.position, Color.White);
         }
-
-        public void clear() 
-        {
-            hasUnits = false;
-            internalUnits.Clear(); 
-        }
-
-        public void addUnit(Unit u)
-        {
-            internalUnits.Add(u);
-            hasUnits = true;
-        }
-
     }
 }

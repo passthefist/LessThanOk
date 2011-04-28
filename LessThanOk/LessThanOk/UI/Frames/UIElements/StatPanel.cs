@@ -48,8 +48,8 @@ namespace LessThanOk.UI.Frames.UIElements
             }
             _text = "ID:\t" + _selected.ID.ToString();
             _text += "Type:\t" + _selected.Type.Name;
-            _text += "Pos:\t" + _selected._Position.ToString();
-            _text += "HP:\t" + _selected.health.ToString();
+            _text += "Pos:\t" + _selected.getPosition().ToString();
+            _text += "HP:\t" + _selected.Health.ToString();
             if (_selected.Target is Unit)
                 _text += "Target:\t" + ((Unit)_selected.Target).Type.Name;
             _text += "Engine:\t" + _selected.Engine.Type.Name;

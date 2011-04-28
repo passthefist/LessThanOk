@@ -17,36 +17,26 @@ namespace LessThanOk.GameData.GameObjects.Units
             set { warhead = value; }
         }
 
-        private ProjectileType projectile;
-
-        public ProjectileType _Projectile
-        {
-            get { return projectile; }
-            set { projectile = value; }
-        }
-
         static WeaponType()
         {
             AgnosticObject.initFieldMaps(typeof(WeaponType));
         }
 
-        public WeaponType(WarheadType warhead, ProjectileType projectile)
+        public WeaponType(WarheadType warhead)
         {
-            init(warhead, projectile);
+            init(warhead);
         }
 
-        public WeaponType(string warhead, string projectile)
+        public WeaponType(string warhead)
         {
             WarheadType wt = (WarheadType)GameObjectFactory.The.getType(warhead);
-            ProjectileType pt = (ProjectileType)GameObjectFactory.The.getType(projectile);
 
-            init(wt, pt);
+            init(wt);
         }
 
-        private void init(WarheadType war, ProjectileType proj)
+        private void init(WarheadType war)
         {
             warhead = war;
-            projectile = proj;
 
             protoType = new Weapon(this);
         }

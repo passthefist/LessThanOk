@@ -99,15 +99,11 @@
     <Compile Include="GameData\GameObjects\GameObject.cs" />
     <Compile Include="GameData\GameObjects\GameObjectFactory.cs" />
     <Compile Include="GameData\GameObjects\GameObjectType.cs" />
-    <Compile Include="GameData\GameWorld\Change.cs" />
-    <Compile Include="GameData\GameWorld\ClientGameWorld.cs" />
     <Compile Include="GameData\GameWorld\Events\UnitBuiltEventArgs.cs" />
+    <Compile Include="GameData\GameWorld\GameSimulator\Change.cs" />
     <Compile Include="GameData\GameWorld\GameSimulator\GameSimulator.cs" />
-    <Compile Include="GameData\GameWorld\GameWorld.cs" />
+    <Compile Include="GameData\GameWorld\GameSimulator\TileMap.cs" />
     <Compile Include="GameData\GameWorld\GameWorldController.cs" />
-    <Compile Include="GameData\GameWorld\MasterGameWorld.cs" />
-    <Compile Include="GameData\GameObjects\Units\Projectile.cs" />
-    <Compile Include="GameData\GameObjects\Units\ProjectileType.cs" />
     <Compile Include="GameData\GameObjects\Units\Unit.cs" />
     <Compile Include="GameData\GameObjects\Units\UnitType.cs" />
     <Compile Include="GameData\GameObjects\Units\Warhead.cs" />
@@ -121,7 +117,8 @@
     <Compile Include="GameData\GameWorld\Monirator\PathFinder.cs" />
     <Compile Include="GameData\GameWorld\Monirator\RuleBook.cs" />
     <Compile Include="GameData\GameWorld\Monirator\UnitEvaluation.cs" />
-    <Compile Include="GameData\GameWorld\TileMap.cs" />
+    <Compile Include="GameData\IQuadObject.cs" />
+    <Compile Include="GameData\Player.cs" />
     <Compile Include="GlobalEvent.cs" />
     <Compile Include="GlobalEventSubscriber.cs" />
     <Compile Include="Input\Events\KeyBoardEventArgs.cs" />

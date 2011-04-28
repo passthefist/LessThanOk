@@ -37,6 +37,7 @@ using System.Reflection;
 using Microsoft.Xna.Framework;
 using LessThanOk.Sprites;
 using LessThanOk.Network.Commands;
+using LessThanOk.GameData.GameWorld;
 
 namespace LessThanOk.GameData.GameObjects
 {
@@ -45,25 +46,51 @@ namespace LessThanOk.GameData.GameObjects
     ///and move around in the game world like a unit or missile.
     ///</summary>
 
-    public abstract class ActiveGameObject : GameObject
+    public abstract class ActiveGameObject : GameObject,IQuadObject
     {
-        protected Vector2 position;
+        //implement IQuadObject
+        private Rectangle bounds;
+        public Rectangle Bounds() { return bounds; }
+        public event EventHandler BoundsChanged;
 
-        /// <summary>
-        /// The position of this object
-        /// </summary>
-        public Vector2 _Position
+        protected void RaiseBoundsChanged()
         {
-            get { return position; }
-            set
-            {
-                position = value;
-            }
+            EventHandler handler = BoundsChanged;
+            if (handler != null)
+                handler(this, new EventArgs());
         }
 
-        protected Sprite_2D image;
+        public abstract Vector2 getPosition();
 
-        /// <summary>
+        public void setPosition(Vector2 pos)
+        {
+            setNewPosition(pos);
+            RaiseBoundsChanged();
+        }
+
+        protected abstract void setNewPosition(Vector2 pos);
+		
+		protected ushort health;
+		
+		public ushort Health
+		{
+			get {return health;}
+			set {health = value;}
+		}
+		
+		protected Player owner;
+		
+		public Player Owner
+		{
+			get {return owner;}
+			set {owner = value;}
+		}
+		
+		//extensionList
+
+		protected Sprite_2D image;
+		
+		/// <summary>
         /// The image for this object
         /// </summary>
         public Sprite_2D Sprite
@@ -83,7 +110,6 @@ namespace LessThanOk.GameData.GameObjects
         public ActiveGameObject()
             : base()
         {
-            position = new Vector2();
         }
 
         //Must be implemented by any subclasses

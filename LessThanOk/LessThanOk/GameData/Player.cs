@@ -1,7 +1,7 @@
-/*---------------------------------------------------------------------------*\
+﻿/*---------------------------------------------------------------------------*\
  *                         LessThanOK Engine                                 *
  *                                                                           *
- *          Copyright (C) 2011-2012 by Robert Goetz, Anthony Lobono          *
+ *          Copyright (C) 2011-2012 by Robert Goetz,                         *
  *                                                                           *
  *   authors:  Robert Goetz (rdgoetz@iastate.edu)                            *
  *                                                                           *
@@ -22,64 +22,13 @@
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                            Class Overview                                 *
- *                                                                           *
- * Warheads are the damaging component of a weapon. They can have different  *
- * types, but that ultimately means nothing other than armor weaknesses.     *
- *                                                                           *
- * See GameObject, GameObjectType, GameObjectFactory                         *
- *                                                                           *
 \*---------------------------------------------------------------------------*/
 
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using Microsoft.Xna.Framework;
-using LessThanOk.GameData.GameObjects;
-
-[assembly: InternalsVisibleTo("WarheadType")]
-
-namespace LessThanOk.GameData.GameObjects.Units
+namespace LessThanOk.GameData
 {
-
-    public class Warhead : GameObject
+    public class Player
     {
-
-        static Warhead()
-        {
-            AgnosticObject.initFieldMaps(typeof(Warhead));
-        }
-
-        protected Warhead()
-            : base()
-        {
-            init();
-        }
-
-        internal Warhead(WarheadType p)
-            : base()
-        {
-            init();
-            Type = p;
-        }
-
-        /// <summary>
-        /// Copy ctor
-        /// </summary>
-        /// <param name="w">
-        /// A <see cref="Warhead"/>
-        /// </param>
-        public Warhead(Warhead w)
-            : base()
-        {
-            init();
-            this.Type = w.Type;
-        }
-
-        private void init()
-        {
-            //damageMod = 0;
-        }
+        //statistic data
     }
 }
