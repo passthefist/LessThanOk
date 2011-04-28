@@ -44,6 +44,7 @@ namespace LessThanOk.GameData.GameObjects
     /// </summary>
     public abstract class GameObject : AgnosticObject
     {
+        public event EventHandler ObjectRemoved;
 
         private UInt16 id;
 
@@ -51,6 +52,19 @@ namespace LessThanOk.GameData.GameObjects
         {
             get { return id; }
             set { id = value; }
+        }
+
+        private UInt16 typeID;
+
+        public GameObjectType Type
+        {
+            get { return GameObjectFactory.The.getType(typeID);}
+            set { typeID = value.ID;}
+        }
+
+        //change the type of this GO
+        public void changeType(int id)
+        {
         }
 
         static GameObject()
@@ -61,6 +75,23 @@ namespace LessThanOk.GameData.GameObjects
         protected GameObject()
         {
             id = 0;
+        }
+
+        public void remove()
+        {
+            cleanUp();
+            RaiseObjectRemoved();
+        }
+
+        protected virtual void cleanUp()
+        {
+        }
+
+        private void RaiseObjectRemoved()
+        {
+            EventHandler handler = ObjectRemoved;
+            if (handler != null)
+                handler(this, new EventArgs());
         }
 
         ~GameObject()

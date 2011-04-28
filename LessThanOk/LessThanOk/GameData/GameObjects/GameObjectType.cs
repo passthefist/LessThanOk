@@ -41,7 +41,7 @@ namespace LessThanOk.GameData.GameObjects
     /// <summary>
     /// Prototype for a game object.
     /// </summary>
-    public abstract class GameObjectType : AgnosticObject
+    public abstract class GameObjectType : AgnosticObject//potentially make class GameObjectType<T> where T:GameObject
     {
         protected GameObject protoType;
 

@@ -76,8 +76,8 @@ namespace LessThanOk.GameData.GameObjects
         private UInt16 nextID;
         private Dictionary<UInt16, GameObject> createdObjects;
 
-        private Dictionary<UInt16, GameObjectType> idToTypeMap;
-        private Dictionary<string, UInt16> stringToIdMap;
+        private Dictionary<UInt16, GameObjectType> dynamicTypeMap;
+        private Dictionary<string, GameObjectType> staticTypeMap;
 
         private GameObjectFactory()
         {
@@ -85,8 +85,8 @@ namespace LessThanOk.GameData.GameObjects
             nextID = 1;
             createdObjects = new Dictionary<ushort, GameObject>();
 
-            idToTypeMap = new Dictionary<UInt16, GameObjectType>();
-            stringToIdMap = new Dictionary<string, UInt16>();
+            dynamicTypeMap = new Dictionary<UInt16, GameObjectType>();
+            staticTypeMap = new Dictionary<string, GameObjectType>();
         }
 
         /// <summary>
@@ -98,16 +98,14 @@ namespace LessThanOk.GameData.GameObjects
         {
             Units.ArmorType armor = new Units.ArmorType(10, 5);
             Units.EngineType engine = new Units.EngineType(15.0f, 3.0f, 2.0f);
-            Units.ProjectileType proj = new Units.ProjectileType(false, 0.0f, 0.0f, 0.0f);
             Units.WarheadType warhead = new Units.WarheadType(5, 5, Units.WarheadType.Types.BALlISTIC);
-            Units.WeaponType weapon = new Units.WeaponType(warhead, proj);
+            Units.WeaponType weapon = new Units.WeaponType(warhead);
 
             Units.UnitType unit1 = new Units.UnitType(weapon, armor, engine, Sprites.SpriteBin.The.getSprite("PersonSprite")) ;
             Units.UnitType unit2 = new Units.UnitType(weapon, armor, engine, Sprites.SpriteBin.The.getSprite("GunSprite"));
 
             addType("BasicArmor", armor);
             addType("BasicEngine", engine);
-            addType("BasicProjectile", proj);
             addType("BasicWarhead", warhead);
             addType("BasicWeapon", weapon);
             addType("TestUnit", unit1);
@@ -160,8 +158,8 @@ namespace LessThanOk.GameData.GameObjects
             }
             else
             {
-                idToTypeMap[numTypes] = type;
-                stringToIdMap[typeName] = numTypes;
+                dynamicTypeMap[numTypes] = type;
+                staticTypeMap[typeName] = type;
                 type.Name = typeName;
                 type.ID = numTypes;
 
@@ -181,7 +179,7 @@ namespace LessThanOk.GameData.GameObjects
         /// </returns>
         public GameObject createGameObject(UInt16 id)
         {
-            GameObject retVal = idToTypeMap[id].create();
+            GameObject retVal = dynamicTypeMap[id].create();
             createdObjects[nextID] = retVal;
             retVal.ID = nextID;
             findNextID();
@@ -199,7 +197,11 @@ namespace LessThanOk.GameData.GameObjects
         /// </returns>
         public GameObject createGameObject(string typeName)
         {
-            return createGameObject(stringToIdMap[typeName]);
+            GameObject retVal = staticTypeMap[typeName].create();
+            createdObjects[nextID] = retVal;
+            retVal.ID = nextID;
+            findNextID();
+            return retVal;
         }
 
         /// <summary>
@@ -210,7 +212,7 @@ namespace LessThanOk.GameData.GameObjects
         /// <returns></returns>
         public GameObject resurrectGameObject(UInt16 id, UInt16 typeId)
         {
-            GameObject retVal = idToTypeMap[typeId].create();
+            GameObject retVal = dynamicTypeMap[typeId].create();
             createdObjects[id] = retVal;
             retVal.ID = id;
             nextID = id;
@@ -219,31 +221,31 @@ namespace LessThanOk.GameData.GameObjects
         }
 
         /// <summary>
-        /// get a type given the id
+        /// given the ID of an type given the External ID
         /// </summary>
         /// <param name="id">
         /// A <see cref="UInt32"/>
         /// </param>
         /// <returns>
         /// A <see cref="GameObjectType"/>
-        /// </returns>
+        /// </returns
         public GameObjectType getType(UInt16 id)
         {
-            return idToTypeMap[id];
+            return dynamicTypeMap[id];
         }
 
         /// <summary>
-        /// get a type given the type name
+        /// get a type given the name of a Type in the factory
         /// </summary>
-        /// <param name="typeName">
-        /// A <see cref="System.String"/>
+        /// <param name="id">
+        /// A <see cref="UInt32"/>
         /// </param>
         /// <returns>
         /// A <see cref="GameObjectType"/>
         /// </returns>
-        public GameObjectType getType(string typeName)
+        public GameObjectType getType(string name)
         {
-            return getType(stringToIdMap[typeName]);
+            return staticTypeMap[name];
         }
 
         /// <summary>
@@ -259,31 +261,13 @@ namespace LessThanOk.GameData.GameObjects
         /// <param name="newType">
         /// A <see cref="GameObjectType"/>
         /// </param>
-        public void replaceType(UInt16 id, GameObjectType newType)
+        /// 
+        public void remapType(UInt16 id, string newType)
         {
-            newType.Name = idToTypeMap[id].Name;
-            newType.ID = idToTypeMap[id].ID;
-            idToTypeMap[id] = newType;
-        }
-
-        /// <summary>
-        ///replace an already existing type with a new type.
-        ///NOTE: This will not "update" any existing GameObjects
-        ///      that are of this type or have any members of
-        ///      this type. Any objects created from the name or
-        ///      id will reflect the change after calling replaceType()
-        /// </summary>
-        /// <param name="typeName">
-        /// A <see cref="System.String"/>
-        /// </param>
-        /// <param name="newType">
-        /// A <see cref="GameObjectType"/>
-        /// </param>
-        public void replaceType(string typeName, GameObjectType newType)
-        {
-            replaceType(stringToIdMap[typeName], newType);
-        }
-
+            staticTypeMap[newType].ID = id;
+            dynamicTypeMap[id] = staticTypeMap[newType];
+        }//remap the type with a new value
+        
         public GameObject getGameObject(UInt16 id)
         {
             return createdObjects[id];
