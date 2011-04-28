@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using LessThanOk.GameData.GameObjects;
 
-namespace LessThanOk.Selecter.Events.Args
+namespace LessThanOk.Selecter.Events
 {
-    class SelectedEventArgs:EventArgs
+    public class SelectedEventArgs:EventArgs
     {
         private List<ActiveGameObject> _objects;
         public List<ActiveGameObject> Objects { get { return _objects; } }

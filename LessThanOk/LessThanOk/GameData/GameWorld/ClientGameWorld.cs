@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using LessThanOk.GameData.GameObjects.Units;
 using LessThanOk.GameData.GameObjects;
 using LessThanOk.GameData.GameWorld;
-using LessThanOk.BufferedCommunication;
+
 
 namespace LessThanOk.GameData.GameWorld
 {
@@ -22,6 +22,7 @@ namespace LessThanOk.GameData.GameWorld
         {
             gameTime = elps;
             Command cmd;
+            /*
             while(ExicutionQueue.The.pullAdd(out cmd))
             {
                 Unit newUnit = (Unit)fact.resurrectGameObject(cmd.UnitID, cmd.Type);

@@ -4,36 +4,34 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using LessThanOk.BufferedCommunication;
 using LessThanOk.UI;
-using LessThanOk.Input.Events.Args;
 using LessThanOk.Input.Events;
 using LessThanOk.Selecter.Events;
-using LessThanOk.Selecter.Events.Args;
+using LessThanOk.Selecter;
 using LessThanOk.UI.Events;
-using LessThanOk.UI.Events.Args;
 using LessThanOk.GameData.GameObjects;
 using LessThanOk.GameData.GameWorld;
-using LessThanOk.UI;
 using LessThanOk.Network.Commands.Decorators;
+using LessThanOk.Input;
 
 
 namespace LessThanOk.Network.Commands
 {
     class CommandRequester
     {
+        public EventHandler AddButtonHandler { get { return this.AddHandler; } }
+
         private TileMap _map;
         private List<ActiveGameObject> _selectedObjects;
         private HashSet<Keys> _hotKeys;
 
-        public CommandRequester(MenuManager manager)
+        public CommandRequester()
         {
-            InputEvents.The.LeftMouseUpEvent += new EventHandler<MouseEventArgs>(this.LeftClickHandler);
-            InputEvents.The.MouseMoved += new EventHandler<MouseEventArgs>(this.MouseMovedHandler);
-            InputEvents.The.RightMouseUpEvent += new EventHandler<MouseEventArgs>(this.RightClickHandler);
-            InputEvents.The.KeyStrokeEvent += new EventHandler<KeyBoardEventArgs>(this.KeyStrokeHandler);
-            SelectedEvents.The.GameObjectsSelected += new EventHandler<SelectedEventArgs>(this.GameObjectsSeleted);
-            manager.AttachHandlerTo(WindowDefinitions.FRAME.GAME, WindowDefinitions.BUTTON.ADD, AddHandler);
+            InputManager.LeftMouseUpEvent += new EventHandler<MouseEventArgs>(LeftClickHandler);
+            InputManager.MouseMovedEvent += new EventHandler<MouseEventArgs>(MouseMovedHandler);
+            InputManager.RightMouseUpEvent += new EventHandler<MouseEventArgs>(RightClickHandler);
+            InputManager.KeyStrokeEvent += new EventHandler<KeyBoardEventArgs>(KeyStrokeHandler);
+            ObjectSelector.ObjectSelectedEvent += new EventHandler<SelectedEventArgs>(GameObjectsSeleted);
             _hotKeys = new HashSet<Keys>();
         }
 
@@ -50,6 +48,7 @@ namespace LessThanOk.Network.Commands
         {
             if (_selectedObjects == null)
                 return;
+            /*
             if (BlackBoard.getTileMap(out _map))
             {
                 int x = args.MouseState.X;
@@ -66,19 +65,20 @@ namespace LessThanOk.Network.Commands
                     GlobalRequestQueue.The.push(command);
                 }
             }
+            */
         }
         private void MouseMovedHandler(object sender, MouseEventArgs args)
         {
 
         }
-        private void AddHandler(object sender, ButtonEventArgs args)
+        private void AddHandler(object sender, EventArgs args)
         {
             Command command;
             GameObjectType type = GameObjectFactory.The.getType("TestUnit");
             foreach (ActiveGameObject o in _selectedObjects)
             {
                 command = new AddDecorator(o.ID, 0, type.ID, new TimeSpan(), new Command());
-                GlobalRequestQueue.The.push(command);
+                //GlobalRequestQueue.The.push(command);
             }
         }
         public void KeyStrokeHandler(object sender, KeyBoardEventArgs args)

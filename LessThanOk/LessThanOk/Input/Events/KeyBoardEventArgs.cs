@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
 
-namespace LessThanOk.Input.Events.Args
+namespace LessThanOk.Input.Events
 {
     public class KeyBoardEventArgs:EventArgs
     {

@@ -4,7 +4,6 @@ using LessThanOk.Network.Commands;
 using Microsoft.Xna.Framework;
 using LessThanOk.GameData.GameObjects.Units;
 using LessThanOk.GameData.GameObjects;
-using LessThanOk.BufferedCommunication;
 using LessThanOk.Events;
 using LessThanOk.Network.Commands.Decorators;
 
@@ -18,7 +17,7 @@ namespace LessThanOk.GameData.GameWorld
 		private void addUnit(Unit newUnit, ActiveGameObject builder)
 		{
             AdditionChange add = new AdditionChange(gameTime.TotalGameTime, newUnit, builder);
-            ChangeList.pushAdd(ref add);
+            //ChangeList.pushAdd(ref add);
 
             newUnit.CommandStarted += new EventHandler<CommandChangedEventArgs>(this.onUnitCommandStarted);
             newUnit.CommandFinished += new EventHandler<CommandChangedEventArgs>(this.onUnitCommandFinished);
@@ -42,14 +41,14 @@ namespace LessThanOk.GameData.GameWorld
 		private void removeUnit(Unit deadUnit)
 		{
             RemovalChange rem = new RemovalChange(gameTime.TotalGameTime, deadUnit);
-            ChangeList.pushRem(ref rem);
+            //ChangeList.pushRem(ref rem);
 			units.Remove(deadUnit);
 		}
 		
 		private void setValue(GameObject targetObject, UInt16 key, UInt32 newValue)
 		{
             SetValueChange set = new SetValueChange(gameTime.TotalGameTime, targetObject, new KeyValuePair<UInt16, UInt32>(key, newValue));
-            ChangeList.pushSet(ref set);
+            //ChangeList.pushSet(ref set);
             targetObject.setField(key, newValue);
 		}
 //		private void findPath();
@@ -64,6 +63,7 @@ namespace LessThanOk.GameData.GameWorld
         {
             gameTime = elps;
             Command cmd;
+            /*
             while (GlobalRequestQueue.The.pull(out cmd))
             {
                 switch (cmd.CmdType)
@@ -95,17 +95,16 @@ namespace LessThanOk.GameData.GameWorld
                     case Command.T_COMMAND.ERROR:
                         break;
                     case Command.T_COMMAND.MOVE:
-                        /* Command_Move cMove = (Command_Mov)cmd;
-                         *
-                         * Unit u = (Unit)fact.getGameObject(cMove.getID());
-                         * u.addCommand(cMove);
-                         */
+                         //Command_Move cMove = (Command_Mov)cmd;
+                         
+                          //Unit u = (Unit)fact.getGameObject(cMove.getID());
+                          //u.addCommand(cMove);
                         break;
                     default:
                         break;
                 }
             }
-
+            */
             foreach(Unit u in units)
             {
                 u.update(elps);

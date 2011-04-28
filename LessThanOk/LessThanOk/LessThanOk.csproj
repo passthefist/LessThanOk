@@ -86,10 +86,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BufferedCommunication\BlackBoard.cs" />
-    <Compile Include="BufferedCommunication\ChangeList.cs" />
-    <Compile Include="BufferedCommunication\ExicutionQueue.cs" />
-    <Compile Include="BufferedCommunication\GlobalRequstQueue.cs" />
     <Compile Include="Debug\Logging.cs" />
     <Compile Include="Events\CommandChangedEventArgs.cs" />
     <Compile Include="GameData\GameObjects\ActiveGameObject.cs" />
@@ -123,23 +119,21 @@
     <Compile Include="GameData\GameWorld\TileMap.cs" />
     <Compile Include="GlobalEvent.cs" />
     <Compile Include="GlobalEventSubscriber.cs" />
-    <Compile Include="Input\Events\Args\KeyBoardEventArgs.cs" />
-    <Compile Include="Selecter\Events\Args\SelectedEventArgs.cs" />
-    <Compile Include="Selecter\Events\SelectedEvents.cs" />
-    <Compile Include="Selecter\ObjetctSelecter.cs" />
+    <Compile Include="Input\Events\KeyBoardEventArgs.cs" />
+    <Compile Include="Selecter\Events\SelectedEventArgs.cs" />
+    <Compile Include="Selecter\ObjectSelecter.cs" />
     <Compile Include="Network\Commands\Decorators\AddDecorator.cs" />
     <Compile Include="Network\Commands\Decorators\CommandDecorator.cs" />
     <Compile Include="Network\Commands\Decorators\MoveDecorator.cs" />
     <Compile Include="States\Events\StateChangeEvents.cs" />
     <Compile Include="LessThanMath.cs" />
-    <Compile Include="LTO_Engine.cs" />
     <Compile Include="Network\Commands\CommandRequester.cs" />
     <Compile Include="Network\Commands\Command.cs" />
     <Compile Include="GameData\GameWorld\Monirator\Monirator.cs" />
     <Compile Include="Network\NetworkManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Game1.cs" />
+    <Compile Include="LTO.cs" />
     <Compile Include="Sprites\Sprite.cs" />
     <Compile Include="Sprites\SpriteBin.cs" />
     <Compile Include="Sprites\Sprite_2D.cs" />
@@ -148,18 +142,27 @@
     <Compile Include="States\Events\Args\HomeStateEventArgs.cs" />
     <Compile Include="States\Events\Args\LobbyStateEventArgs.cs" />
     <Compile Include="States\Events\Args\PostGameStateEventArgs.cs" />
-    <Compile Include="UI\Events\Args\ButtonEventArgs.cs" />
-    <Compile Include="Input\Events\Args\MouseEventArgs.cs" />
+    <Compile Include="States\GameState.cs" />
+    <Compile Include="States\HomeState.cs" />
+    <Compile Include="States\LobbyState.cs" />
+    <Compile Include="States\PostGame.cs" />
+    <Compile Include="States\State.cs" />
+    <Compile Include="UI\Events\ButtonEventArgs.cs" />
+    <Compile Include="Input\Events\MouseEventArgs.cs" />
+    <Compile Include="UI\Events\ToggleEventArgs.cs" />
     <Compile Include="UI\Frames\Frame.cs" />
+    <Compile Include="UI\Frames\Frame_ClientLobby.cs" />
     <Compile Include="UI\Frames\Frame_Game.cs" />
-    <Compile Include="Input\Events\InputEvents.cs" />
     <Compile Include="Input\InputManager.cs" />
+    <Compile Include="UI\Frames\Frame_Home.cs" />
+    <Compile Include="UI\Frames\Frame_HostLobby.cs" />
+    <Compile Include="UI\Frames\Frame_PostGame.cs" />
+    <Compile Include="UI\Frames\UIElements\AddButton.cs" />
     <Compile Include="UI\Frames\UIElements\LobbyList.cs" />
     <Compile Include="UI\Frames\UIElements\StatPanel.cs" />
     <Compile Include="UI\Frames\UIElements\ToggleButton.cs" />
     <Compile Include="UI\Frames\UIElements\Button.cs" />
     <Compile Include="UI\Frames\UIElements\UIElement.cs" />
-    <Compile Include="UI\MenuManager.cs" />
     <Compile Include="UI\WindowDefinitions.cs" />
   </ItemGroup>
   <ItemGroup>

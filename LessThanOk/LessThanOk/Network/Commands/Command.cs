@@ -83,10 +83,8 @@ namespace LessThanOk.Network.Commands
                 {
                     case T_COMMAND.MOVE:
                         return (UInt16)(_command[0] >> 48);
-                        break;
                     case T_COMMAND.ADD:
                         return (UInt16)(_command[0] >> 24);
-                        break;
                 }
                 return 0;
             }

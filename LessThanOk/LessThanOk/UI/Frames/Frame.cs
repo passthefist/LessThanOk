@@ -12,61 +12,32 @@ namespace LessThanOk.UI
     {
         public int Width { get { return _width; } }
         public int Height { get { return _height; } }
-        public Dictionary<LessThanOk.UI.WindowDefinitions.BUTTON, Button> Elements { get { return _elements; } }
+        public List<UIElement> Elements { get { return _elements; } }
 
         protected int _width;
         protected int _height;
-        protected Dictionary<LessThanOk.UI.WindowDefinitions.BUTTON, Button> _elements;
+        protected List<UIElement> _elements;
 
         public Frame() { }
         public Frame(int width, int height)
         {
             _width = width;
             _height = height;
-            _elements = new Dictionary<LessThanOk.UI.WindowDefinitions.BUTTON, Button>();
+            _elements = new List<UIElement>();
         }
-        public void addElement(Button element)
+        public virtual void addElement(UIElement element)
         {
-            _elements.Add(element.Name, element);
+            _elements.Add(element);
         }
         public virtual void draw(SpriteBatch spriteBatch)
         {
-            foreach (Button e in _elements.Values)
+            foreach (UIElement e in _elements)
                 e.draw(spriteBatch);
         }
         public virtual void update(GameTime gameTime)
         {
-            foreach (Button e in _elements.Values)
+            foreach (UIElement e in _elements)
                 e.update(gameTime);
-        }
-        
-        //Depricated
-        public Button getElementAt(Vector2 mousePos)
-        {
-            float x = mousePos.X;
-            float y = mousePos.Y;
-            foreach (Button e in _elements.Values)
-            {
-                if (x >= e.X && x <= (e.X + e.Width))
-                {
-                    if (y >= e.Y && y <= (e.Y + e.Height))
-                        return e;
-                }
-            }
-            return null;
-        }
-
-        internal Button getElementAt(int x, int y)
-        {
-            foreach (Button b in _elements.Values)
-            {
-                if (x >= b.X && x <= (b.X + b.Image.Width))
-                {
-                    if (y >= b.Y && y <= (b.Y + b.Height))
-                        return b;
-                }
-            }
-            return null;
         }
 
     }

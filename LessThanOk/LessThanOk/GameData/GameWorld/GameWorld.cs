@@ -5,7 +5,6 @@ using LessThanOk.GameData.GameObjects;
 using LessThanOk.GameData.GameObjects.Units;
 using LessThanOk.GameData.GameObjects.Tiles;
 using Microsoft.Xna.Framework;
-using LessThanOk.BufferedCommunication;
 
 namespace LessThanOk.GameData.GameWorld
 {
@@ -47,7 +46,7 @@ namespace LessThanOk.GameData.GameWorld
                 //				unit.addCommand();
             }
 
-            BlackBoard.updateTileMap(map);
+            //BlackBoard.updateTileMap(map);
         }
 
         public TileMap getTileMap()

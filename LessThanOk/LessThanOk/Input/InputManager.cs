@@ -5,33 +5,46 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using LessThanOk.Input.Events;
-using LessThanOk.Input.Events.Args;
+using LessThanOk.Input.Events;
 
 namespace LessThanOk.Input
 {
-    class InputManager
+    public sealed class InputManager
     {
-        private ButtonState leftClick;
-        private ButtonState rightClick;
-        private MouseState mouseLastState;
-        private HashSet<Keys> keySet;
+        private static ButtonState leftClick;
+        private static ButtonState rightClick;
+        private static MouseState mouseLastState;
+        private static HashSet<Keys> keySet;
 
-        public InputManager()
+        public static event EventHandler<MouseEventArgs> MouseMovedEvent;
+        public static event EventHandler<MouseEventArgs> LeftMouseUpEvent;
+        public static event EventHandler<MouseEventArgs> RightMouseUpEvent;
+        public static event EventHandler<MouseEventArgs> LeftMouseDownEvent;
+        public static event EventHandler<MouseEventArgs> RightMouseDownEvent;
+
+        public static event EventHandler<KeyBoardEventArgs> KeyStrokeEvent;
+
+
+        static readonly InputManager the = new InputManager();
+        public static InputManager The { get { return the; } }
+        
+        static InputManager()
         {
             keySet = new HashSet<Keys>();
             leftClick = Mouse.GetState().LeftButton;
             rightClick = Mouse.GetState().RightButton;
             mouseLastState = Mouse.GetState();
         }
-
-        public void update(GameTime gameTime)
+        public void init() { }
+        public static void update(GameTime gameTime)
         {
             MouseState curMouseState = Mouse.GetState();
             KeyboardState curKeyboardState = Keyboard.GetState();
 
             // mouse moved
             if (curMouseState.X != mouseLastState.X || curMouseState.Y != mouseLastState.Y)
-                InputEvents.The.TriggerMouseMoved(this, new MouseEventArgs(curMouseState));
+                if(MouseMovedEvent != null)
+                    MouseMovedEvent.Invoke(InputManager.The, new MouseEventArgs(curMouseState));
 
             // left click
             if (curMouseState.LeftButton.Equals(ButtonState.Pressed))
@@ -40,7 +53,8 @@ namespace LessThanOk.Input
             {
                 // Left click detected
                 leftClick = ButtonState.Released;
-                InputEvents.The.TriggerLeftClick(this, new MouseEventArgs(curMouseState));
+                if (LeftMouseUpEvent != null)
+                    LeftMouseUpEvent.Invoke(InputManager.The, new MouseEventArgs(curMouseState));
             }
 
             // right click
@@ -50,7 +64,8 @@ namespace LessThanOk.Input
             {
                 // Right click detected
                 rightClick = ButtonState.Released;
-                InputEvents.The.TriggerRightClick(this, new MouseEventArgs(curMouseState));
+                if(RightMouseUpEvent != null)
+                    RightMouseUpEvent.Invoke(InputManager.The, new MouseEventArgs(curMouseState));
             }
 
             // key press
@@ -60,7 +75,7 @@ namespace LessThanOk.Input
 
         }
 
-        private void DetectKeyStroke(KeyboardState curKeyboardState)
+        private static void DetectKeyStroke(KeyboardState curKeyboardState)
         {
             HashSet<Keys> pressed = new HashSet<Keys>(curKeyboardState.GetPressedKeys());
 
@@ -69,7 +84,7 @@ namespace LessThanOk.Input
             {
                 if (!pressed.Contains(k))
                 {
-                    InputEvents.The.TriggerKeyStroke(this, new KeyBoardEventArgs(k));
+                    KeyStrokeEvent.Invoke(InputManager.The, new KeyBoardEventArgs(k));
                     keySet.Remove(k);
                 }
             }

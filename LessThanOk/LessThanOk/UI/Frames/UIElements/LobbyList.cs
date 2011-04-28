@@ -8,16 +8,16 @@ using Microsoft.Xna.Framework;
 using LessThanOk.Network;
 using LessThanOk.Sprites;
 
-namespace LessThanOk.UI
+namespace LessThanOk.UI.Frames.UIElements
 {
     class LobbyList : Button
     {
-        public LobbyList(LessThanOk.UI.WindowDefinitions.BUTTON name, int x, int y, Sprite_Text image)
+        public LobbyList(String name, int x, int y, Sprite_Text image)
         {
-            _name = name;
             _posx = x;
             _posy = y;
             _image = image;
+            _name = name;
         }
 
         public override void update(GameTime gameTime)

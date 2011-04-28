@@ -9,7 +9,7 @@ namespace LessThanOk
         /// </summary>
         static void Main(string[] args)
         {
-            using (Game1 game = new Game1())
+            using (LTO game = new LTO())
             {
                 game.Run();
             }

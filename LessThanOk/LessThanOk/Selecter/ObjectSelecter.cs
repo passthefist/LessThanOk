@@ -5,24 +5,28 @@ using System.Text;
 using LessThanOk.GameData.GameObjects;
 using LessThanOk.GameData.GameWorld;
 using LessThanOk.Selecter.Events;
-using LessThanOk.Selecter.Events.Args;
-using LessThanOk.Input.Events.Args;
 using LessThanOk.Input.Events;
-using LessThanOk.BufferedCommunication;
 using Microsoft.Xna.Framework;
+using LessThanOk.Input;
 
 namespace LessThanOk.Selecter
 {
-    class ObjectSelector
+    public sealed class ObjectSelector
     {
-        private TileMap _map;
-        public ObjectSelector()
+        public static event EventHandler<SelectedEventArgs> ObjectSelectedEvent;
+
+        private static TileMap _map;
+
+        public ObjectSelector The { get { return the; } }
+        static readonly ObjectSelector the = new ObjectSelector();
+        static ObjectSelector()
         {
-            InputEvents.The.LeftMouseUpEvent += new EventHandler<MouseEventArgs>(this.MouseUpHandler);
+            InputManager.LeftMouseUpEvent += new EventHandler<MouseEventArgs>(MouseUpHandler);
         }
         
-        private void MouseUpHandler(object sender, MouseEventArgs args)
+        private static void MouseUpHandler(object sender, MouseEventArgs args)
         {
+            /*
             if (!BlackBoard.getTileMap(out _map))
                 return;
             ActiveGameObject obj = _map.getObjectAtPoint(new Vector2(args.MouseState.X, args.MouseState.Y));
@@ -32,6 +36,7 @@ namespace LessThanOk.Selecter
             objs.Add(obj);
 
             SelectedEvents.The.TriggerGameObjectsSelected(this, new SelectedEventArgs(objs));
+            */
         }
     }
 }

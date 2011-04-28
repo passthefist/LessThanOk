@@ -8,51 +8,47 @@ using Microsoft.Xna.Framework.Input;
 using LessThanOk.Sprites;
 using LessThanOk.UI.Events;
 using LessThanOk.UI;
-using LessThanOk.UI.Events.Args;
+using LessThanOk.Input.Events;
+using LessThanOk.Input;
 
-namespace LessThanOk.UI
+namespace LessThanOk.UI.Frames.UIElements
 {
-    public class Button
+    public class Button : UIElement
     {
-        public LessThanOk.UI.WindowDefinitions.BUTTON Name { get { return _name; } }
         public Sprite Image { get { return _image; } }
-        public int X { get { return _posx; } }
-        public int Y { get { return _posy; } }
-        public int Width { get { return Image.Width; } }
-        public int Height { get { return Image.Height; } }
-  
-        protected LessThanOk.UI.WindowDefinitions.BUTTON _name;
+        public override int Height { get { return _image.Height; } }
+        public override int Width { get { return _image.Width; } }
+
         protected Sprite _image;
-        protected int _posx;
-        protected int _posy;
-        protected Boolean _visible;
-        protected Boolean _mouseOver;
-        protected event EventHandler<ButtonEventArgs> _trigger;
+        public event EventHandler<ButtonEventArgs> ButtonClickedEvent;
 
         public Button() { }
 
-        public Button(LessThanOk.UI.WindowDefinitions.BUTTON name, Sprite image, int x, int y)
+        public Button(String name, Sprite image, int x, int y)
         {
-            _name = name;
             _image = image;
             _posx = x;
             _posy = y;
+            _name = name;
+            InputManager.LeftMouseUpEvent += new EventHandler<MouseEventArgs>(LeftMouseUpEventHandler);
         }
 
-        public virtual void update(GameTime gameTime)
+        public override void update(GameTime gameTime)
         {
             int x = Mouse.GetState().X;
             int y = Mouse.GetState().Y;
             if (x > _posx && x < (_posx + Width))
             {
                 if (y > _posy && y < (_posy + Height))
+                {
                     _mouseOver = true;
+                }
             }
             else
                 _mouseOver = false;
 
         }
-        public virtual void draw(SpriteBatch spriteBatch)
+        public override void draw(SpriteBatch spriteBatch)
         {
             if (_mouseOver)
                 Image.Color = Color.BlueViolet;
@@ -61,26 +57,16 @@ namespace LessThanOk.UI
             
             Image.Draw(spriteBatch, _posx, _posy); 
         }
-        public virtual void AddListeners(List<EventHandler<ButtonEventArgs>> handlers)
+        
+        protected void LeftMouseUpEventHandler(object sender, MouseEventArgs args)
         {
-            foreach(EventHandler<ButtonEventArgs> handle in handlers)
-            {
-                _trigger += handle;
-            }
+            if(_mouseOver && ButtonClickedEvent != null)
+                ButtonClickedEvent.Invoke(this, new ButtonEventArgs(this));
         }
-        public virtual void AddListener(EventHandler<ButtonEventArgs> handle)
+        protected void InvokeClick(object sender, ButtonEventArgs args)
         {
-           _trigger += handle;
-        }
-        public virtual void Click()
-        {
-            if(_trigger != null)
-                _trigger.Invoke(this, new ButtonEventArgs(this));
-        }
-        protected virtual void  Click(ButtonEventArgs args) 
-        {
-            if (_trigger != null)
-                _trigger.Invoke(this, args);
+            if (ButtonClickedEvent != null)
+                ButtonClickedEvent.Invoke(sender, args);
         }
     }
 }
