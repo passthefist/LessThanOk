@@ -135,7 +135,6 @@ namespace LessThanOk.GameData.GameWorld.MoniratorSpace
             ActiveGameObject unit = (ActiveGameObject)GameObjectFactory.The.getGameObject(move.Actor);
             Vector2 origin = unit.getPosition();
             Vector2 dest = new Vector2((long)move.X, (long)move.Y);
-            Engine engine = ((Unit)unit).Engine;
             List<Vector2> waypoints = _explorer.GetPath(origin, dest, _map);
             // Check that next waypoint is valid. Depending on implimentaiton of PathFinder, this may not be nessisary.
             if (waypoints.Count > 0 && _map.hasUnitsInPath(origin, waypoints[0]))
@@ -145,6 +144,7 @@ namespace LessThanOk.GameData.GameWorld.MoniratorSpace
                 // TODO: trigger request denied event.
                 return retval;
             }
+            Engine engine = ((Unit)unit).Engine;
             // Build Move Commands out of waypoints.
             foreach(Vector2 p in waypoints)
             {
