@@ -63,7 +63,7 @@ namespace LessThanOk.GameData.GameWorld.Monirator
             Engine engine = unit.Engine;
             float ttd = engine.timeToReach(waypoints[0]);
             float curt = time.TotalGameTime.Ticks;
-            retval.Enqueue(new MoveDecorator(req.Actor, (UInt16)p.X, (UInt16)p.Y, curt + ttd, new Command()));
+            retval.Enqueue(new MoveDecorator(req.Actor, (UInt16)targ.getPosition().X, (UInt16)targ.getPosition().Y, curt + ttd, new Command()));
             return retval;
         }
         //Done
