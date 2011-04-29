@@ -73,7 +73,7 @@ namespace LessThanOk.States
 
         public void Update(Microsoft.Xna.Framework.GameTime time, GamerCollection<LocalNetworkGamer> Gamers)
         {
-        
+            _frame.update(time);
         }
 
         public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch batch)

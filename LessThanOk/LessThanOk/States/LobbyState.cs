@@ -56,7 +56,7 @@ namespace LessThanOk.States
 
         public void Initialize(String XMLFile, bool isHost)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void LoadContent(Microsoft.Xna.Framework.Content.ContentManager Content)

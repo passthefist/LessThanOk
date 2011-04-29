@@ -38,6 +38,7 @@ using LessThanOk.GameData.GameWorld;
 using System.IO;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.GamerServices;
+using LessThanOk.GameData.GameObjects;
 
 namespace LessThanOk.States
 {
@@ -61,6 +62,7 @@ namespace LessThanOk.States
 
         public void Initialize(String XMLFile, bool isHost)
         {
+            GameObjectFactory.The.loadXmlData(null);
             GameController.Initialize(XMLFile, isHost, _frame);
         }
 
@@ -71,7 +73,8 @@ namespace LessThanOk.States
 
         public void Update(Microsoft.Xna.Framework.GameTime time, GamerCollection<LocalNetworkGamer> Gamers )
         {
-            GameController.update(time, Gamers) ;
+            GameController.update(time, Gamers);
+            _frame.update(time);
         }
 
         public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch batch)
@@ -87,7 +90,7 @@ namespace LessThanOk.States
 
         public void UnInitialize()
         {
-            throw new NotImplementedException();
+            GameObjectFactory.The.ClearFactory();
         }
 
         #endregion

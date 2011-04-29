@@ -53,6 +53,7 @@ namespace LessThanOk.GameData.GameWorld
                 Queue<Command> commandsToDo = new Queue<Command>(2);
                 Command nextCommand = new Command();
                 //needs to be outvalue
+                monirator.UpdateSchedule(elps);
                 while (monirator.GetNextScheduledCommand(ref nextCommand))
                 {
                     commandsToDo.Enqueue(nextCommand);
@@ -65,7 +66,6 @@ namespace LessThanOk.GameData.GameWorld
             {
 
             }
-            //write out to network?
         }
 
         public void Draw(SpriteBatch batch)

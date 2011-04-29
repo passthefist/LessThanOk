@@ -94,7 +94,7 @@ namespace LessThanOk.Network
                     Command command = new Command(data);
                     // TODO: Get Player from PlayerList
                     if(NewCommandEvent != null)
-                        NewCommandEvent.Invoke(this, new NewCommandEventArgs(command, time, new Player()));
+                        NewCommandEvent.Invoke(this, new NewCommandEventArgs(command, time.TotalGameTime, new Player()));
                 }
             }
         }

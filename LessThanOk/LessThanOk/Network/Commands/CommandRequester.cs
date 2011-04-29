@@ -43,6 +43,7 @@ using LessThanOk.GameData.GameWorld;
 using LessThanOk.Network.Commands.Decorators;
 using LessThanOk.Input;
 using LessThanOk.Network.Commands.Events;
+using LessThanOk.GameData;
 
 
 namespace LessThanOk.Network.Commands
@@ -132,8 +133,8 @@ namespace LessThanOk.Network.Commands
             foreach (ActiveGameObject o in _selectedObjects)
             {
                 command = new AddDecorator(o.ID, 0, type.ID, new TimeSpan(), new Command());
-                //if(NewCommandEvent != null)
-                    //NewCommandEvent.Invoke(this, new NewCommandEventArgs(command));
+                if(NewCommandEvent != null)
+                    NewCommandEvent.Invoke(this, new NewCommandEventArgs(command, new TimeSpan(), PlayerList.The.getPlayer(0)));
             }
         }
 
