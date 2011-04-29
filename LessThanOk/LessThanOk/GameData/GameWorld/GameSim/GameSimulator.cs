@@ -25,19 +25,6 @@ namespace LessThanOk.GameData.GameWorld.GameSim
 		//spatial organizing structures
         //protected QuadTree<ActiveGameObject> gameSpace;
         protected TileMap map;
-		
-		//Changes to be done
-		protected List<AdditionChange> addChanges;
-		protected List<RemovalChange> removeChanges;
-        protected List<IdleChange> idleChanges;
-        protected List<MoveChange> moveChanges;
-        protected List<AttackChange> attackChanges;
-		
-		//History of set values
-        protected Dictionary<KeyValuePair<UInt16,UInt16>, UInt32> setChanges;
-		
-		//Set value for health
-		protected Dictionary<Unit,ushort> battleChanges;
 
         protected long gameTime;
 		
@@ -46,32 +33,22 @@ namespace LessThanOk.GameData.GameWorld.GameSim
         public event EventHandler unitRemoved;
         public event EventHandler simulationStepped;
 
-        public GameSimulator()
+        public GameSimulator(TileMap tiles)
 		{
 			units = new List<Unit>();
 
 			//commands to be executed
 			instantCmds = new Queue<Command>();
-            blockingCmds = new Queue<Command>();
-		
-			//Changes to be done
-			addChanges = new List<AdditionChange>();
-			removeChanges = new List<RemovalChange>();
-		
-			//History of set values steppced
-            setChanges = new Dictionary<KeyValuePair<UInt16, UInt16>, UInt32>();
-		
-			//Set value for health, efficient damage calc.
-			battleChanges = new Dictionary<Unit,ushort>();
+			blockingCmds =  new Queue<Command>();
+			
+			//spatial organizing structures
+			map = tiles;
 		}
 
-        internal void Initialize(TileMap map)
-        {
-            //spatial organizing structures
-            //gameSpace = new QuadTree<ActiveGameObject>()
-            map = map;
-        }
-
+        /// <summary>
+        /// Distpatches the commands in preparation for stepping the simulation
+        /// </summary>
+        /// <param name="commandSet">The set of commands to execute</param>
 		public void dispatchCommands(Queue<Command> commandSet)
         {
             foreach (Command c in commandSet)
@@ -85,71 +62,51 @@ namespace LessThanOk.GameData.GameWorld.GameSim
                     instantCmds.Enqueue(c);
                 }
             }
-
-            addChanges.Clear();
-            removeChanges.Clear();
-            setChanges.Clear();
-            battleChanges.Clear();
         }
 		
+        /// <summary>
+        /// Step the simulation by the time.
+        /// </summary>
+        /// <param name="elps">The elapsed time since the last update</param>
         public void step(GameTime elps)
         {
             gameTime = elps.TotalGameTime.Ticks;
 
+            preUpdate(elps);
+
             doInstantCommands(elps);
 			
 			updateUnits(elps);
-			
-			doBattle(elps);
 
-            pruneDeadUnits();
-        }
-		
-		public List<AdditionChange> collectAddChanges()
-        {
-            return addChanges;
+            postUpdate(elps);
         }
 
-        public List<MoveChange> collectMoveChanges()
-        {
-            return moveChanges;
-        }
-
-        public List<SetValueChange> collectSetValues()
-        {
-            List<SetValueChange> sc = new List<SetValueChange>(setChanges.Count);
-            foreach (KeyValuePair<KeyValuePair<UInt16, UInt16>, UInt32> kv in setChanges)
-            {
-                sc.Add(new SetValueChange(gameTime, kv.Key.Key, kv.Key.Value, kv.Value));
-            }
-            return sc;
-        }
-
-        public List<AttackChange> collectAttackChanges()
-        {
-            return attackChanges;
-        }
-
-        public List<RemovalChange> collectRemovalChanges()
-        {
-            return removeChanges;
-        }
-
-        public List<IdleChange> collectIdleChanges()
-        {
-            return idleChanges;
-        }
-
+        /// <summary>
+        /// Check if a point is on the map
+        /// </summary>
+        /// <param name="point">The point to check</param>
+        /// <returns>True if the point is on the map</returns>
 		public bool isPointInMap(Vector2 point)
 		{
             return map.isPointInMap(point);
 		}
 		
+        /// <summary>
+        /// Gets a tile at a point
+        /// </summary>
+        /// <param name="point">The position to use</param>
+        /// <returns>the tile at that position</returns>
 		public Tile getTileAtPoint(Vector2 point)
 		{
 			return map.getTileAtPoint(point);
 		}
 
+        /// <summary>
+        /// Get a unit at a point. Used for things like
+        /// clicking on a unit or verifying position
+        /// </summary>
+        /// <param name="point">The position to use</param>
+        /// <returns>The Unit at that point or null</returns>
 		public Unit getUnitAtPoint(Vector2 point)
 		{
 			foreach(Unit u in units)
@@ -163,6 +120,12 @@ namespace LessThanOk.GameData.GameWorld.GameSim
 			return null;
 		}
 		
+        /// <summary>
+        /// Get all the units in a rectangle. Used for things
+        /// like rendering the visible units only.
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <returns></returns>
 		public List<Unit> getUnitsInRect(Rectangle rect)
 		{
 			Vector2 pos;
@@ -179,127 +142,88 @@ namespace LessThanOk.GameData.GameWorld.GameSim
 			return found;
 		}
 		
+        /// <summary>
+        /// Get all the tiles in a given rectangle. Used for things
+        /// like rendering the visible tiles only.
+        /// </summary>
+        /// <param name="rect">The rectangle to use.</param>
+        /// <returns>A List of tiles in the rectangle</returns>
 		public List<Tile> getTilesInRect(Rectangle rect)
 		{
 			return map.getTilesInRect(rect);
 		}
 
+        /// <summary>
+        /// Get the simulator's tile Map.
+        /// </summary>
+        /// <returns>a TileMap that represents the current state of the map</returns>
         public TileMap getTileMap()
         {
             return map;
         }
-		
-		private void doInstantCommands(GameTime elps)
-		{
-            Command cmd;
+
+        protected virtual void preUpdate(GameTime elps)
+        {
+           //initialize simulation step data, likely extentions
+        }
+
+        private void doInstantCommands(GameTime elps)
+        {
+             Command cmd;
             while (instantCmds.Count > 0)
             {
-				cmd = instantCmds.Dequeue();
+                cmd = instantCmds.Dequeue(); ;
                 switch (cmd.CmdType)
                 {
                     case Command.T_COMMAND.ADD:
                         handleAddUnitCommand(cmd);
                         break;
-                    case Command.T_COMMAND.CANCEL:
-                        Unit u = (Unit)GameObjectFactory.The.getGameObject(cmd.UnitID);
-                        makeUnitIdle(u);
-                        break;
                     case Command.T_COMMAND.REMOVE:
-                        break;
-                    case Command.T_COMMAND.SET:
-                        break;
-                    case Command.T_COMMAND.ERROR:
-                        break;
-                    case Command.T_COMMAND.MOVE:
-                        /* Command_Move cMove = (Command_Mov)cmd;
-                         *
-                         * Unit u = (Unit)fact.getGameObject(cMove.getID());
-                         * u.addCommand(cMove);
-                         */
-                        break;
-                    default:
+                        handleRemoveCommand(cmd);
                         break;
                 }
             }
-		}
+        }
 
 		/// <summary>
 		/// Update all units. This funtion will execute all commands in
         /// the blocking queue
 		/// </summary>
 		/// <param name="elps"></param>
-		protected void updateUnits(GameTime elps)
-		{
-			Unit u;
+        protected void updateUnits(GameTime elps)
+        {
+            Unit u;
             Command cmd;
-			while(blockingCmds.Count > 0)
-			{
-				cmd = instantCmds.Dequeue();
-				u = (Unit)GameObjectFactory.The.getGameObject(cmd.UnitID);
+            while (blockingCmds.Count > 0)
+            {
+                cmd = blockingCmds.Dequeue();
                 switch (cmd.CmdType)
                 {
                     case Command.T_COMMAND.MOVE:
+                        handleMoveCommand(cmd);
                         break;
                     case Command.T_COMMAND.ATTACK:
+                        handleAttackCommand(cmd);
                         break;
-                    case Command.T_COMMAND.ADD:
-                        break;
+                    //case Command.T_COMMAND.BUILD:
+                    //   break;
                 }
-			}
-			
-            foreach(Unit unit in units)
+            }
+
+            foreach (Unit unit in units)
             {
                 unit.update(elps);
             }
-		}
-		
-        /// <summary>
-        /// Do battle simulation. This function will act on all aggressive
-        /// units. It will:
-        /// 1. Aquire a target for the unit if it does not already have one.
-        /// 2. Make the target null if the health is lessthan or equal to zero
-        /// 3. If possible, fire the unit's weapon on the target.
-        /// 4. Apply damage to the target
-        /// 5. If the target's health drops below zero, flag for removal.
-        /// </summary>
-        /// <param name="elps"></param>
-		protected virtual void doBattle(GameTime elps)
-		{
-			foreach(Unit u in units)
-			{
-                if (u.isAggressive())
-                {
-                    if (u.Target == null)
-                    {
-                        u.setTarget(aquireTarget(u.getPosition()));
-                        if (u.Target == null)
-                        {
-                            continue;
-                        }
-                    }
-                    if (u.Target.Health > 0)
-                    {
-                        if (u.canFireWeapon())
-                        {
-                            //fire weapon
-                        }
-                    }
-                    else
-                    {
-                        u.idle();
-                    }
-                }
-			}
-		}
+        }
 
-        /// <summary>
-        /// Iterate over the set of units flagged for removal and:
-        /// 1. remove them from the simulators set of units
-        /// 2. post the change to the list
-        /// 3. call unit.removeObject()
-        /// </summary>
-        protected void pruneDeadUnits()
+        protected virtual void postUpdate(GameTime elps)
         {
+            //raiseSimulationStepped
+        }
+
+        protected virtual void handleAttackCommand(Command cmd)
+        {
+
         }
 
         /// <summary>
@@ -309,30 +233,29 @@ namespace LessThanOk.GameData.GameWorld.GameSim
         /// 2. Use it to ressurect a game object from the factory
         /// </summary>
         /// <param name="addCommand"></param>
-        protected virtual void handleAddUnitCommand(Command addCommand)
+        protected void handleAddUnitCommand(Command cmd)
         {
-            AddDecorator cmd = new AddDecorator(addCommand);
-            Unit u = (Unit)GameObjectFactory.The.createGameObject(cmd.Type);
-            Unit parent = (Unit)GameObjectFactory.The.getGameObject(cmd.ParentID);
-
-            u.setPosition(parent.getPosition());
-            //addCommand.get intended owner
-
-            addChanges.Add(new AdditionChange(addCommand.TimeStamp, u, parent, parent.Owner));
+            AddDecorator addCommand = new AddDecorator(cmd);
+            Unit newUnit = createNewUnit(addCommand.UnitID,addCommand.Type, addCommand.ParentID);
+            Unit adder = (Unit)GameObjectFactory.The.getGameObject(addCommand.ParentID);
+            newUnit.setPosition(adder.getPosition());
+            units.Add(newUnit);
         }
 
-        protected virtual void addObjectToWorld(ActiveGameObject toAdd, ActiveGameObject adder)
+        protected virtual Unit createNewUnit(ushort toAddID, ushort type, ushort adderID)
         {
-
+            return (Unit)GameObjectFactory.The.resurrectGameObject(toAddID, type);
         }
 
-        protected virtual void removeObjectFromWorld(ActiveGameObject toRemove)
+        private void handleRemoveCommand(Command cmd)
         {
+            //No remove decorator yet
+            //removeObjectFromWorld(ActiveGameObject toRemove)
         }
 
-        protected virtual ActiveGameObject aquireTarget(Vector2 point)
+        protected virtual void removeObjectFromWorld(Unit toRemove)
         {
-            return null;
+            units.Remove(toRemove);
         }
 
         protected virtual void handleMoveCommand(Command moveCommand)
@@ -344,46 +267,12 @@ namespace LessThanOk.GameData.GameWorld.GameSim
 
             u.forceFinishAction();
             u.moveTo(position);
-
-            moveChanges.Add(new MoveChange(moveCommand.TimeStamp, u, position));
         }
-
-        protected virtual void unitAttackObject(Unit u, ActiveGameObject target)
-        {
-            u.setTarget(target);
-            attackChanges.Add(new AttackChange(gameTime, u, target));
-        }
-
-        protected virtual void removeUnit(Unit deadUnit)
-		{
-			//gameSpace.Remove(deadUnit);
-			units.Remove(deadUnit);
-            removeChanges.Add(new RemovalChange(gameTime, deadUnit));
-		}
 
         protected virtual void makeUnitIdle(Unit u)
         {
             u.forceFinishAction();
             u.idle();
-            idleChanges.Add(new IdleChange(gameTime, u));
         }
-
-        protected virtual void setValue(GameObject targetObject, UInt16 key, UInt32 newValue)
-		{
-            targetObject.setField(key, newValue);
-
-            KeyValuePair<UInt16, UInt16> entry = new KeyValuePair<ushort, ushort>(targetObject.ID, key);
-            uint value;
-
-            if (setChanges.TryGetValue(entry,out value))
-            {
-                setChanges.Remove(entry);
-                setChanges.Add(entry, newValue);
-            }
-            else
-            {
-                setChanges.Add(entry, newValue);
-            }
-		}
     }
 }

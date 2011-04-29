@@ -36,8 +36,15 @@ namespace LessThanOk.GameData.GameWorld
             TileMap map = new TileMap();
             RuleBook rulebook = new RuleBook();
             rulebook.LoadXMLData(XMLFile);
-        
-            simulator.Initialize(map);
+
+            if (isHost)
+            {
+                simulator = new MasterSimulator(map);
+            }
+            else
+            {
+                simulator = new GameSimulator(map);
+            }
             monirator.Initialize(map, rulebook);
             HostSession = isHost;
 

@@ -99,8 +99,8 @@
     <Compile Include="GameData\GameObjects\GameObjectFactory.cs" />
     <Compile Include="GameData\GameObjects\GameObjectType.cs" />
     <Compile Include="GameData\GameWorld\Events\UnitEventArgs.cs" />
-    <Compile Include="GameData\GameWorld\GameSim\Change.cs" />
     <Compile Include="GameData\GameWorld\GameSim\GameSimulator.cs" />
+    <Compile Include="GameData\GameWorld\GameSim\MasterSimulator.cs" />
     <Compile Include="GameData\GameWorld\GameSim\TileMap.cs" />
     <Compile Include="GameData\GameWorld\GameWorldController.cs" />
     <Compile Include="GameData\GameObjects\Units\Unit.cs" />

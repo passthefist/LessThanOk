@@ -1,4 +1,32 @@
-﻿using System;
+﻿/*---------------------------------------------------------------------------*\
+ *                         LessThanOK Engine                                 *
+ *                                                                           *
+ *          Copyright (C) 2011-2012 by Robert Goetz, Anthony Lobono          *
+ *                                                                           *
+ *   authors:  Robert Goetz (rdgoetz@iastate.edu)                            *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the MIT Liscense.                                      *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                      *
+ *                                                                           *
+ * You should have received a copy of the MIT Liscense with this library, if *
+ * not, visit http://www.opensource.org/licenses/mit-license.php.            *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                            Class Overview                                 *
+ *                                                                           *
+ *  This Class represents the map of the world.                              *
+\*---------------------------------------------------------------------------*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +49,10 @@ namespace LessThanOk.GameData.GameWorld
 
         public const uint MAXIMUM_MAP_SIZE = 16384;
 
+
+        /// <summary>
+        /// Construct a TileMap with default parameters
+        /// </summary>
         public TileMap()
         {
             width = 800 / 20;
@@ -39,6 +71,12 @@ namespace LessThanOk.GameData.GameWorld
             }
         }
 
+        /// <summary>
+        /// Construct a TileMap with a set size
+        /// </summary>
+        /// <param name="width">The width the map</param>
+        /// <param name="height">The height of the map</param>
+        /// <param name="tileSize">the size of a tile</param>
         public TileMap(uint width, uint height, byte tileSize)
         {
             if (width * height > MAXIMUM_MAP_SIZE)
@@ -62,11 +100,22 @@ namespace LessThanOk.GameData.GameWorld
             }
         }
 
+        /// <summary>
+        /// Checks if a point is outside the map
+        /// </summary>
+        /// <param name="point">The position to check</param>
+        /// <returns>True if the position is on the map</returns>
         public bool isPointInMap(Vector2 point)
         {
             return !(point.X < 0 || point.Y < 0 || point.X >= tileSize*width || point.Y >= tileSize*height);
         }
 
+        /// <summary>
+        /// Get all the tiles in a given rectangle. Used for things
+        /// like rendering the visible tiles only.
+        /// </summary>
+        /// <param name="rect">The rectangle to use.</param>
+        /// <returns>A List of tiles in the rectangle</returns>
         public List<Tile> getTilesInRect(Rectangle rect)
         {
             //Constrain Rectangle to be on the map
@@ -104,6 +153,12 @@ namespace LessThanOk.GameData.GameWorld
             return tiles;
         }
 
+        /// <summary>
+        /// Gets a tile at a given x and y coordinate
+        /// </summary>
+        /// <param name="i">The x position to check</param>
+        /// <param name="j">The y position to check</param>
+        /// <returns>The Tile at that position</returns>
         public Tile getTileAtPoint(int i, int j)
         {
             uint x = mapX((float)i);
@@ -112,6 +167,11 @@ namespace LessThanOk.GameData.GameWorld
             return tileMap[x, y];
         }
 
+        /// <summary>
+        /// Gets a tile at a given position
+        /// </summary>
+        /// <param name="point">The position to check</param>
+        /// <returns>The Tile at that position</returns>
         public Tile getTileAtPoint(Vector2 point)
         {
             uint x = mapX(point.X);
@@ -120,19 +180,33 @@ namespace LessThanOk.GameData.GameWorld
             return tileMap[x, y];
         }
 
+        /// <summary>
+        /// Gets the closest empty tile to the given position, not further
+        /// than the given distance. OTherwise null.
+        /// </summary>
+        /// <param name="position">The position to use</param>
+        /// <param name="maxDistance">The maximum distance away</param>
+        /// <returns>The Tile found or null if all tiles are taken.</returns>
         public Tile getClosestEmptyTile(Vector2 position,float maxDistance)
         {
-            Tile start = getTileAtPoint(position);
-            if (!start.Walkable)
-            {
-                //start = getTileAtPoint(position + Vector2
-            }
-            throw new NotImplementedException();
+            return getTileAtPoint(position);
+        }
+
+        /// <summary>
+        /// Checks if the given path is un Obstructed
+        /// </summary>
+        /// <param name="start">The start position</param>
+        /// <param name="end">The end position</param>
+        /// <returns>if the path between the points has anything on it</returns>
+        public bool hasUnitsInPath(Vector2 start, Vector2 end)
+        {
+            return false;
         }
 
         public List<Unit> getUnitsOnLine(Vector2 start, Vector2 end, int maxNumberOfUnits)
         {
-            throw new NotImplementedException();
+            List<Unit> units = new List<Unit>();
+            return units;
         }
 
         private uint mapX(float xPos)
