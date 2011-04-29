@@ -46,13 +46,20 @@ namespace LessThanOk.Selecter
 
         private static TileMap _map;
 
-        public ObjectSelector The { get { return the; } }
+        public static ObjectSelector The { get { return the; } }
         static readonly ObjectSelector the = new ObjectSelector();
         static ObjectSelector()
         {
             InputManager.LeftMouseUpEvent += new EventHandler<MouseEventArgs>(MouseUpHandler);
         }
-        
+        /// <summary>
+        /// Initialize TileMap
+        /// </summary>
+        /// <param name="map">TileMap to select from</param>
+        public static void Initialize(TileMap map)
+        {
+            _map = map;
+        }
         /// <summary>
         /// Handler for the LeftClick event.
         /// </summary>

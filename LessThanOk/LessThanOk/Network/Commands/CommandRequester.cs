@@ -42,6 +42,7 @@ using LessThanOk.GameData.GameObjects;
 using LessThanOk.GameData.GameWorld;
 using LessThanOk.Network.Commands.Decorators;
 using LessThanOk.Input;
+using LessThanOk.Network.Commands.Events;
 
 
 namespace LessThanOk.Network.Commands
@@ -49,6 +50,7 @@ namespace LessThanOk.Network.Commands
     class CommandRequester
     {
         public EventHandler AddButtonHandler { get { return this.AddHandler; } }
+        public event EventHandler<NewCommandEventArgs> NewCommandEvent;
 
         private TileMap _map;
         private List<ActiveGameObject> _selectedObjects;
@@ -130,7 +132,8 @@ namespace LessThanOk.Network.Commands
             foreach (ActiveGameObject o in _selectedObjects)
             {
                 command = new AddDecorator(o.ID, 0, type.ID, new TimeSpan(), new Command());
-                // TODO: Implimentation.
+                //if(NewCommandEvent != null)
+                    //NewCommandEvent.Invoke(this, new NewCommandEventArgs(command));
             }
         }
 

@@ -32,43 +32,46 @@ using System.Linq;
 using System.Text;
 using LessThanOk.UI.Frames;
 using LessThanOk.UI;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Net;
 
 namespace LessThanOk.States
 {
     class LobbyState : State
     {
+
+        public Frame_HostLobby LobbyFrame { get { return _frame; } }
+        private Frame_HostLobby _frame;
+
         /// <summary>
         /// Constructor for LobbyState
         /// </summary>
         /// <param name="frame">Frame for hooking User Interface Events.</param>
-        public LobbyState(Frame frame)
+        public LobbyState()
         {
-            Frame_HostLobby LobbyFrame;
-            if (frame is Frame_HostLobby)
-                LobbyFrame = ((Frame_HostLobby)frame);
         }
 
 
         #region State Members
 
-        public void Initialize()
+        public void Initialize(String XMLFile, bool isHost)
         {
             throw new NotImplementedException();
         }
 
         public void LoadContent(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
-            throw new NotImplementedException();
+            _frame = WindowDefinitions.BuildHostLobbyFrame(Content);
         }
 
-        public void Update(Microsoft.Xna.Framework.GameTime time)
+        public void Update(Microsoft.Xna.Framework.GameTime time, GamerCollection<LocalNetworkGamer> Gamers)
         {
-          
+            _frame.update(time);
         }
 
         public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch batch)
         {
-      
+            _frame.draw(batch);
         }
 
         public void UnloadContent(Microsoft.Xna.Framework.Content.ContentManager Content)

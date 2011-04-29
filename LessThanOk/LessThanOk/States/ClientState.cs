@@ -23,37 +23,68 @@
 /*---------------------------------------------------------------------------*\
  *                            Class Overview                                 *
  *                                                                           *
- * EventArgs for the Request Denied Event. Contains the UnitID for the unit  *
- * whom the command was intended for, and the player who owns the Unit.      *
- * Event is thrown by CommandValidator and should be caught by               *
- * NetworkManager and writen to the network.                                 *
+ * GameState is the state for when the game is being played.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-         
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LessThanOk.UI;
+using LessThanOk.Network.Commands;
+using LessThanOk.Selecter;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Net;
+using Microsoft.Xna.Framework.GamerServices;
 
-namespace LessThanOk.GameData.GameWorld.Monirator.Events
+namespace LessThanOk.States
 {
-    public class RequestDeniedEventArgs : EventArgs
+    class ClientState : State
     {
-        public UInt16 UnitID { get { return _unitID; } }
-        public Player Player { get { return _player; } }
-        
-        private UInt16 _unitID;
-        private Player _player;
-
+        public Frame_Game GameFrame { get { return _frame; } }
+        private Frame_Game _frame;
         /// <summary>
-        /// Contstructor for RequestDeniedEventArgs.
+        /// Constructor for GameState
         /// </summary>
-        /// <param name="unitID">Unit whom the command was intended for.</param>
-        /// <param name="player">Player who owns the unit.</param>
-        public RequestDeniedEventArgs(UInt16 unitID, Player player)
+        /// <param name="frame">Frame for hooking up User Iterface Events.</param>
+        public ClientState()
         {
-            _unitID = unitID;
-            _player = player;
+
         }
+
+
+        #region State Members
+
+        public void Initialize(String XMLFile, bool isHost)
+        {
+            
+        }
+
+        public void LoadContent(ContentManager Content)
+        {
+            _frame = WindowDefinitions.BuildGameFrame(Content);
+        }
+
+        public void Update(Microsoft.Xna.Framework.GameTime time, GamerCollection<LocalNetworkGamer> Gamers)
+        {
+
+        }
+
+        public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch batch)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UnloadContent(Microsoft.Xna.Framework.Content.ContentManager Content)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UnInitialize()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

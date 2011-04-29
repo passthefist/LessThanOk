@@ -42,11 +42,11 @@ namespace LessThanOk.UI
 {
     public class Frame_Game : Frame
     {
-        private TileMap _map;
-        private Rectangle _view;
-
         public event EventHandler QuitEvent;
         public event EventHandler AddUnitEvent;
+
+        private TileMap _map;
+        private Rectangle _view;
 
         public Frame_Game(int width, int height)
         {
@@ -57,6 +57,7 @@ namespace LessThanOk.UI
         }
         public override void draw(SpriteBatch spriteBatch)
         {
+            
             foreach (UIElement e in _elements)
                 e.draw(spriteBatch);
         }

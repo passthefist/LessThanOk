@@ -33,14 +33,17 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Net;
+using LessThanOk.UI;
+using Microsoft.Xna.Framework.GamerServices;
 
 namespace LessThanOk.States
 {
     interface State
     {
-        void Initialize();
+        void Initialize(String XMLFile, bool isHost);
         void LoadContent(ContentManager Content);
-        void Update(GameTime time);
+        void Update(GameTime time, GamerCollection<LocalNetworkGamer> Gamers);
         void Draw(SpriteBatch batch);
         void UnloadContent(ContentManager Content);
         void UnInitialize();

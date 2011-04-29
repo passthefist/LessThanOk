@@ -33,48 +33,51 @@ using System.Text;
 using LessThanOk.UI;
 using LessThanOk.Network.Commands;
 using LessThanOk.Selecter;
+using LessThanOk.GameData.GameWorld.GameSim;
+using LessThanOk.GameData.GameWorld;
+using System.IO;
+using Microsoft.Xna.Framework.Net;
+using Microsoft.Xna.Framework.GamerServices;
 
 namespace LessThanOk.States
 {
     class GameState: State
     {
-        CommandRequester CMDRequester;
-        ObjectSelector Selector;
+        public Frame_Game GameFrame { get { return _frame; } }
+        private Frame_Game _frame;
+
+        GameWorldController GameController;
         /// <summary>
         /// Constructor for GameState
         /// </summary>
         /// <param name="frame">Frame for hooking up User Iterface Events.</param>
-        public GameState(Frame frame)
+        public GameState()
         {
-            Frame_Game GameFrame;
-            if (frame is Frame_Game)
-                GameFrame = ((Frame_Game)frame);
-            else
-                throw new Exception("Wrong frame in GameState");
-            GameFrame.AddUnitEvent += CMDRequester.AddButtonHandler;
-        }
+            GameController = new GameWorldController();
+         }
 
 
         #region State Members
 
-        public void Initialize()
+        public void Initialize(String XMLFile, bool isHost)
         {
-            throw new NotImplementedException();
+            GameController.Initialize(XMLFile, isHost, _frame);
         }
 
         public void LoadContent(Microsoft.Xna.Framework.Content.ContentManager Content)
         {
-            throw new NotImplementedException();
+            _frame = WindowDefinitions.BuildGameFrame(Content);
         }
 
-        public void Update(Microsoft.Xna.Framework.GameTime time)
+        public void Update(Microsoft.Xna.Framework.GameTime time, GamerCollection<LocalNetworkGamer> Gamers )
         {
-       
+            GameController.update(time, Gamers) ;
         }
 
         public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch batch)
         {
-            throw new NotImplementedException();
+            _frame.draw(batch);
+            GameController.Draw(batch);
         }
 
         public void UnloadContent(Microsoft.Xna.Framework.Content.ContentManager Content)

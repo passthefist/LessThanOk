@@ -1,27 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Net;
-using Microsoft.Xna.Framework.Storage;
-using LessThanOk.Network;
-using LessThanOk.Network.Commands;
-using LessThanOk.GameData;
-using LessThanOk.UI;
-using LessThanOk.Sprites;
-using LessThanOk.GameData.GameObjects;
-using LessThanOk.GameData.GameWorld;
-using LessThanOk.GameData.GameObjects.Tiles;
-using LessThanOk.Input.Events;
-using LessThanOk.Input;
-using LessThanOk.States;
-using LessThanOk.UI.Frames;
 /*---------------------------------------------------------------------------*\
 *                         LessThanOK Engine                                  *
 *                                                                            *
@@ -49,6 +25,31 @@ using LessThanOk.UI.Frames;
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Net;
+using Microsoft.Xna.Framework.Storage;
+using LessThanOk.Network;
+using LessThanOk.Network.Commands;
+using LessThanOk.GameData;
+using LessThanOk.UI;
+using LessThanOk.Sprites;
+using LessThanOk.GameData.GameObjects;
+using LessThanOk.GameData.GameWorld;
+using LessThanOk.GameData.GameObjects.Tiles;
+using LessThanOk.Input.Events;
+using LessThanOk.Input;
+using LessThanOk.States;
+using LessThanOk.UI.Frames;
+
 namespace LessThanOk
 {
     /// <summary>
@@ -71,7 +72,6 @@ namespace LessThanOk
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Frame CurrentFrame;
         NetworkSession Session;
         State GlobalState;
         STATE CurState;
@@ -85,6 +85,7 @@ namespace LessThanOk
             graphics.PreferredBackBufferHeight = SCREEN_HEIGHT;
             Content.RootDirectory = "Content";
             base.Components.Add(new GamerServicesComponent(this));
+            GlobalState = new HomeState();
         }
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -98,6 +99,7 @@ namespace LessThanOk
             this.IsMouseVisible = true;
 
             InputManager.The.init();
+            GlobalState.Initialize(null, false);
         }
 
         /// <summary>
@@ -108,15 +110,8 @@ namespace LessThanOk
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            Frame_Home temp = WindowDefinitions.BuildHomeFrame(Content);
-            temp.CreateGame += new EventHandler(CreateGameHandler);
-            temp.JoinGame += new EventHandler(JoinGameHandler);
-            temp.ReplayGame += new EventHandler(ReplayGameHandler);
-
-            CurrentFrame = temp;
-
-            GlobalState = new HomeState(CurrentFrame);
+            GlobalState.LoadContent(Content);
+            HookHomeStateEvents();
         }
 
         /// <summary>
@@ -144,10 +139,13 @@ namespace LessThanOk
             else
             {
                 InputManager.update(gameTime);
-                CurrentFrame.update(gameTime);
-                GlobalState.Update(gameTime);
                 if (Session != null)
+                {
                     Session.Update();
+                    GlobalState.Update(gameTime, Session.LocalGamers);
+                }
+                else
+                    GlobalState.Update(gameTime, null);
             }
            
             base.Update(gameTime);
@@ -162,12 +160,12 @@ namespace LessThanOk
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            CurrentFrame.draw(spriteBatch);
+            GlobalState.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
         }
-#endregion
+        #endregion
 
         #region Home State Event Handlers
         void JoinGameHandler(object sender, EventArgs e)
@@ -178,21 +176,15 @@ namespace LessThanOk
             Session = NetworkSession.Join(sessions[0]);
             if (Session != null)
             {
-                Session.GameEnded += new EventHandler<GameEndedEventArgs>(SessionGameEndedHandler);
-                Session.GamerJoined += new EventHandler<GamerJoinedEventArgs>(SessionGamerJoinedHandler);
-                Session.GamerLeft += new EventHandler<GamerLeftEventArgs>(SessionGamerLeftHandler);
-                Session.GameStarted += new EventHandler<GameStartedEventArgs>(SessionGameStartedHandler);
-                Session.HostChanged += new EventHandler<HostChangedEventArgs>(SessionHostChangedHandler);
-                Session.SessionEnded += new EventHandler<NetworkSessionEndedEventArgs>(SessionEndedHandler);
+                HookSessionEvents();
 
-                ((Frame_Home)CurrentFrame).JoinGame -= JoinGameHandler;
-                ((Frame_Home)CurrentFrame).CreateGame -= CreateGameHandler;
+                UnhookHomeStateEvents();
 
-                Frame_HostLobby temp = WindowDefinitions.BuildHostLobbyFrame(Content);
-                temp.PlayerNotReady += new EventHandler(PlayerNotReadyHandler);
-                temp.PlayerReady += new EventHandler(PlayerReadyHandler);
-                temp.StartGame += new EventHandler(StartGameHandler);
-                CurrentFrame = temp;
+                GlobalState = new LobbyState();
+                GlobalState.Initialize(null, false);
+                GlobalState.LoadContent(Content);
+
+                HookLobbyStateEvents();
             }
             
         }
@@ -202,23 +194,14 @@ namespace LessThanOk
             {
                 Session = NetworkSession.Create(NetworkSessionType.SystemLink, 2, 2);
 
-                ((Frame_Home)CurrentFrame).JoinGame -= JoinGameHandler;
-                ((Frame_Home)CurrentFrame).CreateGame -= CreateGameHandler;
+                UnhookHomeStateEvents();
 
-                Frame_HostLobby temp = WindowDefinitions.BuildHostLobbyFrame(Content);
-                temp.PlayerNotReady += new EventHandler(PlayerNotReadyHandler);
-                temp.PlayerReady += new EventHandler(PlayerReadyHandler);
-                temp.StartGame += new EventHandler(StartGameHandler);
+                GlobalState = new LobbyState();
+                GlobalState.Initialize(null, true);
+                GlobalState.LoadContent(Content);
 
-                CurrentFrame = temp;
-
-                Session.GameEnded += new EventHandler<GameEndedEventArgs>(SessionGameEndedHandler);
-                Session.GamerJoined += new EventHandler<GamerJoinedEventArgs>(SessionGamerJoinedHandler);
-                Session.GamerLeft += new EventHandler<GamerLeftEventArgs>(SessionGamerLeftHandler);
-                Session.GameStarted += new EventHandler<GameStartedEventArgs>(SessionGameStartedHandler);
-                Session.HostChanged += new EventHandler<HostChangedEventArgs>(SessionHostChangedHandler);
-                Session.SessionEnded += new EventHandler<NetworkSessionEndedEventArgs>(SessionEndedHandler);
-
+                HookLobbyStateEvents();
+                HookSessionEvents();
             }
             catch (Exception exception)
             {
@@ -227,14 +210,13 @@ namespace LessThanOk
         }
         void ReplayGameHandler(object sender, EventArgs e)
         {
+            UnhookHomeStateEvents();
 
-            ((Frame_Home)CurrentFrame).JoinGame -= JoinGameHandler;
-            ((Frame_Home)CurrentFrame).ReplayGame -= ReplayGameHandler;
-            ((Frame_Home)CurrentFrame).CreateGame -= CreateGameHandler;
+            GlobalState = new GameState();
+            GlobalState.Initialize(null, false);
+            GlobalState.LoadContent(Content);
 
-            Frame_Game temp = WindowDefinitions.BuildReplayFrame(Content);
-            temp.QuitEvent += new EventHandler(QuitGameEventHandler);
-            CurrentFrame = temp;
+            HookGameStateEvents();
         }
         #endregion
 
@@ -265,31 +247,22 @@ namespace LessThanOk
         {
             throw new NotImplementedException();
         }
-
         void SessionHostChangedHandler(object sender, HostChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
-
         void SessionGameStartedHandler(object sender, GameStartedEventArgs e)
         {
-            ((Frame_HostLobby)CurrentFrame).PlayerNotReady -= PlayerNotReadyHandler;
-            ((Frame_HostLobby)CurrentFrame).PlayerReady -= PlayerReadyHandler;
-            ((Frame_HostLobby)CurrentFrame).StartGame -= StartGameHandler;
-            Frame_Game temp = WindowDefinitions.BuildGameFrame(Content);
-            temp.QuitEvent += new EventHandler(QuitGameEventHandler);
-            CurrentFrame = temp;
+            GlobalState = new GameState();
 
             if (Session.IsHost)
-            {
-             
-            }
+                GlobalState.Initialize(null, true);
             else
-            {
-
-            }
+                GlobalState.Initialize(null, true);
+            
+            GlobalState.LoadContent(Content);
+            HookGameStateEvents();
         }
-
         void SessionGamerJoinedHandler(object sender, GamerJoinedEventArgs e)
         {
             //throw new NotImplementedException();
@@ -298,7 +271,6 @@ namespace LessThanOk
         {
             //throw new NotImplementedException();
         }
-
         void SessionGameEndedHandler(object sender, GameEndedEventArgs e)
         {
             //throw new NotImplementedException();
@@ -308,12 +280,79 @@ namespace LessThanOk
         #region GameState Event Handlers
         void QuitGameEventHandler(object sender, EventArgs e)
         {
-            ((Frame_Game)CurrentFrame).QuitEvent -= QuitGameEventHandler;
-            Frame_Home temp = WindowDefinitions.BuildHomeFrame(Content);
-            temp.JoinGame += new EventHandler(JoinGameHandler);
-            temp.CreateGame += new EventHandler(CreateGameHandler);
-            CurrentFrame = temp;
             Session.Dispose();
+            UnhookGameEvents();
+        }
+        #endregion
+
+        #region Event Hooking
+        private void HookHomeStateEvents()
+        {
+            Frame_Home frame = ((HomeState)GlobalState).HomeFrame;
+            frame.CreateGame += new EventHandler(CreateGameHandler);
+            frame.JoinGame += new EventHandler(JoinGameHandler);
+            frame.ReplayGame += new EventHandler(ReplayGameHandler);
+        }
+        private void HookLobbyStateEvents()
+        {
+            Frame_HostLobby temp = ((LobbyState)GlobalState).LobbyFrame;
+            temp.PlayerNotReady += new EventHandler(PlayerNotReadyHandler);
+            temp.PlayerReady += new EventHandler(PlayerReadyHandler);
+            temp.StartGame += new EventHandler(StartGameHandler);
+        }
+        private void HookGameStateEvents()
+        {
+            Frame_Game temp = ((GameState)GlobalState).GameFrame;
+            temp.QuitEvent += new EventHandler(QuitGameEventHandler);
+        }
+        private void HookPostGameEvents()
+        {
+
+        }
+        private void HookSessionEvents()
+        {
+            Session.GameEnded += new EventHandler<GameEndedEventArgs>(SessionGameEndedHandler);
+            Session.GamerJoined += new EventHandler<GamerJoinedEventArgs>(SessionGamerJoinedHandler);
+            Session.GamerLeft += new EventHandler<GamerLeftEventArgs>(SessionGamerLeftHandler);
+            Session.GameStarted += new EventHandler<GameStartedEventArgs>(SessionGameStartedHandler);
+            Session.HostChanged += new EventHandler<HostChangedEventArgs>(SessionHostChangedHandler);
+            Session.SessionEnded += new EventHandler<NetworkSessionEndedEventArgs>(SessionEndedHandler);
+        }
+        #endregion
+
+        #region Event Unhooking
+        private void UnhookHomeStateEvents()
+        {
+            Frame_Home frame = ((HomeState)GlobalState).HomeFrame;
+            frame.JoinGame -= JoinGameHandler;
+            frame.CreateGame -= CreateGameHandler;
+            frame.ReplayGame -= ReplayGameHandler;
+        }
+        private void UnhookLobbyStateEvents()
+        {
+            Frame_HostLobby frame = ((LobbyState)GlobalState).LobbyFrame;
+
+            frame.PlayerNotReady -= PlayerNotReadyHandler;
+            frame.PlayerReady -= PlayerReadyHandler;
+            frame.StartGame -= StartGameHandler;
+        }
+        private void UnhookGameEvents()
+        {
+            Frame_Game frame = ((GameState)GlobalState).GameFrame;
+            frame.QuitEvent -= this.QuitGameEventHandler;
+        }
+        private void UnhookPostGameEvents()
+        {
+
+        }
+        private void UnhookSessionEvents()
+        {
+            Session.GameEnded -= this.SessionGameEndedHandler;
+            Session.GamerJoined -= this.SessionGamerJoinedHandler;
+            Session.GamerLeft -= this.SessionGamerLeftHandler;
+            Session.GameStarted -= this.SessionGameStartedHandler;
+            Session.HostChanged -= this.SessionHostChangedHandler;
+            Session.SessionEnded -= this.SessionEndedHandler;
         }
         #endregion
     }

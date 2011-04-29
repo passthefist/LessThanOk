@@ -38,11 +38,14 @@ using LessThanOk.GameData.GameWorld;
 using LessThanOk.GameData.GameObjects.Units;
 using LessThanOk.Network.Commands;
 using LessThanOk.Network.Commands.Decorators;
+using LessThanOk.Network.Commands.Events;
+using LessThanOk.GameData;
 
 namespace LessThanOk.Network
 {
     public class NetworkManager
     {
+        public event EventHandler<NewCommandEventArgs> NewCommandEvent;
         private PacketReader _reader;
         private PacketWriter _writer;
         private int _maxGamers;
@@ -72,7 +75,7 @@ namespace LessThanOk.Network
         /// Collect requests from clients.
         /// </summary>
         /// <param name="gamers">List of Clients.</param>
-        public void serverReadPackets(GamerCollection<LocalNetworkGamer> gamers)
+        public void serverReadPackets(GamerCollection<LocalNetworkGamer> gamers, GameTime time)
         {
             UInt64[] data = new UInt64[2];
 
@@ -89,23 +92,9 @@ namespace LessThanOk.Network
                     data[0] = (UInt64)_reader.ReadInt64();
                     data[1] = (UInt64)_reader.ReadInt64();
                     Command command = new Command(data);
-                    switch (command.CmdType)
-                    {
-                        case Command.T_COMMAND.MOVE:
-                            break;
-                        case Command.T_COMMAND.ADD:
-                            break;
-                        case Command.T_COMMAND.REMOVE:
-                            break;
-                        case Command.T_COMMAND.SET:
-                            break;
-                        case Command.T_COMMAND.ERROR:
-                            break;
-                        case Command.T_COMMAND.CANCEL:
-                            break;
-                        default:
-                            break;
-                    }
+                    // TODO: Get Player from PlayerList
+                    if(NewCommandEvent != null)
+                        NewCommandEvent.Invoke(this, new NewCommandEventArgs(command, time, new Player()));
                 }
             }
         }

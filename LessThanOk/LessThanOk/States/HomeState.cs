@@ -40,43 +40,45 @@ using LessThanOk.UI.Frames;
 using LessThanOk.UI.Frames.UIElements;
 using LessThanOk.UI.Events;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Net;
+using Microsoft.Xna.Framework.GamerServices;
 
 namespace LessThanOk.States
 {
     class HomeState : State
     {
+        public Frame_Home HomeFrame { get { return _frame; } }
+        private Frame_Home _frame;
+
         /// <summary>
         /// Contructor for HomeState.
         /// </summary>
         /// <param name="frame">Frame for hooking up User Interface Events.</param>
-        public HomeState(Frame frame)
+        public HomeState()
         {
-            Frame_Home HomeFrame;
-            if (frame is Frame_Home)
-                HomeFrame = ((Frame_Home)frame);
 
         }
 
         #region State Members
 
-        public void Initialize()
+        public void Initialize(String XMLFile, bool isHost)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void LoadContent(ContentManager Content)
         {
-       
+            _frame = WindowDefinitions.BuildHomeFrame(Content);
         }
 
-        public void Update(Microsoft.Xna.Framework.GameTime time)
+        public void Update(Microsoft.Xna.Framework.GameTime time, GamerCollection<LocalNetworkGamer> Gamers)
         {
         
         }
 
         public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch batch)
         {
-        
+            _frame.draw(batch);
         }
 
         public void UnloadContent(ContentManager Content)

@@ -5,9 +5,16 @@ using System.Text;
 using LessThanOk.GameData.GameWorld.Events;
 using Microsoft.Xna.Framework;
 using LessThanOk.Network.Commands;
-using LessThanOk.GameData.GameWorld.Monirator;
+using LessThanOk.GameData.GameWorld.MoniratorSpace;
 using LessThanOk.GameData.GameWorld.GameSim;
 using Microsoft.Xna.Framework.Net;
+using LessThanOk.Network;
+using Microsoft.Xna.Framework.Graphics;
+using LessThanOk.GameData.GameObjects.Tiles;
+using LessThanOk.GameData.GameObjects.Units;
+using Microsoft.Xna.Framework.GamerServices;
+using LessThanOk.Network.Commands.Events;
+using LessThanOk.UI;
 
 namespace LessThanOk.GameData.GameWorld
 {
@@ -15,33 +22,66 @@ namespace LessThanOk.GameData.GameWorld
     {
         Monirator monirator;
         GameSimulator simulator;
+        NetworkManager NetworkController;
+        CommandRequester CmdRequester;
+        bool HostSession;
 
         public GameWorldController()
         {
+            monirator = new Monirator();
+            CmdRequester = new CommandRequester();
         }
-
-        public void update(GameTime elps)
+        public void Initialize(String XMLFile, bool isHost, Frame_Game frame)
         {
-            //won't work needs to be last
-            monirator.setState(simulator.getTileMap());
+            TileMap map = new TileMap();
+            RuleBook rulebook = new RuleBook();
+            rulebook.LoadXMLData(XMLFile);
+        
+            simulator.Initialize(map);
+            monirator.Initialize(map, rulebook);
+            HostSession = isHost;
 
-            Queue<Command> commandsToDo = new List<Command>(2);
-            Command nextCommand;
-            //needs to be outvalue
-            while(monirator.GetNextScheduledCommand(nextCommand))
+            frame.AddUnitEvent +=new EventHandler(CmdRequester.AddButtonHandler);
+            NetworkController.NewCommandEvent += new EventHandler<NewCommandEventArgs>(monirator.EvaluateNewCommand);
+            CmdRequester.NewCommandEvent += new EventHandler<NewCommandEventArgs>(monirator.EvaluateNewCommand);
+        }
+        public void update(GameTime elps, GamerCollection<LocalNetworkGamer> Gamers)
+        {
+            if (HostSession)
             {
-                commandsToDo.Enqueue(nextCommand);
+                NetworkController.serverReadPackets(Gamers, elps);
+                Queue<Command> commandsToDo = new Queue<Command>(2);
+                Command nextCommand = new Command();
+                //needs to be outvalue
+                while (monirator.GetNextScheduledCommand(ref nextCommand))
+                {
+                    commandsToDo.Enqueue(nextCommand);
+                }
+
+                simulator.dispatchCommands(commandsToDo);
+                simulator.step(elps);
             }
+            else
+            {
 
-            simulator.dispatchCommands(commandsToDo);
-            simulator.step(elps);
-
+            }
             //write out to network?
         }
 
-        public void sendCommand(Command cmd)
+        public void Draw(SpriteBatch batch)
         {
-            monirator.EvaluateCommand(cmd);
+            List<Tile> tiles = simulator.getTilesInRect(new Rectangle(0, 0, 800, 500));
+            List<Unit> units = simulator.getUnitsInRect(new Rectangle(0, 0, 800, 500));
+
+            foreach (Tile t in tiles)
+            {
+                t.draw(batch);
+            }
+
+            foreach (Unit u in units)
+            {
+                u.draw(batch);
+            }
         }
     }
 }
