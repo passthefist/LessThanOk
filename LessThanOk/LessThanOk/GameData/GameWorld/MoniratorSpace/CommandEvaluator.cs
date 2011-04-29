@@ -53,7 +53,7 @@ namespace LessThanOk.GameData.GameWorld.MoniratorSpace
         /// <param name="player">Player that is requesting the command being evaluated.</param>
         /// <param name="time">Current game time.</param>
         /// <returns>Queue of translated commands resulting from the evaluations of req.</returns>
-        internal Queue<Command> EvaluateCommand(Command req, RuleBook rules, Player player, GameTime time)
+        internal Queue<Command> EvaluateCommand(Command req, RuleBook rules, Player player, TimeSpan time)
         {
             Queue<Command> retval = new Queue<Command>();
             switch (req.CmdType)
@@ -92,7 +92,7 @@ namespace LessThanOk.GameData.GameWorld.MoniratorSpace
         /// <param name="player">Player requesting the attack command.</param>
         /// <param name="time">Current game time.</param>
         /// <returns>Queue of translated commands resulting from the evaluation.</returns>
-        private Queue<Command> evaluateAttack(Command req, RuleBook rules, Player player, GameTime time)
+        private Queue<Command> evaluateAttack(Command req, RuleBook rules, Player player, TimeSpan time)
         {
             Queue<Command> retval = new Queue<Command>();
             // Decorate the command to get the required functionallity.
@@ -112,7 +112,7 @@ namespace LessThanOk.GameData.GameWorld.MoniratorSpace
             // Time To Destination.
             // Note for attack commands we only used the first waypoint.
             float ttd = engine.timeToReach(waypoints[0]);
-            float curt = time.TotalGameTime.Ticks;
+            float curt = time.Ticks;
             retval.Enqueue(new MoveDecorator(req.Actor, (UInt16)targ.getPosition().X, (UInt16)targ.getPosition().Y, curt + ttd, new Command()));
             // TODO: push an attack on as well.
             return retval;
@@ -125,7 +125,7 @@ namespace LessThanOk.GameData.GameWorld.MoniratorSpace
         /// <param name="player">Player who requested the move.</param>
         /// <param name="time">Current game time.</param>
         /// <returns>Queue of translated commands resulting from the evaluation.</returns>
-        private Queue<Command> evaluateMove(Command req, RuleBook rules, Player player, GameTime time)
+        private Queue<Command> evaluateMove(Command req, RuleBook rules, Player player, TimeSpan time)
         {
             Queue<Command> retval = new Queue<Command>();
             // Decorate the command to get the required functionality.
@@ -138,9 +138,9 @@ namespace LessThanOk.GameData.GameWorld.MoniratorSpace
             Engine engine = ((Unit)unit).Engine;
             List<Vector2> waypoints = _explorer.GetPath(origin, dest, _map);
             // Check that next waypoint is valid. Depending on implimentaiton of PathFinder, this may not be nessisary.
-            if (waypoints.Count > 0 && _map.HasUnitsInPath(origin, waypoints[0]))
+            if (waypoints.Count > 0 && _map.hasUnitsInPath(origin, waypoints[0]))
             {
-                Command deny = new DenyDecorator(req.Actor, time.TotalGameTime.Ticks, new Command());
+                Command deny = new DenyDecorator(req.Actor, time.Ticks, new Command());
                 retval.Enqueue(deny);
                 // TODO: trigger request denied event.
                 return retval;
@@ -149,7 +149,7 @@ namespace LessThanOk.GameData.GameWorld.MoniratorSpace
             foreach(Vector2 p in waypoints)
             {
                 float ttd = engine.timeToReach(dest);
-                float curt = time.TotalGameTime.Ticks;
+                float curt = time.Ticks;
                 retval.Enqueue(new MoveDecorator(req.Actor, (UInt16)p.X, (UInt16)p.Y, curt + ttd, new Command()));
             }
             return retval;
@@ -162,7 +162,7 @@ namespace LessThanOk.GameData.GameWorld.MoniratorSpace
         /// <param name="player"></param>
         /// <param name="time"></param>
         /// <returns></returns>
-        private Queue<Command> evaluateError(Command req, RuleBook rules, Player player, GameTime time)
+        private Queue<Command> evaluateError(Command req, RuleBook rules, Player player, TimeSpan time)
         {
             throw new NotImplementedException();
         }
@@ -174,7 +174,7 @@ namespace LessThanOk.GameData.GameWorld.MoniratorSpace
         /// <param name="player"></param>
         /// <param name="time"></param>
         /// <returns></returns>
-        private Queue<Command> evaluateSet(Command req, RuleBook rules, Player player, GameTime time)
+        private Queue<Command> evaluateSet(Command req, RuleBook rules, Player player, TimeSpan time)
         {
             throw new NotImplementedException();
         }
@@ -186,7 +186,7 @@ namespace LessThanOk.GameData.GameWorld.MoniratorSpace
         /// <param name="player"></param>
         /// <param name="time"></param>
         /// <returns></returns>
-        private Queue<Command> evaluateRemove(Command req, RuleBook rules, Player player, GameTime time)
+        private Queue<Command> evaluateRemove(Command req, RuleBook rules, Player player, TimeSpan time)
         {
             throw new NotImplementedException();
         }
@@ -194,7 +194,7 @@ namespace LessThanOk.GameData.GameWorld.MoniratorSpace
         // TODO: Get cost of unit 
         // TODO: Get player resources
         // TODO: Get buildtime of the unit
-        private Queue<Command> evaluateAdd(Command req, RuleBook rules, Player player, GameTime time)
+        private Queue<Command> evaluateAdd(Command req, RuleBook rules, Player player, TimeSpan time)
         {
             // Decorate the command
             Command add = new AddDecorator(req);
@@ -220,7 +220,7 @@ namespace LessThanOk.GameData.GameWorld.MoniratorSpace
             
 
             Queue<Command> retval = new Queue<Command>();
-            Command toadd = new AddDecorator(parent, 0, type, time.TotalGameTime, new Command());
+            Command toadd = new AddDecorator(parent, 0, type, time, new Command());
             retval.Enqueue(toadd);
             return retval;
         }

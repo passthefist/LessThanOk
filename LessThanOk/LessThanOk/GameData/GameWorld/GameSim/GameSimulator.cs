@@ -33,18 +33,19 @@ namespace LessThanOk.GameData.GameWorld.GameSim
         public event EventHandler unitRemoved;
         public event EventHandler simulationStepped;
 
-        public GameSimulator(TileMap tiles)
+        public GameSimulator()
 		{
 			units = new List<Unit>();
 
 			//commands to be executed
 			instantCmds = new Queue<Command>();
 			blockingCmds =  new Queue<Command>();
-			
-			//spatial organizing structures
-			map = tiles;
 		}
-
+        public void Initialize(TileMap tilemap)
+        {
+            //spatial organizing structures
+            map = tilemap;
+        }
         /// <summary>
         /// Distpatches the commands in preparation for stepping the simulation
         /// </summary>

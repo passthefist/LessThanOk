@@ -21,13 +21,12 @@ namespace LessThanOk.GameData.GameWorld.GameSim
         //Set value for health
         protected Dictionary<Unit, ushort> battleChanges;
 
-        public MasterSimulator(TileMap tiles) : base(tiles)
+        public MasterSimulator() : base()
         {
             changes = new List<Command>();
             setChanges = new Dictionary<KeyValuePair<ushort, ushort>, uint>();
             battleChanges = new Dictionary<Unit, ushort>();
         }
-
         public List<Command> collectChanges()
         {
             //iterate over sets

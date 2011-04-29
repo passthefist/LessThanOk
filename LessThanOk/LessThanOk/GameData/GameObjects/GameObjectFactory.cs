@@ -158,11 +158,10 @@ namespace LessThanOk.GameData.GameObjects
             }
             else
             {
-                dynamicTypeMap[numTypes] = type;
-                staticTypeMap[typeName] = type;
                 type.Name = typeName;
                 type.ID = numTypes;
-
+                dynamicTypeMap[numTypes] = type;
+                staticTypeMap[typeName] = type;
                 numTypes++;
             }
             return true;
@@ -271,6 +270,15 @@ namespace LessThanOk.GameData.GameObjects
         public GameObject getGameObject(UInt16 id)
         {
             return createdObjects[id];
+        }
+
+        public void ClearFactory()
+        {
+            staticTypeMap.Clear();
+            dynamicTypeMap.Clear();
+            createdObjects.Clear();
+            numTypes = 0;
+            nextID = 1;
         }
     }
 }

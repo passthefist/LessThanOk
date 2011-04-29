@@ -40,7 +40,7 @@ namespace LessThanOk.GameData
         {
             foreach (Player p in players)
             {
-                if (p.PlayerID == ID)
+                if (p. == ID)
                 {
                     return p;
                 }
