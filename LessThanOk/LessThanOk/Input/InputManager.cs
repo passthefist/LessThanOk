@@ -1,4 +1,33 @@
-﻿using System;
+﻿/*---------------------------------------------------------------------------*\
+*                         LessThanOK Engine                                 *
+*                                                                           *
+*          Copyright (C) 2011-2012 by Robert Goetz, Anthony Lobono          *
+*                                                                           *
+*          authors:  Anthony LoBono (ajlobono@gmail.com)                    *
+*                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the MIT Liscense.                                      *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                      *
+ *                                                                           *
+ * You should have received a copy of the MIT Liscense with this library, if *
+ * not, visit http://www.opensource.org/licenses/mit-license.php.            *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                            Class Overview                                 *
+ *                                                                           *
+ * InputManager should be called durring every update.  It grabs raw input   *
+ * from the mouse and keyboard and triggers events.                          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,6 +65,10 @@ namespace LessThanOk.Input
             mouseLastState = Mouse.GetState();
         }
         public void init() { }
+        /// <summary>
+        /// Method for grabbing a slice of raw input and triggering an event.
+        /// </summary>
+        /// <param name="gameTime">Current game time.</param>
         public static void update(GameTime gameTime)
         {
             MouseState curMouseState = Mouse.GetState();
@@ -74,7 +107,10 @@ namespace LessThanOk.Input
             mouseLastState = curMouseState;
 
         }
-
+        /// <summary>
+        /// Method for detecting keystrokes.
+        /// </summary>
+        /// <param name="curKeyboardState">Current Keyboard State.</param>
         private static void DetectKeyStroke(KeyboardState curKeyboardState)
         {
             HashSet<Keys> pressed = new HashSet<Keys>(curKeyboardState.GetPressedKeys());

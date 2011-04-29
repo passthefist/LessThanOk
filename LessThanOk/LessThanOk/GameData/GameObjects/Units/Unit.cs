@@ -40,7 +40,6 @@ using LessThanOk.Network.Commands;
 using LessThanOk.GameData.GameObjects;
 using LessThanOk.Sprites;
 using Microsoft.Xna.Framework.Graphics;
-using LessThanOk.Events;
 using LessThanOk.Network.Commands.Decorators;
 
 [assembly: InternalsVisibleTo("UnitType")]
@@ -52,8 +51,8 @@ namespace LessThanOk.GameData.GameObjects.Units
     /// </summary>
     public class   Unit: ActiveGameObject
     {
-        public event EventHandler<CommandChangedEventArgs> CommandStarted;
-        public event EventHandler<CommandChangedEventArgs> CommandFinished;
+        //public event EventHandler<CommandChangedEventArgs> CommandStarted;
+        //public event EventHandler<CommandChangedEventArgs> CommandFinished;
         public event EventHandler unitKilled;
         public event EventHandler unitHealthChange;
         public event EventHandler unitWeaponFired;

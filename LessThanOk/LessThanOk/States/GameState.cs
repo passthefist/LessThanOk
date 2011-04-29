@@ -1,4 +1,32 @@
-﻿using System;
+﻿/*---------------------------------------------------------------------------*\
+*                         LessThanOK Engine                                  *
+*                                                                            *
+*          Copyright (C) 2011-2012 by Robert Goetz, Anthony Lobono           *
+*                                                                            *
+*          authors:  Anthony LoBono (ajlobono@gmail.com)                     *
+*                                                                            *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the MIT Liscense.                                      *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                      *
+ *                                                                           *
+ * You should have received a copy of the MIT Liscense with this library, if *
+ * not, visit http://www.opensource.org/licenses/mit-license.php.            *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                            Class Overview                                 *
+ *                                                                           *
+ * GameState is the state for when the game is being played.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +40,10 @@ namespace LessThanOk.States
     {
         CommandRequester CMDRequester;
         ObjectSelector Selector;
-
+        /// <summary>
+        /// Constructor for GameState
+        /// </summary>
+        /// <param name="frame">Frame for hooking up User Iterface Events.</param>
         public GameState(Frame frame)
         {
             Frame_Game GameFrame;

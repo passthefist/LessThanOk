@@ -1,4 +1,31 @@
-﻿using System;
+﻿/*---------------------------------------------------------------------------*\
+*                         LessThanOK Engine                                  *
+*                                                                            *
+*          Copyright (C) 2011-2012 by Robert Goetz, Anthony Lobono           *
+*                                                                            *
+*          authors:  Anthony LoBono (ajlobono@gmail.com)                     *
+*                                                                            *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the MIT Liscense.                                      *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                      *
+ *                                                                           *
+ * You should have received a copy of the MIT Liscense with this library, if *
+ * not, visit http://www.opensource.org/licenses/mit-license.php.            *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                            Class Overview                                 *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,10 +61,12 @@ namespace LessThanOk.UI
         private readonly WindowDefinitions the = new WindowDefinitions();
         public WindowDefinitions The { get { return the; } }
 
-        // Used for Demo.  Not enough time to impliment using xml.....
+        // Used for Demo.  Not enough time to impliment using xml...
+        // Not enought time to get the demo working either...
         private static String[] TOWERTYPE;
         private static String[] UNITTYPE;
 
+        // Should eventualy read from an xml file
         public static Frame_Home BuildHomeFrame(ContentManager Content)
         {
             SpriteFont font = Content.Load<SpriteFont>("Kootenay");
@@ -45,12 +74,15 @@ namespace LessThanOk.UI
 
             Sprite_Text create = SpriteBin.The.AddTextSprite(font, "Create Game", "create");
             Sprite_Text join = SpriteBin.The.AddTextSprite(font, "Join Game", "join");
+            Sprite_Text replay = SpriteBin.The.AddTextSprite(font, "Replay Game", "replay");
 
             Button eJoin = new Button("join", join, 0, 0);
-            Button eCreate = new Button("create", create, 400, 0);
+            Button eCreate = new Button("create", create, 200, 0);
+            Button eReplay = new Button("replay", replay, 400, 0); 
 
             fhome.addElement(eCreate);
             fhome.addElement(eJoin);
+            fhome.addElement(eReplay);
             return fhome;
         }
         public static Frame_ClientLobby BuildClientLobbyFrame(ContentManager Content)
@@ -94,16 +126,16 @@ namespace LessThanOk.UI
             Sprite_Text add8 = SpriteBin.The.AddTextSprite(font, "Unit 3", "add8");
 
 
-            Button eAdd0 = new AddButton("add", add0, 200, 400, 0xffff, TOWERTYPE[0]);
-            Button eAdd1 = new AddButton("add", add1, 300, 400, 0xffff, TOWERTYPE[1]);
-            Button eAdd2 = new AddButton("add", add2, 400, 400, 0xffff, TOWERTYPE[2]);
-            Button eAdd3 = new AddButton("add", add3, 200, 450, 0xffff, TOWERTYPE[3]);
-            Button eAdd4 = new AddButton("add", add4, 300, 450, 0xffff, TOWERTYPE[4]);
-            Button eAdd5 = new AddButton("add", add5, 400, 450, 0xffff, TOWERTYPE[5]);
+            Button eAdd0 = new AddButton("add", add0, 200, 400, TOWERTYPE[0]);
+            Button eAdd1 = new AddButton("add", add1, 300, 400, TOWERTYPE[1]);
+            Button eAdd2 = new AddButton("add", add2, 400, 400, TOWERTYPE[2]);
+            Button eAdd3 = new AddButton("add", add3, 200, 450, TOWERTYPE[3]);
+            Button eAdd4 = new AddButton("add", add4, 300, 450, TOWERTYPE[4]);
+            Button eAdd5 = new AddButton("add", add5, 400, 450, TOWERTYPE[5]);
 
-            Button eAdd6 = new AddButton("add", add6, 0, 400, 0, TOWERTYPE[0]);
-            Button eAdd7 = new AddButton("add", add7, 100, 400, 0, TOWERTYPE[1]);
-            Button eAdd8 = new AddButton("add", add8, 0, 450, 0, TOWERTYPE[2]);
+            Button eAdd6 = new AddButton("add", add6, 0, 400, TOWERTYPE[0]);
+            Button eAdd7 = new AddButton("add", add7, 100, 400, TOWERTYPE[1]);
+            Button eAdd8 = new AddButton("add", add8, 0, 450, TOWERTYPE[2]);
 
             fgame.addElement(eAdd0);
             fgame.addElement(eAdd1);
@@ -118,7 +150,13 @@ namespace LessThanOk.UI
 
             return fgame;
         }
+        public static Frame_Game BuildReplayFrame(ContentManager Content)
+        {
+            Frame_Game frame = new Frame_Game(800, 500);
+            return frame;
+        }
 
+        // Depricated
         public static Frame BuildFrameFromXML(ContentManager Content, String FileName)
         {
             if(FileName == "Home.xml")
@@ -147,7 +185,6 @@ namespace LessThanOk.UI
             }
             throw new Exception("Invalid XML File");
         }
-
         private static Frame initHome(ContentManager Content)
         {
             SpriteFont font = Content.Load<SpriteFont>("Kootenay");
@@ -163,12 +200,10 @@ namespace LessThanOk.UI
             fhome.addElement(eJoin);
             return fhome;
         }
-
         private static Frame initLobbyList(ContentManager Content)
         {
             throw new NotImplementedException();
         }
-
         private static Frame initClientLobby(ContentManager Content)
         {
             SpriteFont font = Content.Load<SpriteFont>("Kootenay");
@@ -179,7 +214,6 @@ namespace LessThanOk.UI
             fclientlobby.addElement(eReady);
             return fclientlobby;
         }
-
         private static Frame initHostLobby(ContentManager Content)
         {
             SpriteFont font = Content.Load<SpriteFont>("Kootenay");
@@ -196,7 +230,6 @@ namespace LessThanOk.UI
 
             return fhostlobby;
         }
-
         private static Frame initGame(ContentManager Content)
         {
             SpriteFont font = Content.Load<SpriteFont>("Kootenay");
@@ -206,7 +239,6 @@ namespace LessThanOk.UI
             fgame.addElement(eAdd);
             return fgame;
         }
-
         private static Frame initPostGame(ContentManager Content)
         {
             Frame fpostgame = new Frame(800, 500);

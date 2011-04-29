@@ -22,7 +22,33 @@ using LessThanOk.Input.Events;
 using LessThanOk.Input;
 using LessThanOk.States;
 using LessThanOk.UI.Frames;
-
+/*---------------------------------------------------------------------------*\
+*                         LessThanOK Engine                                  *
+*                                                                            *
+*          Copyright (C) 2011-2012 by Robert Goetz, Anthony Lobono           *
+*                                                                            *
+*          authors:  Anthony LoBono (ajlobono@gmail.com)                     *
+*                                                                            *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the MIT Liscense.                                      *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                      *
+ *                                                                           *
+ * You should have received a copy of the MIT Liscense with this library, if *
+ * not, visit http://www.opensource.org/licenses/mit-license.php.            *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                            Class Overview                                 *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
 namespace LessThanOk
 {
     /// <summary>
@@ -30,6 +56,7 @@ namespace LessThanOk
     /// </summary>
     public class LTO : Microsoft.Xna.Framework.Game
     {
+        #region Member Veriables
         private enum STATE
         {
             HOME,
@@ -48,7 +75,9 @@ namespace LessThanOk
         NetworkSession Session;
         State GlobalState;
         STATE CurState;
-
+        #endregion
+      
+        #region Iniialize LoadContent UnloadContent Update Draw
         public LTO()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -83,6 +112,7 @@ namespace LessThanOk
             Frame_Home temp = WindowDefinitions.BuildHomeFrame(Content);
             temp.CreateGame += new EventHandler(CreateGameHandler);
             temp.JoinGame += new EventHandler(JoinGameHandler);
+            temp.ReplayGame += new EventHandler(ReplayGameHandler);
 
             CurrentFrame = temp;
 
@@ -137,6 +167,8 @@ namespace LessThanOk
 
             base.Draw(gameTime);
         }
+#endregion
+
         #region Home State Event Handlers
         void JoinGameHandler(object sender, EventArgs e)
         {
@@ -164,7 +196,6 @@ namespace LessThanOk
             }
             
         }
-
         void CreateGameHandler(object sender, EventArgs e)
         {
             try
@@ -193,6 +224,17 @@ namespace LessThanOk
             {
 
             }
+        }
+        void ReplayGameHandler(object sender, EventArgs e)
+        {
+
+            ((Frame_Home)CurrentFrame).JoinGame -= JoinGameHandler;
+            ((Frame_Home)CurrentFrame).ReplayGame -= ReplayGameHandler;
+            ((Frame_Home)CurrentFrame).CreateGame -= CreateGameHandler;
+
+            Frame_Game temp = WindowDefinitions.BuildReplayFrame(Content);
+            temp.QuitEvent += new EventHandler(QuitGameEventHandler);
+            CurrentFrame = temp;
         }
         #endregion
 

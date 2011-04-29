@@ -3,7 +3,7 @@
 *                                                                           *
 *          Copyright (C) 2011-2012 by Robert Goetz, Anthony Lobono          *
 *                                                                           *
-*   authors:  Anthony LoBono (ajlobono@gmail.com)                           *
+*          authors:  Anthony LoBono (ajlobono@gmail.com)                    *
 *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -22,7 +22,9 @@
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                            Class Overview                                 *
- * Command.cs is the super class for all Command Types.                      *
+ *                                                                           *
+ * Command contains all the information for serializing commands over the    *
+ * network. Commands also tell the GameSimulator what to do.                 *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
          
@@ -37,12 +39,19 @@ namespace LessThanOk.Network.Commands
     public class Command
     {
         protected UInt64[] _command;
+        /// <summary>
+        /// Default Constructor.
+        /// </summary>
         public Command()
         {
             _command = new UInt64[2];
             _command[0] = 0x0000000000000000;
             _command[1] = 0x0000000000000000;
         }
+        /// <summary>
+        /// Copy Constructor.
+        /// </summary>
+        /// <param name="command">Command to copy.</param>
         public Command(UInt64[] command)
         {
             if (command.Length != 2)

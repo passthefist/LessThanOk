@@ -3,7 +3,7 @@
  *                                                                           *
  *          Copyright (C) 2011-2012 by Robert Goetz, Anthony Lobono          *
  *                                                                           *
- *   authors:  Anthony LoBono (ajlobono@gmail.com)                           *
+ *          authors:  Anthony LoBono (ajlobono@gmail.com)                    *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -23,13 +23,9 @@
 /*---------------------------------------------------------------------------*\
  *                            Class Overview                                 *
  *                                                                           *
- * Monirator is responsible for processing and validating player requests.   *
- * It is also responsible for processing world changes and constructing      *
- * command to be sent out to all clients notifying them of the changes. This *
- * is how we are able to sync the host game to all the client games.         *
- *                                                                           *   
- * See: Commands.cs Command_Add.cs Command_Cancel.cs Command_Note.cs         *
- *      Command_Set.cs                                                       *
+ * Monirator is responsible for monitoring and moderating a game.  This      *
+ * class can be thought of as the reforie. Contains many classes for         *
+ * performing these responsiblities.                                         *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
@@ -51,7 +47,10 @@ namespace LessThanOk.GameData.GameWorld.Monirator
         private RuleBook _rulebook;
         private CommandSchedule _schedule;
         private Queue<Command> _ScheduledCommands;
-
+        /// <summary>
+        /// Constructor for Monirator
+        /// </summary>
+        /// <param name="rules">Set of initial rules.</param>
         public Monirator(RuleBook rules)
         {
             _ScheduledCommands = new Queue<Command>();
@@ -59,32 +58,48 @@ namespace LessThanOk.GameData.GameWorld.Monirator
             _schedule = new CommandSchedule();
             _rulebook = rules;
         }
-        
+        /// <summary>
+        /// Method for evaluating commands.
+        /// </summary>
+        /// <param name="req">Command for Evaluation.</param>
+        /// <param name="time">Current game time.</param>
         public void EvaluateCommand(Command req, GameTime time)
         {
             Queue<Command> EvaluationResults = new Queue<Command>();
             
             // TODO: get Player from PlayerList
-
+            // Use Command Evaluator for evaluating the command.
             EvaluationResults = _cmdEval.EvaluateCommand(req, _rulebook, new Player(), time);
+            // Check if request was denied.
             if (EvaluationResults.Count == 1)
             {
                 if (EvaluationResults.Peek().CmdType == Command.T_COMMAND.ERROR && RequestDenied != null)
-                    RequestDenied.Invoke(this, new RequestDeniedEventArgs());
+                    RequestDenied.Invoke(this, new RequestDeniedEventArgs(0, new Player()));
             }
+            // Schedule evaluation results.
             else
             {
                 _schedule.Schedule(EvaluationResults);
             }
         }
-
+        /// <summary>
+        /// Updates the TileMap refrence.
+        /// </summary>
+        /// <param name="map">New refrence to TileMap.</param>
         public void SetState(TileMap map) { _cmdEval.Map = map; }
-
+        /// <summary>
+        /// Advances the scheduled commands with the current game time.
+        /// </summary>
+        /// <param name="time">Current game time.</param>
         public void UpdateSchedule(GameTime time) 
         { 
             _schedule.step(time, out _ScheduledCommands);
         }
-
+        /// <summary>
+        /// Pull Commands off of the currently exicuting Command queue.
+        /// </summary>
+        /// <param name="cmd">Command will be passed back through cmd.</param>
+        /// <returns>True if there are commands currently exicuting.</returns>
         public bool GetNextScheduledCommand(ref Command cmd)
         {
             if (_ScheduledCommands.Count <= 0)

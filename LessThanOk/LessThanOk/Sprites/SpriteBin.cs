@@ -1,10 +1,10 @@
 ﻿/*---------------------------------------------------------------------------*\
- *                         LessThanOK Engine                                 *
- *                                                                           *
- *          Copyright (C) 2011-2012 by Robert Goetz, Anthony Lobono          *
- *                                                                           *
- *   authors:  Anthony LoBono (ajlobono@gmail.com)                           *
- *                                                                           *
+*                         LessThanOK Engine                                 *
+*                                                                           *
+*          Copyright (C) 2011-2012 by Robert Goetz, Anthony Lobono          *
+*                                                                           *
+*          authors:  Anthony LoBono (ajlobono@gmail.com)                    *
+*                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
@@ -23,9 +23,6 @@
 /*---------------------------------------------------------------------------*\
  *                            Class Overview                                 *
  *                                                                           *
- * SpriteBin is responsible for creating all instances of Sprites.           *
- *                                                                           *                                 
- * See: Sprite.cs                                                            *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 

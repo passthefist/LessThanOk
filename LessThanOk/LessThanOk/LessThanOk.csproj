@@ -87,7 +87,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Debug\Logging.cs" />
-    <Compile Include="Events\CommandChangedEventArgs.cs" />
     <Compile Include="GameData\GameObjects\ActiveGameObject.cs" />
     <Compile Include="GameData\AgnosticObject.cs" />
     <Compile Include="GameData\GameObjects\Tiles\Tile.cs" />
@@ -125,7 +124,6 @@
     <Compile Include="Network\Commands\Decorators\AddDecorator.cs" />
     <Compile Include="Network\Commands\Decorators\CommandDecorator.cs" />
     <Compile Include="Network\Commands\Decorators\MoveDecorator.cs" />
-    <Compile Include="States\Events\StateChangeEvents.cs" />
     <Compile Include="LessThanMath.cs" />
     <Compile Include="Network\Commands\CommandRequester.cs" />
     <Compile Include="Network\Commands\Command.cs" />
@@ -138,10 +136,6 @@
     <Compile Include="Sprites\SpriteBin.cs" />
     <Compile Include="Sprites\Sprite_2D.cs" />
     <Compile Include="Sprites\Sprite_Text.cs" />
-    <Compile Include="States\Events\Args\GameStateEventArgs.cs" />
-    <Compile Include="States\Events\Args\HomeStateEventArgs.cs" />
-    <Compile Include="States\Events\Args\LobbyStateEventArgs.cs" />
-    <Compile Include="States\Events\Args\PostGameStateEventArgs.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="States\HomeState.cs" />
     <Compile Include="States\LobbyState.cs" />

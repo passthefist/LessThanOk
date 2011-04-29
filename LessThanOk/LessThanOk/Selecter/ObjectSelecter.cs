@@ -1,4 +1,33 @@
-﻿using System;
+﻿/*---------------------------------------------------------------------------*\
+*                         LessThanOK Engine                                 *
+*                                                                           *
+*          Copyright (C) 2011-2012 by Robert Goetz, Anthony Lobono          *
+*                                                                           *
+*          authors:  Anthony LoBono (ajlobono@gmail.com)                    *
+*                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the MIT Liscense.                                      *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                      *
+ *                                                                           *
+ * You should have received a copy of the MIT Liscense with this library, if *
+ * not, visit http://www.opensource.org/licenses/mit-license.php.            *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                            Class Overview                                 *
+ *                                                                           *
+ * ObjectSeleter listenst to InputManager's Events and checks the TileMap    *
+ * for what was seleted.                                                     *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,8 +53,14 @@ namespace LessThanOk.Selecter
             InputManager.LeftMouseUpEvent += new EventHandler<MouseEventArgs>(MouseUpHandler);
         }
         
+        /// <summary>
+        /// Handler for the LeftClick event.
+        /// </summary>
+        /// <param name="sender">Objected that triggered the event.</param>
+        /// <param name="args">Arguments for the event. </param>
         private static void MouseUpHandler(object sender, MouseEventArgs args)
         {
+            // TODO: Re-impliment.
             /*
             if (!BlackBoard.getTileMap(out _map))
                 return;
