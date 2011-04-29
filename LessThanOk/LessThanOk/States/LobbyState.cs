@@ -54,9 +54,9 @@ namespace LessThanOk.States
 
         #region State Members
 
-        public void Initialize(String XMLFile, bool isHost)
+        public void Initialize(String XMLFile)
         {
-            //throw new NotImplementedException();
+            //Is there really nothing to do here?
         }
 
         public void LoadContent(Microsoft.Xna.Framework.Content.ContentManager Content)

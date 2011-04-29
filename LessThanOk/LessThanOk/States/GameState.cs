@@ -39,6 +39,8 @@ using System.IO;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.GamerServices;
 using LessThanOk.GameData.GameObjects;
+using LessThanOk.GameData.GameWorld.MoniratorSpace;
+using LessThanOk.Network;
 
 namespace LessThanOk.States
 {
@@ -60,10 +62,17 @@ namespace LessThanOk.States
 
         #region State Members
 
-        public void Initialize(String XMLFile, bool isHost)
+        public void Initialize(String XMLFile)
         {
             GameObjectFactory.The.loadXmlData(null);
-            GameController.Initialize(XMLFile, isHost, _frame);
+            Monirator m = new Monirator();
+            CommandRequester c = new CommandRequester();
+            NetworkManager n = new NetworkManager();
+            GameSimulator s = new MasterSimulator();
+
+            GameController.Initialize(XMLFile, false, _frame, m,s,n,c);
+            GameController.connectAsInputSource(c);
+            GameController.connectAsInputSource(n);
         }
 
         public void LoadContent(Microsoft.Xna.Framework.Content.ContentManager Content)

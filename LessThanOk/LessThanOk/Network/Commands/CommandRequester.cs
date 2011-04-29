@@ -48,7 +48,7 @@ using LessThanOk.GameData;
 
 namespace LessThanOk.Network.Commands
 {
-    class CommandRequester
+    class CommandRequester : InputSource
     {
         public EventHandler AddButtonHandler { get { return this.AddHandler; } }
         public event EventHandler<NewCommandEventArgs> NewCommandEvent;
@@ -134,7 +134,7 @@ namespace LessThanOk.Network.Commands
             {
                 command = new AddDecorator(o.ID, 0, type.ID, new TimeSpan(), new Command());
                 if(NewCommandEvent != null)
-                    NewCommandEvent.Invoke(this, new NewCommandEventArgs(command, new TimeSpan(), PlayerList.The.getPlayer(0)));
+                    NewCommandEvent.Invoke(this, new NewCommandEventArgs(command));
             }
         }
 

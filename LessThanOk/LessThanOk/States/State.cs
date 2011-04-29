@@ -41,7 +41,7 @@ namespace LessThanOk.States
 {
     interface State
     {
-        void Initialize(String XMLFile, bool isHost);
+        void Initialize(String XMLFiles);
         void LoadContent(ContentManager Content);
         void Update(GameTime time, GamerCollection<LocalNetworkGamer> Gamers);
         void Draw(SpriteBatch batch);

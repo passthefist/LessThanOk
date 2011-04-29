@@ -39,37 +39,39 @@ using Microsoft.Xna.Framework.GamerServices;
 using LessThanOk.GameData.GameWorld.MoniratorSpace;
 using LessThanOk.Network;
 using LessThanOk.GameData.GameWorld.GameSim;
+using LessThanOk.Input;
 using LessThanOk.GameData.GameWorld;
 
 namespace LessThanOk.States
 {
-    class ClientState : State
+    class ReplayState : State
     {
         public Frame_Game GameFrame { get { return _frame; } }
         private Frame_Game _frame;
+
+        private ReplayReader replayer;
 
         GameWorldController GameController;
         /// <summary>
         /// Constructor for GameState
         /// </summary>
         /// <param name="frame">Frame for hooking up User Iterface Events.</param>
-        public ClientState()
+        public ReplayState()
         {
             GameController = new GameWorldController();
-         }
+        }
 
 
         #region State Members
 
         public void Initialize(String XMLFile)
         {
-            Monirator m = new Monirator();
             CommandRequester c = new CommandRequester();
-            NetworkManager n = new NetworkManager();
             GameSimulator s = new GameSimulator();
+            replayer = new ReplayReader(XMLFile);
 
-            GameController.Initialize(XMLFile, false, _frame, m,s,n,c);
-            GameController.connectAsInputSource(n);
+            GameController.Initialize(XMLFile, false, _frame, null, s, null, c);
+            GameController.connectAsInputSource(replayer);
         }
 
         public void LoadContent(Microsoft.Xna.Framework.Content.ContentManager Content)
@@ -77,9 +79,10 @@ namespace LessThanOk.States
             _frame = WindowDefinitions.BuildGameFrame(Content);
         }
 
-        public void Update(Microsoft.Xna.Framework.GameTime time, GamerCollection<LocalNetworkGamer> Gamers )
+        public void Update(Microsoft.Xna.Framework.GameTime time, GamerCollection<LocalNetworkGamer> Gamers)
         {
-            GameController.update(time, Gamers) ;
+            replayer.updateBuffer(time);
+            GameController.update(time, Gamers);
         }
 
         public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch batch)

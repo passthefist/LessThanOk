@@ -42,7 +42,8 @@ namespace LessThanOk.GameData.GameWorld.MoniratorSpace
 {
     public class Monirator
     {
-        public event EventHandler<RequestDeniedEventArgs> RequestDenied; 
+        public event EventHandler<RequestDeniedEventArgs> RequestDenied;
+        public EventHandler<NewCommandEventArgs> inputEvent;
         
         private CommandEvaluator _cmdEval;
         private RuleBook _rulebook;

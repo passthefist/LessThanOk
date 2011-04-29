@@ -99,7 +99,7 @@ namespace LessThanOk
             this.IsMouseVisible = true;
 
             InputManager.The.init();
-            GlobalState.Initialize(null, false);
+            GlobalState.Initialize(null);
         }
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace LessThanOk
                 UnhookHomeStateEvents();
 
                 GlobalState = new LobbyState();
-                GlobalState.Initialize(null, false);
+                GlobalState.Initialize(null);
                 GlobalState.LoadContent(Content);
 
                 HookLobbyStateEvents();
@@ -197,7 +197,7 @@ namespace LessThanOk
                 UnhookHomeStateEvents();
 
                 GlobalState = new LobbyState();
-                GlobalState.Initialize(null, true);
+                GlobalState.Initialize(null);
                 GlobalState.LoadContent(Content);
 
                 HookLobbyStateEvents();
@@ -213,7 +213,7 @@ namespace LessThanOk
             UnhookHomeStateEvents();
 
             GlobalState = new GameState();
-            GlobalState.Initialize(null, false);
+            GlobalState.Initialize(null);
             GlobalState.LoadContent(Content);
 
             HookGameStateEvents();
@@ -253,12 +253,16 @@ namespace LessThanOk
         }
         void SessionGameStartedHandler(object sender, GameStartedEventArgs e)
         {
-            GlobalState = new GameState();
-
             if (Session.IsHost)
-                GlobalState.Initialize(null, true);
+            {
+                GlobalState = new GameState();
+                GlobalState.Initialize(null);
+            }
             else
-                GlobalState.Initialize(null, true);
+            {
+                GlobalState = new ClientState();
+                GlobalState.Initialize(null);
+            }
             
             GlobalState.LoadContent(Content);
             HookGameStateEvents();

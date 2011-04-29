@@ -61,9 +61,9 @@ namespace LessThanOk.States
 
         #region State Members
 
-        public void Initialize(String XMLFile, bool isHost)
+        public void Initialize(String XMLFile)
         {
-            
+            //Is there really nothing to do here?
         }
 
         public void LoadContent(ContentManager Content)

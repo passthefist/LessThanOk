@@ -40,10 +40,11 @@ using LessThanOk.Network.Commands;
 using LessThanOk.Network.Commands.Decorators;
 using LessThanOk.Network.Commands.Events;
 using LessThanOk.GameData;
+using LessThanOk.Input;
 
-namespace LessThanOk.Network
+namespace LessThanOk.Network 
 {
-    public class NetworkManager
+    public class NetworkManager : InputSource
     {
         public event EventHandler<NewCommandEventArgs> NewCommandEvent;
         private PacketReader _reader;

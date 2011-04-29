@@ -23,5 +23,11 @@ namespace LessThanOk.Network.Commands.Events
             _command = command;
             _time = time;
         }
+
+        public NewCommandEventArgs(Command command)
+        {
+            _command = command;
+            _player = null;
+        }
     }
 }

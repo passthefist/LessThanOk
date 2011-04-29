@@ -15,6 +15,7 @@ using LessThanOk.GameData.GameObjects.Units;
 using Microsoft.Xna.Framework.GamerServices;
 using LessThanOk.Network.Commands.Events;
 using LessThanOk.UI;
+using LessThanOk.Input;
 
 namespace LessThanOk.GameData.GameWorld
 {
@@ -28,23 +29,30 @@ namespace LessThanOk.GameData.GameWorld
 
         public GameWorldController()
         {
-            monirator = new Monirator();
-            CmdRequester = new CommandRequester();
         }
-        public void Initialize(String XMLFile, bool isHost, Frame_Game frame)
+        public void Initialize(String XMLFile, bool isHost, Frame_Game frame, Monirator m, GameSimulator s, NetworkManager n, CommandRequester r)
         {
             TileMap map = new TileMap();
             RuleBook rulebook = new RuleBook();
             rulebook.LoadXMLData(XMLFile);
+
+            monirator = m;
+            simulator = s;
+            NetworkController = n;
+            CmdRequester = r;
         
             simulator.Initialize(map);
             monirator.Initialize(map, rulebook);
             HostSession = isHost;
 
             frame.AddUnitEvent +=new EventHandler(CmdRequester.AddButtonHandler);
-            NetworkController.NewCommandEvent += new EventHandler<NewCommandEventArgs>(monirator.EvaluateNewCommand);
-            CmdRequester.NewCommandEvent += new EventHandler<NewCommandEventArgs>(monirator.EvaluateNewCommand);
         }
+
+        public void connectAsInputSource(InputSource inputSrc)
+        {
+            inputSrc.NewCommandEvent += monirator.inputEvent;
+        }
+
         public void update(GameTime elps, GamerCollection<LocalNetworkGamer> Gamers)
         {
             if (HostSession)
