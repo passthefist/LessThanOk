@@ -118,6 +118,7 @@
     <Compile Include="GameData\GameWorld\MoniratorSpace\UnitEvaluation.cs" />
     <Compile Include="GameData\IQuadObject.cs" />
     <Compile Include="GameData\Player.cs" />
+    <Compile Include="GameData\PlayerList.cs" />
     <Compile Include="Input\Events\KeyBoardEventArgs.cs" />
     <Compile Include="Network\Commands\Decorators\AttackDecorator.cs" />
     <Compile Include="Network\Commands\Decorators\DenyDecorator.cs" />

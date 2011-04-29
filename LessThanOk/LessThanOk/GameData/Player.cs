@@ -25,10 +25,44 @@
 \*---------------------------------------------------------------------------*/
 
 
+using Microsoft.Xna.Framework;
+
 namespace LessThanOk.GameData
 {
     public class Player
     {
-        //statistic data
+        private float power;
+        private float maxPower;
+        private float rate;
+
+        public float Power
+        {
+            get { return power; }
+        }
+
+        private int playerID;
+        public int PlayerID
+        {
+            get {return playerID;}
+        }
+
+        public Player()
+        {
+            power = 0.0f;
+            maxPower = 1000.0f;
+            rate = 1.0f;
+        }
+
+        public void update(GameTime elps)
+        {
+            power += rate;
+            if(power > maxPower)
+                power = maxPower;
+        }
+
+        public void assignId(int id)
+        {
+            playerID = id;
+        }
     }
 }
