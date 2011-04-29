@@ -43,7 +43,7 @@ namespace LessThanOk.GameData.GameObjects.Units
     /// </summary>
     public class UnitType : GameObjectType
     {
-        private List<WeaponType> weapons;
+        private WeaponType weapon;
         private ArmorType armor;
         private EngineType engine;
 
@@ -62,16 +62,7 @@ namespace LessThanOk.GameData.GameObjects.Units
 
         public UnitType(string wep, string a, string e, Sprite s)
         {
-            List<WeaponType> weps = new List<WeaponType>(1);
-            weps.Add((WeaponType)GameObjectFactory.The.getType(wep));
-            init(weps, (ArmorType) GameObjectFactory.The.getType(a), (EngineType) GameObjectFactory.The.getType(e), s);
-        }
-
-        public UnitType(WeaponType wep, ArmorType a, EngineType e, Sprite s)
-        {
-            List<WeaponType> weps = new List<WeaponType>(1);
-            weps.Add(wep);
-            init(weps, a, e, s);
+            init((WeaponType)GameObjectFactory.The.getType(wep), (ArmorType)GameObjectFactory.The.getType(a), (EngineType)GameObjectFactory.The.getType(e), s);
         }
 
         /// <summary>
@@ -86,9 +77,9 @@ namespace LessThanOk.GameData.GameObjects.Units
         /// <param name="e">
         /// the engine <see cref="EngineType"/>
         /// </param>
-        public UnitType(List<WeaponType> weps, ArmorType a, EngineType e, Sprite s)
+        public UnitType(WeaponType wep, ArmorType a, EngineType e, Sprite s)
         {
-            init(weps,a,e,s);
+            init(wep, a, e, s);
         }
 
         public Sprite getSprite()
@@ -96,9 +87,9 @@ namespace LessThanOk.GameData.GameObjects.Units
             return image;
         }
 
-        private void init(List<WeaponType> weps, ArmorType a, EngineType e, Sprite s)
+        private void init(WeaponType wep, ArmorType a, EngineType e, Sprite s)
         {
-            weapons = weps;
+            weapon = wep;
             armor = a;
             engine = e;
             image = s;

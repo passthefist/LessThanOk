@@ -28,16 +28,13 @@ namespace LessThanOk.GameData.GameObjects.Units
             this.Type = w.Type;
         }
 
-        public bool canFireOn(ActiveGameObject target)
+        public bool canFire()
         {
             return false;
         }
 
-        /*
-            WeaponFire fire()
-            {
-                return new WeaponFire(this);
-            }
-        */
+        public void reload(GameTime elps)
+        {
+        }
     }
 }

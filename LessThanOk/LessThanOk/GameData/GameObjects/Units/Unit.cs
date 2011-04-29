@@ -223,6 +223,9 @@ namespace LessThanOk.GameData.GameObjects.Units
             batch.Draw(Sprite.Texture, getPosition(), Color.White);
         }
 
-        //	public Weapon fireWeapon()
+        public bool canFireWeapon()
+        {
+            return false;
+        }
     }
 }
