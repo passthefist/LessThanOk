@@ -22,7 +22,7 @@ namespace LessThanOk.GameData.GameWorld
         {
         }
 
-        public void listenToUnitFinishedBuiling(EventHandler<UnitBuiltEventArgs> list)
+        public void listenToUnitFinishedBuiling(EventHandler<UnitEventArgs> list)
         {
         }
     }

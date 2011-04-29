@@ -129,5 +129,10 @@ namespace LessThanOk.GameData.GameWorld
         {
             return (uint)(yPos / tileSize);
         }
+
+        public bool hasUnitsInPath(Vector2 origin, Vector2 dest)
+        {
+            return false;
+        }
     }
 }

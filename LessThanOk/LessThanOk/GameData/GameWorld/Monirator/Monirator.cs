@@ -60,10 +60,13 @@ namespace LessThanOk.GameData.GameWorld.Monirator
             _rulebook = rules;
         }
         
-        public void EvaluateCommand(Command req)
+        public void EvaluateCommand(Command req, GameTime time)
         {
             Queue<Command> EvaluationResults = new Queue<Command>();
-            EvaluationResults = _cmdEval.EvaluateCommand(req, _rulebook);
+            
+            // TODO: get Player from PlayerList
+
+            EvaluationResults = _cmdEval.EvaluateCommand(req, _rulebook, new Player(), time);
             if (EvaluationResults.Count == 1)
             {
                 if (EvaluationResults.Peek().CmdType == Command.T_COMMAND.ERROR && RequestDenied != null)

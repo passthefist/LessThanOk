@@ -48,7 +48,7 @@ namespace LessThanOk.GameData.GameWorld.Monirator
             {
                 foreach (Command cmd in q)
                 {
-                    if (cmd.TimeStamp > time.ElapsedGameTime.Ticks)
+                    if (cmd.TimeStamp > time.TotalGameTime.Ticks)
                         q.Dequeue();
                         
                     ScheduledCommands.Enqueue(q.Peek());

@@ -99,7 +99,7 @@
     <Compile Include="GameData\GameObjects\GameObject.cs" />
     <Compile Include="GameData\GameObjects\GameObjectFactory.cs" />
     <Compile Include="GameData\GameObjects\GameObjectType.cs" />
-    <Compile Include="GameData\GameWorld\Events\UnitBuiltEventArgs.cs" />
+    <Compile Include="GameData\GameWorld\Events\UnitEventArgs.cs" />
     <Compile Include="GameData\GameWorld\GameSimulator\Change.cs" />
     <Compile Include="GameData\GameWorld\GameSimulator\GameSimulator.cs" />
     <Compile Include="GameData\GameWorld\GameSimulator\TileMap.cs" />
@@ -122,6 +122,8 @@
     <Compile Include="GlobalEvent.cs" />
     <Compile Include="GlobalEventSubscriber.cs" />
     <Compile Include="Input\Events\KeyBoardEventArgs.cs" />
+    <Compile Include="Network\Commands\Decorators\AttackDecorator.cs" />
+    <Compile Include="Network\Commands\Decorators\DenyDecorator.cs" />
     <Compile Include="Selecter\Events\SelectedEventArgs.cs" />
     <Compile Include="Selecter\ObjectSelecter.cs" />
     <Compile Include="Network\Commands\Decorators\AddDecorator.cs" />
